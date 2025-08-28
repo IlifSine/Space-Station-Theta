@@ -30,7 +30,7 @@ public partial class GameScene : Node3D
 		RpcId(1, "ServerSendChatMessage", Message);
 	}
 
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	private void ServerSendChatMessage(string Message)
 	{
 		foreach (var Item in GameManager.Players)
