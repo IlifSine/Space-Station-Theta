@@ -21,9 +21,6 @@ public partial class BiogicalKineticalHumanoid : CharacterBody3D
 	public float Speed = 2.7f;
 	public const float MouseSensitivity = 0.002f;
 
-	//Popup constants
-	private const int PopupExternalHideDelayChat = 5;
-
 	//Misc variables
 	//If true - disables most of controls
 	private bool ControlsDisabled = false;
