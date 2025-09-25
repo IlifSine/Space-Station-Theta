@@ -66,6 +66,18 @@ transform = Transform3D(3.125, 0, 0, 0, 3.125, 0, 0, 0, 3.125, -1, 0, 1)
 [node name="FloorFrame22" parent="." instance=ExtResource("6_3uien")]
 transform = Transform3D(3.125, 0, 0, 0, 3.125, 0, 0, 0, 3.125, 2, 0, 1)
 
+[node name="FloorFrame210" parent="." instance=ExtResource("6_3uien")]
+transform = Transform3D(3.125, 0, 0, 0, 3.125, 0, 0, 0, 3.125, 3, 0, 1)
+
+[node name="FloorFrame211" parent="." instance=ExtResource("6_3uien")]
+transform = Transform3D(3.125, 0, 0, 0, 3.125, 0, 0, 0, 3.125, 4, 0, 1)
+
+[node name="FloorFrame212" parent="." instance=ExtResource("6_3uien")]
+transform = Transform3D(3.125, 0, 0, 0, 3.125, 0, 0, 0, 3.125, 5, 0, 1)
+
+[node name="FloorFrame213" parent="." instance=ExtResource("6_3uien")]
+transform = Transform3D(3.125, 0, 0, 0, 3.125, 0, 0, 0, 3.125, 6, 0, 1)
+
 [node name="FloorFrame30" parent="." instance=ExtResource("6_3uien")]
 transform = Transform3D(3.125, 0, 0, 0, 3.125, 0, 0, 0, 3.125, 2, 0, -3)
 
