@@ -228,9 +228,6 @@ transform = Transform3D(3.125, 0, 0, 0, 3.125, 0, 0, 0, 3.125, -4, 0, -8)
 [node name="FloorFrame60" parent="." instance=ExtResource("6_3uien")]
 transform = Transform3D(3.125, 0, 0, 0, 3.125, 0, 0, 0, 3.125, -4, 0, -10)
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -6)
-
 [node name="FloorFrame61" parent="." instance=ExtResource("6_3uien")]
 transform = Transform3D(3.125, 0, 0, 0, 3.125, 0, 0, 0, 3.125, -4, 0, -11)
 

@@ -44,15 +44,13 @@ public partial class MultiplayerController : Control
 	{
 		GD.Print("Connected to server");
 		RpcId(1, "SendPlayerInformation", GetNode<LineEdit>("PlayerNameLine").Text, Multiplayer.GetUniqueId());
-		
-		//this awful thing is not working. ahhhhh
-		//foreach (var item in GameManager.Players)
-		//{
-		//	GD.Print(item.Name + " is playing");
-		//}
-		//var GameScene = ResourceLoader.Load<PackedScene>("res://Scenes/GameScene.tscn").Instantiate<Node3D>();
-		//GetTree().Root.AddChild(GameScene);
-		//this.Hide();
+		foreach (var item in GameManager.Players)
+		{
+			GD.Print(item.Name + " is playing");
+		}
+		var GameScene = ResourceLoader.Load<PackedScene>("res://Scenes/Main/GameScene.tscn").Instantiate<Node3D>();
+		GetTree().Root.AddChild(GameScene);
+		this.Hide();
 	}
 
 	private void PeerDisconnected(long id)
@@ -74,7 +72,7 @@ public partial class MultiplayerController : Control
 		GD.Print("Player with id " + id.ToString() + " connected");
 	}
 
-	private void JoinGamePresssed()
+	private void JoinGamePressed()
 	{
 		address = GetNode<LineEdit>("ServerIPLine").Text;
 		//idk why but its not working, can anyone fix please?
@@ -87,20 +85,10 @@ public partial class MultiplayerController : Control
 		GD.Print("Joining game");
 	}
 
-	private void HostGamePresssed()
+	private void HostGamePressed()
 	{
 		HostGame();
 		SendPlayerInformation(GetNode<LineEdit>("PlayerNameLine").Text, 1);
-	}
-
-	private void StartGamePresssed()
-	{
-		Rpc("StartGame");
-	}
-
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	private void StartGame()
-	{
 		foreach (var item in GameManager.Players)
 		{
 			GD.Print(item.Name + " is playing");
@@ -108,6 +96,17 @@ public partial class MultiplayerController : Control
 		var GameScene = ResourceLoader.Load<PackedScene>("res://Scenes/Main/GameScene.tscn").Instantiate<Node3D>();
 		GetTree().Root.AddChild(GameScene);
 		this.Hide();
+	}
+
+	private void StartGamePressed()
+	{
+		
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	private void StartGame()
+	{
+
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]

@@ -92,6 +92,6 @@ offset_bottom = 0.279984
 text = "8910"
 placeholder_text = "Port"
 
-[connection signal="pressed" from="JoinGameButton" to="." method="JoinGamePresssed"]
-[connection signal="pressed" from="HostGameButton" to="." method="HostGamePresssed"]
-[connection signal="pressed" from="StartGameButton" to="." method="StartGamePresssed"]
+[connection signal="pressed" from="JoinGameButton" to="." method="JoinGamePressed"]
+[connection signal="pressed" from="HostGameButton" to="." method="HostGamePressed"]
+[connection signal="pressed" from="StartGameButton" to="." method="StartGamePressed"]
