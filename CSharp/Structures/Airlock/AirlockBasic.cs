@@ -1,8 +1,5 @@
 //open-source EULA/CLA, see full text in LICENSE.txt
 using Godot;
-using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 public partial class AirlockBasic : StaticBody3D, Interaction
 {
