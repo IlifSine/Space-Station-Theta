@@ -62,12 +62,12 @@ size = Vector3(0.32, 0.01, 0.32)
 [sub_resource type="BoxShape3D" id="BoxShape3D_ls4yu"]
 size = Vector3(0.328, 0.328, 0.04)
 
-[node name="AirlockBasic" type="StaticBody3D" node_paths=PackedStringArray("Collision", "Sprite", "CloseTimer", "OpenTimer")]
+[node name="AirlockBasic" type="StaticBody3D" node_paths=PackedStringArray("Collision", "Sprite", "CloseWait", "OpenTimer")]
 transform = Transform3D(3.125, 0, 0, 0, 3.125, 0, 0, 0, 3.125, 0, 0, 0)
 script = ExtResource("1_pirku")
 Collision = NodePath("CollisionShape3D")
 Sprite = NodePath("AnimatedSprite3D")
-CloseTimer = NodePath("CloseTimer")
+CloseWait = NodePath("CloseWait")
 OpenTimer = NodePath("OpenTimer")
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
@@ -88,7 +88,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 9.09495e-15, 0, -9.09495e-15, 1, 0, 0.16,
 transform = Transform3D(1, 0, 0, 0, 1, -2.61733e-19, 0, 2.61733e-19, 1, 0.00012207, 0.000732422, -6.03511e-21)
 shape = SubResource("BoxShape3D_ls4yu")
 
-[node name="CloseTimer" type="Timer" parent="."]
+[node name="CloseWait" type="Timer" parent="."]
 wait_time = 6.0
 one_shot = true
 
@@ -97,5 +97,5 @@ wait_time = 0.4
 one_shot = true
 
 [connection signal="body_entered" from="Area3D" to="." method="BodyEnteredHitbox"]
-[connection signal="timeout" from="CloseTimer" to="." method="CloseTimerTimeout"]
+[connection signal="timeout" from="CloseWait" to="." method="CloseWaitTimeout"]
 [connection signal="timeout" from="OpenTimer" to="." method="OpenTimerTimeout"]

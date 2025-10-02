@@ -8,88 +8,90 @@ public partial class AirlockBasic : StaticBody3D, Interaction
 {
 	[Export] private CollisionShape3D Collision;
 	[Export] private AnimatedSprite3D Sprite;
-	[Export] private Timer CloseTimer;
+	[Export] private Timer CloseWait;
 	[Export] private Timer OpenTimer;
 
 	private bool Open = false;
-	private bool AirlockAction = false;
+	private bool Busy = false;
 
 	public void Interact()
 	{
-		//This method calls a method with RPC (yes, this is kinda crutch but idk how do i should do normally)
-		Rpc("RpcInteract");
+		ToggleAirlock();
 	}
 
 	public void PickUp(CharacterBody3D Picker)
 	{
-		//This method calls a method with RPC (yes, this is kinda crutch but idk how do i should do normally)
-		Rpc("RpcInteract");
+		ToggleAirlock();
+	}
+
+	private void ToggleAirlock()
+	{
+		if (!Busy)
+		{
+			if (Open)
+			{
+				Rpc("CloseAirlock");
+			}
+			else
+			{
+				Rpc("OpenAirlock");
+			}
+		}
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	public void RpcInteract()
+	private void CloseAirlock()
+	{
+		Busy = true;
+		CloseWait.Stop();
+		Sprite.PlayBackwards("Open");
+		OpenTimer.Start();
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	private void OpenAirlock()
+	{
+		Busy = true;
+		Sprite.Play("Open");
+		OpenTimer.Start();
+	}
+
+	public void OpenTimerTimeout()
 	{
 		if (Open)
 		{
-			CloseAirlock();
+			Collision.SetDeferred("disabled", false);
+			Open = false;
 		}
 		else
 		{
-			OpenAirlock();
+			Collision.SetDeferred("disabled", true);
+			Open = true;
+			CloseWait.Start();
+		}
+		Busy = false;
+	}
+
+	private void CloseWaitTimeout()
+	{
+		if (!Busy)
+		{
+			Rpc("CloseAirlock");
 		}
 	}
 
 	private void BodyEnteredHitbox(Node3D Body)
 	{
-		//if a humanoid enters hitbox, door opens
-		if (Body.IsInGroup("Humanoid"))
+		if (!Busy)
 		{
-			OpenAirlock();
-		}
-	}
-
-	private void CloseTimerTimeout()
-	{
-		//close door when timer ends
-		CloseAirlock();
-	}
-
-	private void OpenTimerTimeout()
-	{
-		AirlockAction = false;
-		if (Open)
-		{
-			Collision.SetDeferred("disabled", true);
-		}
-		else
-		{
-			Collision.SetDeferred("disabled", false);
-			//start door close timer
-			CloseTimer.Start();
-		}
-	}
-
-	private void OpenAirlock()
-	{
-		if (!Open && !AirlockAction)
-		{
-			Open = true;
-			Sprite.Play("Open");
-			AirlockAction = true;
-			OpenTimer.Start();
-		}
-	}
-
-	private void CloseAirlock()
-	{
-		if (Open && !AirlockAction)
-		{
-			Open = false;
-			Sprite.PlayBackwards("Open");
-			AirlockAction = true;
-			OpenTimer.Start();
-			//if player interacted door before timer ends, timer stops
-			CloseTimer.Stop();
+			if (!Open)
+			{
+				//if a humanoid enters hitbox, door opens
+				if (Body.IsInGroup("Humanoid"))
+				{
+					Rpc("OpenAirlock");
+				}
+			}
 		}
 	}
 }
