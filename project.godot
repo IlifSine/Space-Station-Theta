@@ -26,9 +26,10 @@ project/assembly_name="Space Station Theta"
 [file_customization]
 
 folder_colors={
-"res://CSharp/": "blue",
+"res://CSharp/": "purple",
 "res://Scenes/": "red",
-"res://Shaders/": "purple",
+"res://Shaders/": "yellow",
+"res://Sounds/": "blue",
 "res://Sprites/": "teal"
 }
 

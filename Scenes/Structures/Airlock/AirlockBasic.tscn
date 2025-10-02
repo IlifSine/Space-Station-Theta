@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://b2wfvbe7k5mnb"]
+[gd_scene load_steps=16 format=3 uid="uid://b2wfvbe7k5mnb"]
 
 [ext_resource type="Texture2D" uid="uid://gujsy8qiwe1t" path="res://Sprites/Structures/Airlock/Basic/AirlockBasic.png" id="1_ls4yu"]
 [ext_resource type="Script" uid="uid://c25t4cbft7esr" path="res://CSharp/Structures/Airlock/AirlockBasic.cs" id="1_pirku"]
@@ -10,7 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://br5ryhpg4mi6p" path="res://Sprites/Structures/Airlock/Basic/AirlockBasicOpen4.png" id="8_xb334"]
 [ext_resource type="Texture2D" uid="uid://2ttigke1yagf" path="res://Sprites/Structures/Airlock/Basic/AirlockBasicOpen5.png" id="9_0yu5a"]
 [ext_resource type="Texture2D" uid="uid://dn0heqrkor5ui" path="res://Sprites/Structures/Airlock/Basic/AirlockBasicOpen.png" id="10_pdl7w"]
-
+[ext_resource type="AudioStream" uid="uid://g2clfpfluai8" path="res://Sounds/Structures/Airlock/AirlockOpen.ogg" id="11_j31w7"]
+[ext_resource type="AudioStream" uid="uid://bywdd4cp21oee" path="res://Sounds/Structures/Airlock/AirlockClose.ogg" id="12_pbftp"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_g31vs"]
 animations = [{
@@ -63,11 +64,13 @@ size = Vector3(0.32, 0.01, 0.32)
 [sub_resource type="BoxShape3D" id="BoxShape3D_ls4yu"]
 size = Vector3(0.328, 0.328, 0.04)
 
-[node name="AirlockBasic" type="StaticBody3D" node_paths=PackedStringArray("Collision", "Sprite", "CloseWait", "OpenTimer")]
+[node name="AirlockBasic" type="StaticBody3D" node_paths=PackedStringArray("Collision", "Sprite", "OpenPlayer", "ClosePlayer", "CloseWait", "OpenTimer")]
 transform = Transform3D(3.125, 0, 0, 0, 3.125, 0, 0, 0, 3.125, 0, 0, 0)
 script = ExtResource("1_pirku")
 Collision = NodePath("CollisionShape3D")
 Sprite = NodePath("AnimatedSprite3D")
+OpenPlayer = NodePath("OpenPlayer")
+ClosePlayer = NodePath("ClosePlayer")
 CloseWait = NodePath("CloseWait")
 OpenTimer = NodePath("OpenTimer")
 
@@ -88,6 +91,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 9.09495e-15, 0, -9.09495e-15, 1, 0, 0.16,
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, -2.61733e-19, 0, 2.61733e-19, 1, 0.00012207, 0.000732422, -6.03511e-21)
 shape = SubResource("BoxShape3D_ls4yu")
+
+[node name="OpenPlayer" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(0.32, 0, 0, 0, 0.32, 0, 0, 0, 0.32, 0, 0, 0)
+stream = ExtResource("11_j31w7")
+unit_size = 4.0
+
+[node name="ClosePlayer" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(0.32, 0, 0, 0, 0.32, 0, 0, 0, 0.32, 0, 0, 0)
+stream = ExtResource("12_pbftp")
+unit_size = 4.0
 
 [node name="CloseWait" type="Timer" parent="."]
 wait_time = 6.0

@@ -8,6 +8,8 @@ public partial class AirlockBasic : StaticBody3D, Interaction
 {
 	[Export] private CollisionShape3D Collision;
 	[Export] private AnimatedSprite3D Sprite;
+	[Export] private AudioStreamPlayer3D OpenPlayer;
+	[Export] private AudioStreamPlayer3D ClosePlayer;
 	[Export] private Timer CloseWait;
 	[Export] private Timer OpenTimer;
 
@@ -42,6 +44,7 @@ public partial class AirlockBasic : StaticBody3D, Interaction
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	private void CloseAirlock()
 	{
+		ClosePlayer.Play();
 		Busy = true;
 		CloseWait.Stop();
 		Sprite.PlayBackwards("Open");
@@ -51,6 +54,7 @@ public partial class AirlockBasic : StaticBody3D, Interaction
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	private void OpenAirlock()
 	{
+		OpenPlayer.Play();
 		Busy = true;
 		Sprite.Play("Open");
 		OpenTimer.Start();
