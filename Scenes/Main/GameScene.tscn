@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://vglka5pfvs25"]
 
-[ext_resource type="Script" uid="uid://swv7uq8mg225" path="res://Scripts/Multiplayer/GameScene.cs" id="1_ihoc6"]
+[ext_resource type="Script" uid="uid://swv7uq8mg225" path="res://CSharp/Multiplayer/GameScene.cs" id="1_ihoc6"]
 [ext_resource type="PackedScene" uid="uid://choe6dwko25rl" path="res://Scenes/Character/Player/BiogicalKineticalHumanoid.tscn" id="2_fbiyt"]
 [ext_resource type="PackedScene" uid="uid://dy70il1s0v8qp" path="res://Scenes/Structures/Floor/SteelPlateFloor.tscn" id="4_5ltem"]
 [ext_resource type="PackedScene" uid="uid://l8mcv6chlkko" path="res://Scenes/Structures/Wall/SteelWall.tscn" id="5_tmrco"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://b2wfvbe7k5mnb" path="res://Scenes/Structures/Airlock/AirlockBasic.tscn" id="9_fw42x"]
 [ext_resource type="PackedScene" uid="uid://df2edqs3xxgll" path="res://Scenes/Structures/Airlock/AirlockDocking.tscn" id="9_ihoc6"]
 [ext_resource type="PackedScene" uid="uid://xdr078udxlhs" path="res://Scenes/Items/TestItem.tscn" id="10_fbiyt"]
+
 
 [sub_resource type="Environment" id="Environment_jwv4s"]
 background_energy_multiplier = 0.0

@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://df2edqs3xxgll"]
 
-[ext_resource type="Script" uid="uid://c25t4cbft7esr" path="res://Scripts/Structures/Airlock/AirlockBasic.cs" id="1_rslss"]
+[ext_resource type="Script" uid="uid://c25t4cbft7esr" path="res://CSharp/Structures/Airlock/AirlockBasic.cs" id="1_rslss"]
 [ext_resource type="Texture2D" uid="uid://be21aqtwmul8f" path="res://Sprites/Structures/Airlock/Docking/AirlockDockingLocked.png" id="2_rslss"]
 [ext_resource type="Texture2D" uid="uid://d0n8vqqp28f3t" path="res://Sprites/Structures/Airlock/Docking/AirlockDockingNopower.png" id="3_hkgpp"]
 [ext_resource type="Texture2D" uid="uid://bmik14xoipyig" path="res://Sprites/Structures/Airlock/Docking/AirlockDocking.png" id="4_447sy"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://cetixi4ye8s8j" path="res://Sprites/Structures/Airlock/Docking/AirlockDockingOpen4.png" id="8_lf2sq"]
 [ext_resource type="Texture2D" uid="uid://buj2isidm7rsc" path="res://Sprites/Structures/Airlock/Docking/AirlockDockingOpen5.png" id="9_oy453"]
 [ext_resource type="Texture2D" uid="uid://xsasb5iiqnno" path="res://Sprites/Structures/Airlock/Docking/AirlockDockingOpen.png" id="10_phaoa"]
+
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_g31vs"]
 animations = [{

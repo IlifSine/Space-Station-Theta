@@ -1,9 +1,10 @@
 [gd_scene load_steps=9 format=3 uid="uid://choe6dwko25rl"]
 
-[ext_resource type="Script" uid="uid://dip7ycr8whmf2" path="res://Scripts/Character/Player/BiogicalKineticalHumanoid.cs" id="1_mt5bc"]
+[ext_resource type="Script" uid="uid://dip7ycr8whmf2" path="res://CSharp/Character/Player/BiogicalKineticalHumanoid.cs" id="1_mt5bc"]
 [ext_resource type="Shader" uid="uid://dumxbtghfxcfi" path="res://Shaders/2.5DSprite.gdshader" id="2_5cvb2"]
 [ext_resource type="Texture2D" uid="uid://bf03fubqq01hb" path="res://Sprites/UI/HUD/Crosshair.png" id="3_hqb5o"]
 [ext_resource type="Texture2D" uid="uid://cdg83tcbljsqf" path="res://Sprites/Character/Player/BiogicalKineticalHumanoidSheet.png" id="3_v4qkt"]
+
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yqu6k"]
 radius = 0.279915

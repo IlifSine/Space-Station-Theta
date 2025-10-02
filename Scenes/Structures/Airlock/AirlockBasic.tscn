@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://b2wfvbe7k5mnb"]
 
 [ext_resource type="Texture2D" uid="uid://gujsy8qiwe1t" path="res://Sprites/Structures/Airlock/Basic/AirlockBasic.png" id="1_ls4yu"]
-[ext_resource type="Script" uid="uid://c25t4cbft7esr" path="res://Scripts/Structures/Airlock/AirlockBasic.cs" id="1_pirku"]
+[ext_resource type="Script" uid="uid://c25t4cbft7esr" path="res://CSharp/Structures/Airlock/AirlockBasic.cs" id="1_pirku"]
 [ext_resource type="Texture2D" uid="uid://dtnw2jrs1igsp" path="res://Sprites/Structures/Airlock/Basic/AirlockBasicLocked.png" id="3_lwsir"]
 [ext_resource type="Texture2D" uid="uid://cpcgpsiwxw4ap" path="res://Sprites/Structures/Airlock/Basic/AirlockBasicNoPower.png" id="4_pabsw"]
 [ext_resource type="Texture2D" uid="uid://ddd88kln2fshm" path="res://Sprites/Structures/Airlock/Basic/AirlockBasicOpen1.png" id="5_wdh2l"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://br5ryhpg4mi6p" path="res://Sprites/Structures/Airlock/Basic/AirlockBasicOpen4.png" id="8_xb334"]
 [ext_resource type="Texture2D" uid="uid://2ttigke1yagf" path="res://Sprites/Structures/Airlock/Basic/AirlockBasicOpen5.png" id="9_0yu5a"]
 [ext_resource type="Texture2D" uid="uid://dn0heqrkor5ui" path="res://Sprites/Structures/Airlock/Basic/AirlockBasicOpen.png" id="10_pdl7w"]
+
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_g31vs"]
 animations = [{
