@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3 uid="uid://bkpa8tlbrv8vi"]
+
+[ext_resource type="Script" uid="uid://47owg32og1t7" path="res://CSharp/Menu/MainMenu.cs" id="1_i26rj"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_i26rj")
+Address = "localhost"
+
+[node name="JoinButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 318.0
+offset_top = 258.0
+offset_right = 462.49997
+offset_bottom = 315.49997
+text = "join
+"
+
+[connection signal="pressed" from="JoinButton" to="." method="JoinButtonPressed"]

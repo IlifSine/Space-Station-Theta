@@ -1,0 +1,65 @@
+[gd_scene load_steps=5 format=3 uid="uid://w0efy3j4gjx5"]
+
+[ext_resource type="Script" uid="uid://dxh77d6pxnkw5" path="res://CSharp/Character/Ghost.cs" id="1_judj1"]
+[ext_resource type="Texture2D" uid="uid://ba22vnujyv16v" path="res://icon.svg" id="2_u55w5"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_i0fno"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_judj1"]
+
+[node name="Ghost" type="CharacterBody3D" node_paths=PackedStringArray("LocalSynchronizer", "Camera", "ExamineRay", "ExamineLabel")]
+editor_description = "This is a... ghost?"
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_judj1")
+LocalSynchronizer = NodePath("MultiplayerSynchronizer")
+Camera = NodePath("Camera3D")
+ExamineRay = NodePath("ExamineRay")
+ExamineLabel = NodePath("CanvasLayer/ExamineLabel")
+Description = "This is a... uh... a ghost?"
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 1
+texture = ExtResource("2_u55w5")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_interval = 0.1
+delta_interval = 0.1
+replication_config = SubResource("SceneReplicationConfig_i0fno")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+
+[node name="Area3D" type="Area3D" parent="."]
+editor_description = "This is a... ghost?"
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_judj1")
+
+[node name="ExamineRay" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+target_position = Vector3(0, 300, 0)
+collision_mask = 3
+collide_with_areas = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ExamineLabel" type="Label" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -35.0
+offset_right = 265.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2

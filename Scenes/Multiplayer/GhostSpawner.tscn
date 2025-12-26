@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://6c7xf8n7srku"]
+
+[ext_resource type="Script" uid="uid://c5ur45kadj2a4" path="res://CSharp/Multiplayer/GhostSpawner.cs" id="1_i47mv"]
+[ext_resource type="PackedScene" uid="uid://w0efy3j4gjx5" path="res://Scenes/Character/Ghost.tscn" id="2_w04ws"]
+
+[node name="GhostSpawner" type="Node"]
+script = ExtResource("1_i47mv")
+GhostScene = ExtResource("2_w04ws")
