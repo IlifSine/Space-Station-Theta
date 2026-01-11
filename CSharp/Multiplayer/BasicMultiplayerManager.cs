@@ -10,12 +10,15 @@ public partial class BasicMultiplayerManager : Node
 
 	private string SelfCkey = "Player";
 
+	private GameWorld GameWorldInstance;
+
 	private int HostPort = 8910;
 
 	public List<PlayerData> ConnectedPlayersData = new List<PlayerData>();
 
 	public override void _Ready()
 	{
+		GameWorldInstance = GetTree().Root.GetNode<GameWorld>("/GameWorld");
 		Multiplayer.PeerConnected += PeerConnected;
 		Multiplayer.PeerDisconnected += PeerDisconnected;
 		Multiplayer.ConnectedToServer += ConnectedToServer;
@@ -82,13 +85,15 @@ public partial class BasicMultiplayerManager : Node
 	//This method happens when someone connects to server
 	private void PeerConnected(long ConnectedId)
 	{
-		GD.Print("Player " + ConnectedId + " connected");
+		GD.Print("Player {0} connected", ConnectedId);
+		GD.Print("FFFFFFFFFFFFFFFFFFFFF");
 	}
 
 	//This method happens when someone disconnects from server
 	private void PeerDisconnected(long DisconnectedId)
 	{
-		GD.Print("Player " + DisconnectedId + " disconnected");
+		GD.Print("Player {0} disconnected", DisconnectedId);
+		GD.Print("FFFFFFFFFFFFFFFFFFFFF");
 		RemoveConnectedPlayer(DisconnectedId);
 	}
 
@@ -110,6 +115,7 @@ public partial class BasicMultiplayerManager : Node
 				break;
 			}
 		}
+
 		if (!IsExist) 
 		{
 			ConnectedPlayersData.Add(AddedPlayerData);
@@ -134,6 +140,7 @@ public partial class BasicMultiplayerManager : Node
 				ConnectedPlayersData.Remove(item);
 			}
 		}
+
 		if (Multiplayer.IsServer())
 		{
 			foreach (PlayerData item in ConnectedPlayersData)
