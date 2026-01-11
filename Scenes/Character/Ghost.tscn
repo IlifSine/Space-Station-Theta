@@ -22,7 +22,6 @@ LocalSynchronizer = NodePath("MultiplayerSynchronizer")
 Camera = NodePath("Camera3D")
 ExamineRay = NodePath("ExamineRay")
 ExamineLabel = NodePath("CanvasLayer/ExamineLabel")
-Description = "This is a... uh... a ghost?"
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 billboard = 1

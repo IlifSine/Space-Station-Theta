@@ -7,10 +7,11 @@ public partial class BasicMultiplayerManager : Node
 {
 	private string LobbyMenuPath = "res://Scenes/Menu/LobbyMenu.tscn";
 	private string ServerPanelPath = "res://Scenes/Menu/LobbyMenu.tscn";
+	private string ReplicationManagerPath = "/root/ReplicationManager";
 
 	private string SelfCkey = "Player";
 
-	private GameWorld GameWorldInstance;
+	private ReplicationManager ReplicationManagerInstance;
 
 	private int HostPort = 8910;
 
@@ -18,7 +19,7 @@ public partial class BasicMultiplayerManager : Node
 
 	public override void _Ready()
 	{
-		GameWorldInstance = GetTree().Root.GetNode<GameWorld>("/GameWorld");
+		ReplicationManagerInstance = GetNode<ReplicationManager>(ReplicationManagerPath);
 		Multiplayer.PeerConnected += PeerConnected;
 		Multiplayer.PeerDisconnected += PeerDisconnected;
 		Multiplayer.ConnectedToServer += ConnectedToServer;
@@ -72,6 +73,8 @@ public partial class BasicMultiplayerManager : Node
 		//Deleting main menu
 		var MM = GetTree().Root.GetChildren().OfType<MainMenu>().FirstOrDefault();
 		MM.QueueFree();
+		//Loading game objects with ReplicationManager
+		ReplicationManagerInstance.GetObjects(Multiplayer.GetUniqueId());
 		//Loading lobby
 		var LobbyMenuInstance = ResourceLoader.Load<PackedScene>(LobbyMenuPath).Instantiate<LobbyMenu>();
 		GetTree().Root.AddChild(LobbyMenuInstance);

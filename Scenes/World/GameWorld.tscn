@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cc5huy64bhkly"]
 
-[ext_resource type="Script" uid="uid://c8tghw7pdfkoc" path="res://CSharp/World/GameWorld.cs" id="1_3o1ff"]
+[ext_resource type="Script" uid="uid://c8tghw7pdfkoc" path="res://CSharp/Multiplayer/ReplicationManager.cs" id="1_3o1ff"]
 [ext_resource type="PackedScene" uid="uid://c1trp3j463fgk" path="res://Scenes/World/GameMap.tscn" id="2_f7vtb"]
 
 [node name="GameWorld" type="Node"]
