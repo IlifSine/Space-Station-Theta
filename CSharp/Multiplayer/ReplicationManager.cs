@@ -22,7 +22,7 @@ public partial class ReplicationManager : Node
 		{
 			foreach (var ObjectItem in GetNode<Node3D>(GameMapPath).GetChildren())
 			{
-				var PackedObjectScene = new PackedScene();
+				/*var PackedObjectScene = new PackedScene();
 				PackedObjectScene.Pack(ObjectItem);
 				ReplicationData ObjectData = new ReplicationData()
 				{
@@ -33,8 +33,8 @@ public partial class ReplicationManager : Node
 				if (ObjectItem is Node3D Node3DItem)
 				{
 					ObjectData.ObjectTransform = Node3DItem.Transform;
-				}
-				RpcId(Id, "ReplicateObject", ObjectData);
+				}*/
+				RpcId(Id, "ReplicateObject", ObjectItem);
 			}
 		}
 		else
@@ -44,11 +44,12 @@ public partial class ReplicationManager : Node
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	public void ReplicateObject(ReplicationData ObjectData)
+	public void ReplicateObject(Node ObjectNode)
 	{
-		Type ObjectType = ObjectData.ObjectType;
-		GD.Print(ObjectType);
-		GD.Print(ObjectData.ObjectTransform);
-		ObjectType InstantiatedObject = ObjectData.ObjectScene.Instantiate() as ObjectType;
+		GD.Print(ObjectNode.GetClass());
+		GD.Print(ObjectNode);
+		var ObjectScene = new PackedScene();
+		ObjectScene.Pack(ObjectNode);
+		var InstantiatedObject = ObjectScene.Instantiate() as ObjectScene.GetType();
 	}
 }
