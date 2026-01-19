@@ -3,7 +3,7 @@ using Godot;
 
 public partial class LobbyMenu : Control
 {
-	private string GhostSpawnerPath = "/root/GameWorld/GameMap/GhostSpawner";
+	private string GhostSpawnerPath = "/root/GameWorld/GhostSpawner";
 
 	public override void _Ready()
 	{

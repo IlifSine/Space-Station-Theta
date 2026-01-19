@@ -14,7 +14,6 @@ properties/1/replication_mode = 2
 [sub_resource type="BoxShape3D" id="BoxShape3D_judj1"]
 
 [node name="Ghost" type="CharacterBody3D" node_paths=PackedStringArray("LocalSynchronizer", "Camera", "ExamineRay", "ExamineLabel")]
-editor_description = "This is a... ghost?"
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_judj1")

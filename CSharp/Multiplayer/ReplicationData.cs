@@ -3,7 +3,6 @@ using Godot;
 
 public partial class ReplicationData : Node
 {
-    public Type ObjectType;
-    public PackedScene ObjectScene;
-    public Transform3D ObjectTransform;
+    public String ObjectPath;
+    //public Transform3D ObjectTransform;
 }

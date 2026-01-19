@@ -7,12 +7,13 @@ public partial class BasicMultiplayerManager : Node
 {
 	private string LobbyMenuPath = "res://Scenes/Menu/LobbyMenu.tscn";
 	private string ServerPanelPath = "res://Scenes/Menu/LobbyMenu.tscn";
+
+	private string GameWorldPath = "/root/GameWorld";
+	private GameWorld GameWorldInstance;
 	private string ReplicationManagerPath = "/root/ReplicationManager";
-
-	private string SelfCkey = "Player";
-
 	private ReplicationManager ReplicationManagerInstance;
 
+	private string SelfCkey = "Player";
 	private int HostPort = 8910;
 
 	public List<PlayerData> ConnectedPlayersData = new List<PlayerData>();
@@ -20,10 +21,13 @@ public partial class BasicMultiplayerManager : Node
 	public override void _Ready()
 	{
 		ReplicationManagerInstance = GetNode<ReplicationManager>(ReplicationManagerPath);
+		GameWorldInstance = GetNode<GameWorld>(GameWorldPath);
+
 		Multiplayer.PeerConnected += PeerConnected;
 		Multiplayer.PeerDisconnected += PeerDisconnected;
 		Multiplayer.ConnectedToServer += ConnectedToServer;
 		Multiplayer.ConnectionFailed += ConnectionFailed;
+
 		if (OS.GetCmdlineArgs().Contains("--server"))
 		{
 			HostGame();
@@ -47,9 +51,15 @@ public partial class BasicMultiplayerManager : Node
 		//Deleting main menu
 		var MM = GetTree().Root.GetChildren().OfType<MainMenu>().FirstOrDefault();
 		MM.QueueFree();
-		//Loading lobby
-		var ServerPanelInstance = ResourceLoader.Load<PackedScene>(ServerPanelPath).Instantiate();
-		GetTree().Root.AddChild(ServerPanelInstance);
+		//Loading server panel
+		/*var ServerPanelInstance = ResourceLoader.Load<PackedScene>(ServerPanelPath).Instantiate();
+		GetTree().Root.AddChild(ServerPanelInstance);*/
+		//Loading map
+		GD.Print("a");
+		//GameWorldInstance.LoadMap("Dev");
+		Node3D LoadMap;
+		LoadMap = ResourceLoader.Load<PackedScene>("res://Scenes/World/GameMapDev.tscn").Instantiate<Node3D>();
+		GameWorldInstance.AddChild(LoadMap);
 
 		GD.Print("Hosted server");     
 	}
@@ -89,14 +99,12 @@ public partial class BasicMultiplayerManager : Node
 	private void PeerConnected(long ConnectedId)
 	{
 		GD.Print("Player {0} connected", ConnectedId);
-		GD.Print("FFFFFFFFFFFFFFFFFFFFF");
 	}
 
 	//This method happens when someone disconnects from server
 	private void PeerDisconnected(long DisconnectedId)
 	{
 		GD.Print("Player {0} disconnected", DisconnectedId);
-		GD.Print("FFFFFFFFFFFFFFFFFFFFF");
 		RemoveConnectedPlayer(DisconnectedId);
 	}
 

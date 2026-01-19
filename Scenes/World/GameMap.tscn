@@ -1,31 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://c1trp3j463fgk"]
+[gd_scene load_steps=2 format=3 uid="uid://c1trp3j463fgk"]
 
-[ext_resource type="PackedScene" uid="uid://6c7xf8n7srku" path="res://Scenes/Multiplayer/GhostSpawner.tscn" id="1_0xx3f"]
-[ext_resource type="Texture2D" uid="uid://ba22vnujyv16v" path="res://icon.svg" id="1_7v2va"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_su7sa"]
-albedo_texture = ExtResource("1_7v2va")
+[ext_resource type="Script" uid="uid://bof3pa816kpyf" path="res://CSharp/World/GameMap.cs" id="1_4mp8d"]
 
 [node name="GameMap" type="Node3D"]
-
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, 2.9571161, 0, 3.1543298)
-material_override = SubResource("StandardMaterial3D_su7sa")
-size = Vector3(1, 1, 19.61914)
-
-[node name="CSGBox3D2" type="CSGBox3D" parent="."]
-transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, -9.837985, 0, -0.2685709)
-material_override = SubResource("StandardMaterial3D_su7sa")
-size = Vector3(1, 1, 16.83789)
-
-[node name="CSGBox3D3" type="CSGBox3D" parent="."]
-transform = Transform3D(0.6890632, 0, 0.7247013, 0, 1, 0, -0.7247013, 0, 0.6890632, -6.8452077, 0, 7.02339)
-material_override = SubResource("StandardMaterial3D_su7sa")
-size = Vector3(1, 1, 16.83789)
-
-[node name="CSGBox3D4" type="CSGBox3D" parent="."]
-transform = Transform3D(0.16590822, 0, 0.9861412, 0, 1, 0, -0.9861412, 0, 0.16590822, 0.5527468, 0, -4.459135)
-material_override = SubResource("StandardMaterial3D_su7sa")
-size = Vector3(1, 1, 16.83789)
-
-[node name="GhostSpawner" parent="." instance=ExtResource("1_0xx3f")]
+script = ExtResource("1_4mp8d")
