@@ -23,19 +23,22 @@ public partial class ReplicationManager : Node
 			GD.Print(Id);
 			foreach (var MapItem in GetNode<GameWorld>(GameWorldPath).GetChildren())
 			{
-				foreach (var ObjectItem in GetNode<Node3D>(GameMapPath).GetChildren())
+				if (MapItem is Node3D)
 				{
-					string ObjectPath = ObjectItem.SceneFilePath;
-					Vector3 ObjectPosition;
-					if (ObjectItem is Node3D Object3d)
+					foreach (var ObjectItem in GetNode<Node3D>(GameMapPath).GetChildren())
 					{
-						ObjectPosition = Object3d.Position;
+						string ObjectPath = ObjectItem.SceneFilePath;
+						Vector3 ObjectPosition;
+						if (ObjectItem is Node3D Object3d)
+						{
+							ObjectPosition = Object3d.Position;
+						}
+						else
+						{
+							ObjectPosition = new Vector3();
+						}
+						RpcId(Id, "ReplicateObject", ObjectPath, MapItem.Name, ObjectPosition);
 					}
-					else
-					{
-						ObjectPosition = new Vector3();
-					}
-					RpcId(Id, "ReplicateObject", ObjectPath, MapItem.Name, ObjectPosition);
 				}
 			}
 		}
