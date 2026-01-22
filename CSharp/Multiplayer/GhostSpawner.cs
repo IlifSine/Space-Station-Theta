@@ -16,6 +16,7 @@ public partial class GhostSpawner : Node
 	{
 		var GhostInstance = GhostScene.Instantiate();
 		GhostInstance.SetMultiplayerAuthority(GhostPlayerId);
-		GetNode<Node>("..").GetChildren().OfType<Node3D>().FirstOrDefault().AddChild(GhostInstance); 
+		GetNode<Node>("..").GetChildren().OfType<Node3D>().FirstOrDefault().AddChild(GhostInstance);
+		GhostInstance.Name = GhostInstance.Name + GhostPlayerId;
 	}
 }

@@ -1,3 +1,4 @@
+//Licensed under AGPL 3.0
 using Godot;
 
 public partial class GameWorld : Node

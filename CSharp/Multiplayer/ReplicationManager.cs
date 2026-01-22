@@ -1,5 +1,4 @@
 //Licensed under AGPL 3.0
-using System;
 using Godot;
 
 public partial class ReplicationManager : Node
@@ -37,7 +36,7 @@ public partial class ReplicationManager : Node
 						{
 							ObjectPosition = new Vector3();
 						}
-						RpcId(Id, "ReplicateObject", ObjectPath, MapItem.Name, ObjectPosition);
+						RpcId(Id, "ReplicateObject", ObjectPath, MapItem.Name, ObjectItem.Name, ObjectPosition);
 					}
 				}
 			}
@@ -49,7 +48,7 @@ public partial class ReplicationManager : Node
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	public void ReplicateObject(string ObjectPath, string MapName, Vector3 ObjectPosition)
+	public void ReplicateObject(string ObjectPath, string MapName, string ObjectName, Vector3 ObjectPosition)
 	{
 		GD.Print(MapName + ObjectPosition + ObjectPath);
 		PackedScene LoadedObjectScene = new PackedScene();
@@ -76,6 +75,7 @@ public partial class ReplicationManager : Node
 			ObjectMap.AddChild(InstantiatedObject);
 		}
 
+		InstantiatedObject.Name = ObjectName;
 		if (InstantiatedObject is Node3D InstantiatedObject3d)
 		{
 			InstantiatedObject3d.Position = ObjectPosition;
