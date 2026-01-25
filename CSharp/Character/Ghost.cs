@@ -1,5 +1,5 @@
 //Licensed under AGPL 3.0
-using System.Data.Common;
+using System;
 using Godot;
 
 public partial class Ghost : CharacterBody3D
@@ -11,6 +11,7 @@ public partial class Ghost : CharacterBody3D
 
 	//Networking & multiplayer
 	private bool Authority;
+	private Vector3 SmoothSyncPosition = new Vector3(0, 0, 0); //Smooth movement sync
 
 	//Characteristics
 	private float MouseSensivity = 1f;
@@ -111,21 +112,27 @@ public partial class Ghost : CharacterBody3D
 		}
 		Velocity = velocity;
 		MoveAndSlide();
+		if (!Authority)
+		{
+			GlobalPosition = GlobalPosition.Lerp(SmoothSyncPosition, 0.1f);
+		}
 	}
 
 	public void Sync()
 	{
 		if (Multiplayer.GetUniqueId() == 1)
 		{
+			SmoothSyncPosition = Position;
 			Rpc("SyncMoveDirection", WalkDirection);
-			Rpc("SyncPosition", Position);
+			Rpc("SyncPosition", SmoothSyncPosition);
 		}
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
 	private void SyncPosition(Vector3 SyncedPosition)
 	{
-		Position = SyncedPosition;
+		GD.Print(SmoothSyncPosition);
+		SmoothSyncPosition = SyncedPosition;
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
@@ -141,10 +148,6 @@ public partial class Ghost : CharacterBody3D
 		if (SyncedDirection.X <= 1 && SyncedDirection.X >= -1 && SyncedDirection.Y <= 1 && SyncedDirection.Y >= -1)
 		{
 			WalkDirection = SyncedDirection;
-			if (Multiplayer.GetUniqueId() == 1)
-			{
-				Rpc("SyncMoveDirection", SyncedDirection);
-			}
 		}
 		else
 		{
