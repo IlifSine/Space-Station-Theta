@@ -40,6 +40,8 @@ public partial class Ghost : CharacterBody3D
 
 	public override void _Input(InputEvent Event)
 	{
+		if (Authority)
+		{
 		//Camera rotation
 		if (Event is InputEventMouseMotion MouseEvent && Input.MouseMode == Input.MouseModeEnum.Captured)
 		{
@@ -51,14 +53,14 @@ public partial class Ghost : CharacterBody3D
 				Camera.Rotation.Y,
 				Camera.Rotation.Z
 			);
-			//RpcId(1, "SyncRotation", Rotation);
-			//if (ExamineLabel.Text != "")
-			//{
-			//	if (InitialExamineVector - Camera.Rotation > new Vector3(10,10,10))
-			//	{
-			//		ExamineLabel.Text = "";
-			//	}
-			//}
+			RpcId(1, "SyncRotation", Rotation);
+			if (ExamineLabel.Text != "")
+			{
+				if (InitialExamineVector - Camera.Rotation > new Vector3(10,10,10))
+				{
+					ExamineLabel.Text = "";
+				}
+			}
 		}
 
 		//Movement
@@ -89,6 +91,7 @@ public partial class Ghost : CharacterBody3D
 				InitialExamineVector = Camera.Rotation;
 				InitialExaminePosition = Position;
 			}
+		}
 		}
 	}
 
@@ -125,12 +128,11 @@ public partial class Ghost : CharacterBody3D
 		Position = SyncedPosition;
 	}
 
-	/*[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
 	private void SyncRotation(Vector3 SyncedRotation)
 	{
 		Rotation = SyncedRotation;
-		Rpc("SyncRotation", SyncedRotation);
-	}*/
+	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
 	private void SyncMoveDirection(Vector2 SyncedDirection)
@@ -139,7 +141,10 @@ public partial class Ghost : CharacterBody3D
 		if (SyncedDirection.X <= 1 && SyncedDirection.X >= -1 && SyncedDirection.Y <= 1 && SyncedDirection.Y >= -1)
 		{
 			WalkDirection = SyncedDirection;
-			Rpc("SyncMoveDirection", SyncedDirection);
+			if (Multiplayer.GetUniqueId() == 1)
+			{
+				Rpc("SyncMoveDirection", SyncedDirection);
+			}
 		}
 		else
 		{
