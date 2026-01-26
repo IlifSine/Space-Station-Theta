@@ -1,6 +1,6 @@
 ﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SST2", "SST2.csproj", "{B5B6BBCF-B42C-4651-BDDC-A9DECB6F806C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Space-Station-Theta", "Space-Station-Theta.csproj", "{B5B6BBCF-B42C-4651-BDDC-A9DECB6F806C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

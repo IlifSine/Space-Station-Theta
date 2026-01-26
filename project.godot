@@ -23,7 +23,7 @@ ReplicationManager="*res://CSharp/Multiplayer/ReplicationManager.cs"
 
 [dotnet]
 
-project/assembly_name="SST2"
+project/assembly_name="Space-Station-Theta"
 
 [file_customization]
 
