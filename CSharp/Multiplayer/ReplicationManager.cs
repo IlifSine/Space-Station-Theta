@@ -50,7 +50,6 @@ public partial class ReplicationManager : Node
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	public void ReplicateObject(string ObjectPath, string MapName, string ObjectName, Vector3 ObjectPosition)
 	{
-		GD.Print(MapName + ObjectPosition + ObjectPath);
 		PackedScene LoadedObjectScene = new PackedScene();
 		if (ObjectPath != "")
 		{

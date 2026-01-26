@@ -11,7 +11,7 @@ public partial class Ghost : CharacterBody3D
 
 	//Networking & multiplayer
 	private bool Authority;
-	private Vector3 SmoothSyncPosition = new Vector3(0, 0, 0); //Smooth movement sync
+	private bool IsServer;
 
 	//Characteristics
 	private float MouseSensivity = 1f;
@@ -27,6 +27,7 @@ public partial class Ghost : CharacterBody3D
 
 	public override void _Ready()
 	{
+		IsServer = Multiplayer.GetUniqueId() == 1;
 		Authority = GetMultiplayerAuthority() == Multiplayer.GetUniqueId();
 		if (Authority)
 		{
@@ -98,47 +99,51 @@ public partial class Ghost : CharacterBody3D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		Vector3 velocity = Velocity;
-		Vector3 direction = (Transform.Basis * new Vector3(WalkDirection.X, 0, WalkDirection.Y)).Normalized();
-		if (direction != Vector3.Zero)
+		if (Authority || IsServer)
 		{
-			velocity.X = direction.X * Speed;
-			velocity.Z = direction.Z * Speed;
+			Vector3 velocity = Velocity;
+			Vector3 direction = (Transform.Basis * new Vector3(WalkDirection.X, 0, WalkDirection.Y)).Normalized();
+			if (direction != Vector3.Zero)
+			{
+				velocity.X = direction.X * Speed;
+				velocity.Z = direction.Z * Speed;
+			}
+			else
+			{
+				velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
+				velocity.Z = Mathf.MoveToward(Velocity.Z, 0, Speed);
+			}
+			Velocity = velocity;
 		}
-		else
-		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-			velocity.Z = Mathf.MoveToward(Velocity.Z, 0, Speed);
-		}
-		Velocity = velocity;
 		MoveAndSlide();
-		if (!Authority)
-		{
-			GlobalPosition = GlobalPosition.Lerp(SmoothSyncPosition, 0.1f);
-		}
 	}
 
 	public void Sync()
 	{
-		if (Multiplayer.GetUniqueId() == 1)
+		if (IsServer)
 		{
-			SmoothSyncPosition = Position;
 			Rpc("SyncMoveDirection", WalkDirection);
-			Rpc("SyncPosition", SmoothSyncPosition);
+			Rpc("SyncPosition", Position);
+			Rpc("SyncVelocity", Velocity);
 		}
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
 	private void SyncPosition(Vector3 SyncedPosition)
 	{
-		GD.Print(SmoothSyncPosition);
-		SmoothSyncPosition = SyncedPosition;
+		Position = SyncedPosition;
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
 	private void SyncRotation(Vector3 SyncedRotation)
 	{
 		Rotation = SyncedRotation;
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
+	private void SyncVelocity(Vector3 SyncedVelocity)
+	{
+		Velocity = SyncedVelocity;
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
