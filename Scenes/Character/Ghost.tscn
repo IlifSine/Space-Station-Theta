@@ -1,37 +1,25 @@
-[gd_scene load_steps=5 format=3 uid="uid://w0efy3j4gjx5"]
+[gd_scene load_steps=4 format=3 uid="uid://w0efy3j4gjx5"]
 
 [ext_resource type="Script" uid="uid://dxh77d6pxnkw5" path="res://CSharp/Character/Ghost.cs" id="1_judj1"]
 [ext_resource type="Texture2D" uid="uid://ba22vnujyv16v" path="res://icon.svg" id="2_u55w5"]
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_i0fno"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 2
-properties/1/path = NodePath(".:rotation")
-properties/1/spawn = true
-properties/1/replication_mode = 2
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_judj1"]
 
-[node name="Ghost" type="CharacterBody3D" node_paths=PackedStringArray("LocalSynchronizer", "Camera", "ExamineRay", "ExamineLabel")]
-editor_description = "This is a... ghost?"
+[node name="Ghost" type="CharacterBody3D" node_paths=PackedStringArray("Camera", "ExamineRay", "ExamineLabel")]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_judj1")
-LocalSynchronizer = NodePath("MultiplayerSynchronizer")
 Camera = NodePath("Camera3D")
 ExamineRay = NodePath("ExamineRay")
 ExamineLabel = NodePath("CanvasLayer/ExamineLabel")
-Description = "This is a... uh... a ghost?"
+
+[node name="SyncTimer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 billboard = 1
 texture = ExtResource("2_u55w5")
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_interval = 0.1
-delta_interval = 0.1
-replication_config = SubResource("SceneReplicationConfig_i0fno")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 
@@ -63,3 +51,5 @@ offset_right = 265.0
 offset_bottom = 90.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[connection signal="timeout" from="SyncTimer" to="." method="Sync"]

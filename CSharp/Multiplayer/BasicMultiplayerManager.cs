@@ -8,18 +8,26 @@ public partial class BasicMultiplayerManager : Node
 	private string LobbyMenuPath = "res://Scenes/Menu/LobbyMenu.tscn";
 	private string ServerPanelPath = "res://Scenes/Menu/LobbyMenu.tscn";
 
-	private string SelfCkey = "Player";
+	private string GameWorldPath = "/root/GameWorld";
+	private GameWorld GameWorldInstance;
+	private string ReplicationManagerPath = "/root/ReplicationManager";
+	private ReplicationManager ReplicationManagerInstance;
 
+	private string SelfCkey = "Player";
 	private int HostPort = 8910;
 
 	public List<PlayerData> ConnectedPlayersData = new List<PlayerData>();
 
 	public override void _Ready()
 	{
+		ReplicationManagerInstance = GetNode<ReplicationManager>(ReplicationManagerPath);
+		GameWorldInstance = GetNode<GameWorld>(GameWorldPath);
+
 		Multiplayer.PeerConnected += PeerConnected;
 		Multiplayer.PeerDisconnected += PeerDisconnected;
 		Multiplayer.ConnectedToServer += ConnectedToServer;
 		Multiplayer.ConnectionFailed += ConnectionFailed;
+
 		if (OS.GetCmdlineArgs().Contains("--server"))
 		{
 			HostGame();
@@ -43,9 +51,15 @@ public partial class BasicMultiplayerManager : Node
 		//Deleting main menu
 		var MM = GetTree().Root.GetChildren().OfType<MainMenu>().FirstOrDefault();
 		MM.QueueFree();
-		//Loading lobby
-		var ServerPanelInstance = ResourceLoader.Load<PackedScene>(ServerPanelPath).Instantiate();
-		GetTree().Root.AddChild(ServerPanelInstance);
+		//Loading server panel
+		/*var ServerPanelInstance = ResourceLoader.Load<PackedScene>(ServerPanelPath).Instantiate();
+		GetTree().Root.AddChild(ServerPanelInstance);*/
+		//Loading map
+		GD.Print("a");
+		//GameWorldInstance.LoadMap("Dev");
+		Node3D LoadMap;
+		LoadMap = ResourceLoader.Load<PackedScene>("res://Scenes/World/GameMapDev.tscn").Instantiate<Node3D>();
+		GameWorldInstance.AddChild(LoadMap);
 
 		GD.Print("Hosted server");     
 	}
@@ -69,6 +83,8 @@ public partial class BasicMultiplayerManager : Node
 		//Deleting main menu
 		var MM = GetTree().Root.GetChildren().OfType<MainMenu>().FirstOrDefault();
 		MM.QueueFree();
+		//Loading game objects with ReplicationManager
+		ReplicationManagerInstance.GetObjects(Multiplayer.GetUniqueId());
 		//Loading lobby
 		var LobbyMenuInstance = ResourceLoader.Load<PackedScene>(LobbyMenuPath).Instantiate<LobbyMenu>();
 		GetTree().Root.AddChild(LobbyMenuInstance);
@@ -82,13 +98,13 @@ public partial class BasicMultiplayerManager : Node
 	//This method happens when someone connects to server
 	private void PeerConnected(long ConnectedId)
 	{
-		GD.Print("Player " + ConnectedId + " connected");
+		GD.Print("Player {0} connected", ConnectedId);
 	}
 
 	//This method happens when someone disconnects from server
 	private void PeerDisconnected(long DisconnectedId)
 	{
-		GD.Print("Player " + DisconnectedId + " disconnected");
+		GD.Print("Player {0} disconnected", DisconnectedId);
 		RemoveConnectedPlayer(DisconnectedId);
 	}
 
@@ -110,6 +126,7 @@ public partial class BasicMultiplayerManager : Node
 				break;
 			}
 		}
+
 		if (!IsExist) 
 		{
 			ConnectedPlayersData.Add(AddedPlayerData);
@@ -134,6 +151,7 @@ public partial class BasicMultiplayerManager : Node
 				ConnectedPlayersData.Remove(item);
 			}
 		}
+
 		if (Multiplayer.IsServer())
 		{
 			foreach (PlayerData item in ConnectedPlayersData)

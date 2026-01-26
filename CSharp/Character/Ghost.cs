@@ -5,16 +5,15 @@ using Godot;
 public partial class Ghost : CharacterBody3D
 {	
 	//Export variables
-	[Export] public MultiplayerSynchronizer LocalSynchronizer;
 	[Export] public Camera3D Camera;
 	[Export] public RayCast3D ExamineRay;
 	[Export] public Label ExamineLabel;
 
 	//Networking & multiplayer
 	private bool Authority;
+	private bool IsServer;
 
 	//Characteristics
-	private float Speed = 5.0f;
 	private float MouseSensivity = 1f;
 
 	private bool ControlsDisabled = false;
@@ -22,9 +21,14 @@ public partial class Ghost : CharacterBody3D
 	private Vector3 InitialExamineVector;
 	private Vector3 InitialExaminePosition;
 
+	//Movement
+	private float Speed = 5.0f;
+	private Vector2 WalkDirection = Vector2.Zero;
+
 	public override void _Ready()
 	{
-		Authority = LocalSynchronizer.GetMultiplayerAuthority() == Multiplayer.GetUniqueId();
+		IsServer = Multiplayer.GetUniqueId() == 1;
+		Authority = GetMultiplayerAuthority() == Multiplayer.GetUniqueId();
 		if (Authority)
 		{
 			Camera.MakeCurrent();
@@ -38,6 +42,8 @@ public partial class Ghost : CharacterBody3D
 
 	public override void _Input(InputEvent Event)
 	{
+		if (Authority)
+		{
 		//Camera rotation
 		if (Event is InputEventMouseMotion MouseEvent && Input.MouseMode == Input.MouseModeEnum.Captured)
 		{
@@ -49,14 +55,23 @@ public partial class Ghost : CharacterBody3D
 				Camera.Rotation.Y,
 				Camera.Rotation.Z
 			);
-			//if (ExamineLabel.Text != "")
-			//{
-			//	if (InitialExamineVector - Camera.Rotation > new Vector3(10,10,10))
-			//	{
-			//		ExamineLabel.Text = "";
-			//	}
-			//}
+			RpcId(1, "SyncRotation", Rotation);
+			if (ExamineLabel.Text != "")
+			{
+				if (InitialExamineVector - Camera.Rotation > new Vector3(10,10,10))
+				{
+					ExamineLabel.Text = "";
+				}
+			}
 		}
+
+		//Movement
+		if (Event.IsAction("Forward") || Event.IsAction("Backward") || Event.IsAction("Right") || Event.IsAction("Left"))
+		{
+			WalkDirection = Input.GetVector("Left", "Right", "Forward", "Backward");
+			RpcId(1, "SyncMoveDirection", WalkDirection);
+		}
+
 		if (Event.IsActionPressed("ShowCursor"))
 		{
 			//Disable most controls and show mouse cursor when alt is hold
@@ -79,21 +94,15 @@ public partial class Ghost : CharacterBody3D
 				InitialExaminePosition = Position;
 			}
 		}
+		}
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (Authority)
+		if (Authority || IsServer)
 		{
 			Vector3 velocity = Velocity;
-
-			if (ExamineLabel.Text != "" && Math.Abs(InitialExaminePosition.X) > 2 || Math.Abs(InitialExaminePosition.Y) > 2 || Math.Abs(InitialExaminePosition.Z) > 2)
-			{
-				ExamineLabel.Text = "";
-			}
-
-			Vector2 inputDir = Input.GetVector("Left", "Right", "Forward", "Backward");
-			Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
+			Vector3 direction = (Transform.Basis * new Vector3(WalkDirection.X, 0, WalkDirection.Y)).Normalized();
 			if (direction != Vector3.Zero)
 			{
 				velocity.X = direction.X * Speed;
@@ -104,11 +113,50 @@ public partial class Ghost : CharacterBody3D
 				velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
 				velocity.Z = Mathf.MoveToward(Velocity.Z, 0, Speed);
 			}
-
 			Velocity = velocity;
-
 		}
 		MoveAndSlide();
+	}
 
+	public void Sync()
+	{
+		if (IsServer)
+		{
+			Rpc("SyncMoveDirection", WalkDirection);
+			Rpc("SyncPosition", Position);
+			Rpc("SyncVelocity", Velocity);
+		}
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
+	private void SyncPosition(Vector3 SyncedPosition)
+	{
+		Position = SyncedPosition;
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
+	private void SyncRotation(Vector3 SyncedRotation)
+	{
+		Rotation = SyncedRotation;
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
+	private void SyncVelocity(Vector3 SyncedVelocity)
+	{
+		Velocity = SyncedVelocity;
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
+	private void SyncMoveDirection(Vector2 SyncedDirection)
+	{
+		//This if needed to dont let cheaters make cheat which will give superspeed to them.
+		if (SyncedDirection.X <= 1 && SyncedDirection.X >= -1 && SyncedDirection.Y <= 1 && SyncedDirection.Y >= -1)
+		{
+			WalkDirection = SyncedDirection;
+		}
+		else
+		{
+			GD.Print("CHEATER WARNING!");
+		}
 	}
 }

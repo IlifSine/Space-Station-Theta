@@ -3,22 +3,26 @@ using Godot;
 
 public partial class GameWorld : Node
 {
-	private BasicMultiplayerManager BMM;
-	private string BMMPath = "/root/BasicMultiplayerManager";
-
-	public override void _Ready()
+	public void LoadMap(string Map)
 	{
-		BMM = GetNode<BasicMultiplayerManager>(BMMPath);
+		GD.Print("e");
+		Node3D LoadMap = null;
+		LoadMap = ResourceLoader.Load<PackedScene>("res://Scenes/World/GameMapDev.tscn").Instantiate<Node3D>();
+		AddChild(LoadMap);
+		/*switch (Map)
+		{
+			case "Dev":
+				LoadMap = ResourceLoader.Load<PackedScene>("res://Scenes/World/GameMap.tscn").Instantiate<Node3D>();
+				AddChild(LoadMap);
+				GD.Print("l");
+			break;
+			default:
+				LoadMap = ResourceLoader.Load<PackedScene>(Map).Instantiate<Node3D>();
+				AddChild(LoadMap);
+				GD.Print("АЛАРМА АЛАРМА АЛАМО АЛДЫБАХА");
+			break;
+		}
+		GD.Print("яяя");
+		*/
 	}
-
-	//public override void _Process(double delta)
-	//{
-	//    foreach (var item in BMM.ConnectedPlayersData)
-	//    {
-	//        foreach (var ObjectItem in GetChildren())
-	//        {
-	//            if (ObjectItem.Dis)
-	//        }
-	//    }
-	//}
 }
