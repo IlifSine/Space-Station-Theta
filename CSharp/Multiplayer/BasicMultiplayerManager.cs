@@ -55,7 +55,6 @@ public partial class BasicMultiplayerManager : Node
 		/*var ServerPanelInstance = ResourceLoader.Load<PackedScene>(ServerPanelPath).Instantiate();
 		GetTree().Root.AddChild(ServerPanelInstance);*/
 		//Loading map
-		GD.Print("a");
 		//GameWorldInstance.LoadMap("Dev");
 		Node3D LoadMap;
 		LoadMap = ResourceLoader.Load<PackedScene>("res://Scenes/World/GameMapDev.tscn").Instantiate<Node3D>();
@@ -98,13 +97,13 @@ public partial class BasicMultiplayerManager : Node
 	//This method happens when someone connects to server
 	private void PeerConnected(long ConnectedId)
 	{
-		GD.Print("Player {0} connected", ConnectedId);
+		GD.Print(string.Format("Player {0} connected", ConnectedId));
 	}
 
 	//This method happens when someone disconnects from server
 	private void PeerDisconnected(long DisconnectedId)
 	{
-		GD.Print("Player {0} disconnected", DisconnectedId);
+		GD.Print(string.Format("Player {0} disconnected", DisconnectedId));
 		RemoveConnectedPlayer(DisconnectedId);
 	}
 

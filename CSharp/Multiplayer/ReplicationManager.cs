@@ -19,7 +19,6 @@ public partial class ReplicationManager : Node
 	{
 		if (Multiplayer.GetUniqueId() == 1)
 		{
-			GD.Print(Id);
 			foreach (var MapItem in GetNode<GameWorld>(GameWorldPath).GetChildren())
 			{
 				if (MapItem is Node3D)
