@@ -56,9 +56,6 @@ public partial class BasicMultiplayerManager : Node
 		GetTree().Root.AddChild(ServerPanelInstance);*/
 		//Loading map
 		GameWorldInstance.LoadMap("Dev");
-		//Node3D LoadMap;
-		//LoadMap = ResourceLoader.Load<PackedScene>("res://Scenes/World/GameMapDev.tscn").Instantiate<Node3D>();
-		//GameWorldInstance.AddChild(LoadMap);
 
 		GD.Print("Hosted server");     
 	}

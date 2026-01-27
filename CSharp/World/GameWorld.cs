@@ -3,6 +3,28 @@ using Godot;
 
 public partial class GameWorld : Node
 {
+	/// <summary>
+	/// LoadMapRequest method requests server and clients to load map.
+	/// </summary>
+	/// <param name="Map"></param>
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	public void LoadMapRequest(string Map)
+	{
+		if (Multiplayer.IsServer())
+		{
+			Rpc("LoadMap", Map);
+		}
+		else
+		{
+			RpcId(1, "LoadMapRequest", Map);
+		}
+	}
+
+	/// <summary>
+	/// LoadMap method loads a map from some kind of "database" located in it by name. If method couldn't find a map with this name - it pushes error.
+	/// </summary>
+	/// <param name="Map"></param>
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	public void LoadMap(string Map)
 	{
 		GameMap LoadMap = null;
@@ -12,7 +34,7 @@ public partial class GameWorld : Node
 				LoadMap = ResourceLoader.Load<PackedScene>("res://Maps/GameMapDev.tscn").Instantiate<GameMap>();
 			break;
 			default:
-				GD.Print("Map not found!");
+				GD.PushError("No map found.");
 			break;
 		}
 		if (LoadMap != null)
@@ -21,13 +43,22 @@ public partial class GameWorld : Node
 		}
 	}
 
+	/// <summary>
+	/// LoadMapFromPath method loads map from string res:// path. If method couldn't find a map by this path - it pushes error.
+	/// </summary>
+	/// <param name="MapPath"></param>
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	public void LoadMapFromPath(string MapPath)
 	{
 		GameMap LoadMap;
-		LoadMap = ResourceLoader.Load<PackedScene>(MapPath).Instantiate<GameMap>();
+		LoadMap = ResourceLoader.Load<PackedScene>(MapPath).InstantiateOrNull<GameMap>();
 		if (LoadMap != null)
 		{
 			AddChild(LoadMap);
+		}
+		else
+		{
+			GD.PushError("No map found.");
 		}
 	}
 }
