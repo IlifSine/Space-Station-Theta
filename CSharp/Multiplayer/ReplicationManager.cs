@@ -47,6 +47,7 @@ public partial class ReplicationManager : Node
 
 	public void ReplicateMap(GameMap Map)
 	{
+		GD.Print("in");
 		foreach (var ObjectItem in GetNode<GameMap>(GameWorldPath + "/" + Map.Name).GetChildren())
 		{
 			string ObjectPath = ObjectItem.SceneFilePath;

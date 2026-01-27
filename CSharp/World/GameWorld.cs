@@ -70,6 +70,7 @@ public partial class GameWorld : Node
 			{
 				GD.PushError("No map found.");
 			}	
+			GD.Print("ou");
 			replicationManager.ReplicateMap(LoadMap);
 		}
 		else
