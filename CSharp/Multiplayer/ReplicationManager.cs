@@ -15,34 +15,39 @@ public partial class ReplicationManager : Node
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	public void GetObjects(long Id)
+	public void GetAll(long Id)
 	{
-		if (Multiplayer.GetUniqueId() == 1)
+		if (Multiplayer.IsServer())
 		{
 			foreach (var MapItem in GetNode<GameWorld>(GameWorldPath).GetChildren())
 			{
-				if (MapItem is Node3D)
+				if (MapItem is GameMap mapItem)
 				{
-					foreach (var ObjectItem in GetNode<Node3D>(GameMapPath).GetChildren())
-					{
-						string ObjectPath = ObjectItem.SceneFilePath;
-						Vector3 ObjectPosition;
-						if (ObjectItem is Node3D Object3d)
-						{
-							ObjectPosition = Object3d.Position;
-						}
-						else
-						{
-							ObjectPosition = new Vector3();
-						}
-						RpcId(Id, "ReplicateObject", ObjectPath, MapItem.Name, ObjectItem.Name, ObjectPosition);
-					}
+					GetMap(Id, mapItem);
 				}
 			}
 		}
 		else
 		{
-			RpcId(1, "GetObjects", Id);
+			RpcId(1, "GetAll", Id);
+		}
+	}
+
+	public void GetMap(long Id, GameMap Map)
+	{
+		foreach (var ObjectItem in GetNode<Node3D>(GameMapPath).GetChildren())
+		{
+			string ObjectPath = ObjectItem.SceneFilePath;
+			Vector3 ObjectPosition;
+			if (ObjectItem is Node3D Object3d)
+			{
+				ObjectPosition = Object3d.Position;
+			}
+			else
+			{
+				ObjectPosition = new Vector3();
+			}
+			RpcId(Id, "ReplicateObject", ObjectPath, Map.Name, ObjectItem.Name, ObjectPosition);
 		}
 	}
 

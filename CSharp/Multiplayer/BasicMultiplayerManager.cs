@@ -80,7 +80,7 @@ public partial class BasicMultiplayerManager : Node
 		var MM = GetTree().Root.GetChildren().OfType<MainMenu>().FirstOrDefault();
 		MM.QueueFree();
 		//Loading game objects with ReplicationManager
-		ReplicationManagerInstance.GetObjects(Multiplayer.GetUniqueId());
+		ReplicationManagerInstance.GetAll(Multiplayer.GetUniqueId());
 		//Loading lobby
 		var LobbyMenuInstance = ResourceLoader.Load<PackedScene>(LobbyMenuPath).Instantiate<LobbyMenu>();
 		GetTree().Root.AddChild(LobbyMenuInstance);

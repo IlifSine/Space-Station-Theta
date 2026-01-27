@@ -3,16 +3,24 @@ using Godot;
 
 public partial class GameWorld : Node
 {
+	private string ReplicationManagerPath = "/root/ReplicationManager";
+	private ReplicationManager replicationManager;
+
+	public override void _Ready()
+	{
+		replicationManager = GetNode<ReplicationManager>(ReplicationManagerPath);
+	}
+
 	/// <summary>
 	/// LoadMapRequest method requests server and clients to load map.
 	/// </summary>
 	/// <param name="Map"></param>
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	public void LoadMapRequest(string Map)
+	public void LoadMap(string Map)
 	{
 		if (Multiplayer.IsServer())
 		{
-			Rpc("LoadMap", Map);
+			Rpc("InstantiateMap", Map);
 		}
 		else
 		{
@@ -25,7 +33,7 @@ public partial class GameWorld : Node
 	/// </summary>
 	/// <param name="Map"></param>
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	public void LoadMap(string Map)
+	public void InstantiateMap(string Map)
 	{
 		GameMap LoadMap = null;
 		switch (Map)
@@ -50,15 +58,23 @@ public partial class GameWorld : Node
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	public void LoadMapFromPath(string MapPath)
 	{
-		GameMap LoadMap;
-		LoadMap = ResourceLoader.Load<PackedScene>(MapPath).InstantiateOrNull<GameMap>();
-		if (LoadMap != null)
+		if (Multiplayer.IsServer())
 		{
-			AddChild(LoadMap);
+			GameMap LoadMap;
+			LoadMap = ResourceLoader.Load<PackedScene>(MapPath).InstantiateOrNull<GameMap>();
+			if (LoadMap != null)
+			{
+				AddChild(LoadMap);
+			}
+			else
+			{
+				GD.PushError("No map found.");
+			}	
+			//replicationManager.		
 		}
 		else
 		{
-			GD.PushError("No map found.");
+			RpcId(1, "LoadMapFromPath", MapPath);
 		}
 	}
 }

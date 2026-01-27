@@ -12,7 +12,7 @@ public partial class MapLoaderMenu : Control
 
 	public void LoadMapButtonPressed()
 	{
-		gameWorld.LoadMapRequest(lineEdit.Text);
+		gameWorld.LoadMap(lineEdit.Text);
 	}
 
 	public void LoadMapPathButtonPressed()
