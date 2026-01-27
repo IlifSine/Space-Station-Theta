@@ -7,7 +7,6 @@ public partial class ReplicationManager : Node
 	private string BMMPath = "/root/BasicMultiplayerManager";
 	private string MapScenePath = "res://Scenes/World/GameMap.tscn";
 	private string GameWorldPath = "/root/GameWorld";
-	private string GameMapPath = "/root/GameWorld/GameMap";
 
 	public override void _Ready()
 	{
@@ -21,9 +20,22 @@ public partial class ReplicationManager : Node
 		{
 			foreach (var MapItem in GetNode<GameWorld>(GameWorldPath).GetChildren())
 			{
-				if (MapItem is GameMap mapItem)
+				if (MapItem is GameMap)
 				{
-					GetMap(Id, mapItem);
+					foreach (var ObjectItem in GetNode<GameMap>(GameWorldPath + "/" + MapItem.Name).GetChildren())
+					{
+						string ObjectPath = ObjectItem.SceneFilePath;
+						Vector3 ObjectPosition;
+						if (ObjectItem is Node3D Object3d)
+						{
+							ObjectPosition = Object3d.Position;
+						}
+						else
+						{
+							ObjectPosition = new Vector3();
+						}
+						RpcId(Id, "ReplicateObject", ObjectPath, MapItem.Name, ObjectItem.Name, ObjectPosition);
+					}
 				}
 			}
 		}
@@ -33,9 +45,9 @@ public partial class ReplicationManager : Node
 		}
 	}
 
-	public void GetMap(long Id, GameMap Map)
+	public void ReplicateMap(GameMap Map)
 	{
-		foreach (var ObjectItem in GetNode<Node3D>(GameMapPath).GetChildren())
+		foreach (var ObjectItem in GetNode<GameMap>(GameWorldPath + "/" + Map.Name).GetChildren())
 		{
 			string ObjectPath = ObjectItem.SceneFilePath;
 			Vector3 ObjectPosition;
@@ -47,7 +59,7 @@ public partial class ReplicationManager : Node
 			{
 				ObjectPosition = new Vector3();
 			}
-			RpcId(Id, "ReplicateObject", ObjectPath, Map.Name, ObjectItem.Name, ObjectPosition);
+			Rpc("ReplicateObject", ObjectPath, Map.Name, ObjectItem.Name, ObjectPosition);
 		}
 	}
 

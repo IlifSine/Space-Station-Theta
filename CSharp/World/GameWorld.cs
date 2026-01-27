@@ -24,7 +24,7 @@ public partial class GameWorld : Node
 		}
 		else
 		{
-			RpcId(1, "LoadMapRequest", Map);
+			RpcId(1, "LoadMap", Map);
 		}
 	}
 
@@ -70,7 +70,7 @@ public partial class GameWorld : Node
 			{
 				GD.PushError("No map found.");
 			}	
-			//replicationManager.		
+			replicationManager.ReplicateMap(LoadMap);
 		}
 		else
 		{
