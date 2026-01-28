@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://bchnl4i3iou4v"]
+
+[ext_resource type="Script" uid="uid://sshe2sojkvhh" path="res://CSharp/DevTools/MapLoaderMenu.cs" id="1_y82oa"]
+
+[node name="MapLoaderMenu" type="Control" unique_id=336366585 node_paths=PackedStringArray("lineEdit")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -874.0
+offset_bottom = -497.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_y82oa")
+lineEdit = NodePath("Panel/PathLineEdit")
+
+[node name="Panel" type="Panel" parent="." unique_id=132893882]
+layout_mode = 0
+offset_right = 278.0
+offset_bottom = 151.0
+
+[node name="LoadMapLabel" type="Label" parent="Panel" unique_id=136092097]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 31.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 22
+text = "Load map"
+horizontal_alignment = 1
+
+[node name="PathLineEdit" type="LineEdit" parent="Panel" unique_id=2058011914]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -1.5
+offset_bottom = 29.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel" unique_id=627290754]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 46.0
+offset_right = 277.0
+offset_bottom = 69.0
+text = "Enter map name/res:// path"
+
+[node name="LoadButton" type="Button" parent="Panel" unique_id=1962057498]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = -38.0
+offset_right = 58.0
+offset_bottom = -7.0
+grow_vertical = 0
+text = "Load"
+
+[node name="PathLoadButton" type="Button" parent="Panel" unique_id=1230990314]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -215.0
+offset_top = -38.0
+offset_right = -5.0
+offset_bottom = -7.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Load from res:// path"
+
+[connection signal="pressed" from="Panel/LoadButton" to="." method="LoadMapButtonPressed"]
+[connection signal="pressed" from="Panel/PathLoadButton" to="." method="LoadMapPathButtonPressed"]

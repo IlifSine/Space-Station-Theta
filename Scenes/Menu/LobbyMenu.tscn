@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://cihou7d1inwqr"]
+[gd_scene format=3 uid="uid://cihou7d1inwqr"]
 
 [ext_resource type="Script" uid="uid://blc4ydnplrj5d" path="res://CSharp/Menu/LobbyMenu.cs" id="1_oc7xs"]
 [ext_resource type="Script" uid="uid://co6a4ifufmqjg" path="res://CSharp/Menu/PlayerList.cs" id="2_poa8f"]
+[ext_resource type="PackedScene" uid="uid://bchnl4i3iou4v" path="res://Scenes/DevTools/MapLoaderMenu.tscn" id="3_poa8f"]
 
-[node name="LobbyMenu" type="Control"]
+[node name="LobbyMenu" type="Control" unique_id=1965122323]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,7 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_oc7xs")
 
-[node name="Label1" type="Label" parent="."]
+[node name="Label1" type="Label" parent="." unique_id=1738818241]
 layout_mode = 1
 anchors_preset = 11
 anchor_left = 1.0
@@ -27,13 +28,13 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 23
 text = "You are in a server"
 
-[node name="ItemList" type="ItemList" parent="."]
+[node name="ItemList" type="ItemList" parent="." unique_id=462654882]
 layout_mode = 0
 offset_right = 218.0
 offset_bottom = 172.0
 script = ExtResource("2_poa8f")
 
-[node name="Refresh" type="Button" parent="ItemList"]
+[node name="Refresh" type="Button" parent="ItemList" unique_id=1063182551]
 layout_mode = 0
 offset_left = 150.0
 offset_top = 141.0
@@ -42,7 +43,7 @@ offset_bottom = 172.0
 text = "Refresh
 "
 
-[node name="SpectateButton" type="Button" parent="."]
+[node name="SpectateButton" type="Button" parent="." unique_id=1862143943]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -53,6 +54,13 @@ offset_right = -223.0
 offset_bottom = 84.0
 grow_horizontal = 0
 text = "Spectate"
+
+[node name="MapLoaderMenu" parent="." unique_id=336366585 instance=ExtResource("3_poa8f")]
+layout_mode = 1
+offset_left = 1.0
+offset_top = 495.0
+offset_right = -873.0
+offset_bottom = -2.0
 
 [connection signal="pressed" from="ItemList/Refresh" to="ItemList" method="RefreshButtonPressed"]
 [connection signal="pressed" from="SpectateButton" to="." method="SpectateButtonPressed"]
