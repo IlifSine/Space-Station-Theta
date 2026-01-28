@@ -7,7 +7,6 @@ public partial class ReplicationManager : Node
 	private string BMMPath = "/root/BasicMultiplayerManager";
 	private string MapScenePath = "res://Scenes/World/GameMap.tscn";
 	private string GameWorldPath = "/root/GameWorld";
-	private string GameMapPath = "/root/GameWorld/GameMap";
 
 	public override void _Ready()
 	{
@@ -15,15 +14,15 @@ public partial class ReplicationManager : Node
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	public void GetObjects(long Id)
+	public void GetAll(long Id)
 	{
 		if (Multiplayer.IsServer())
 		{
 			foreach (var MapItem in GetNode<GameWorld>(GameWorldPath).GetChildren())
 			{
-				if (MapItem is Node3D)
+				if (MapItem is GameMap)
 				{
-					foreach (var ObjectItem in GetNode<Node3D>(GameMapPath).GetChildren())
+					foreach (var ObjectItem in GetNode<GameMap>(GameWorldPath + "/" + MapItem.Name).GetChildren())
 					{
 						string ObjectPath = ObjectItem.SceneFilePath;
 						Vector3 ObjectPosition;
@@ -42,7 +41,39 @@ public partial class ReplicationManager : Node
 		}
 		else
 		{
-			RpcId(1, "GetObjects", Id);
+			RpcId(1, "GetAll", Id);
+		}
+	}
+
+	/// <summary>
+	/// Replicates already instanced map trough all clients. Only-server method.
+	/// </summary>
+	/// <param name="Map">Instanced map</param>
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	public void ReplicateMap(GameMap Map)
+	{
+		if (Multiplayer.IsServer())
+		{
+			foreach (var ObjectItem in GetNode<GameMap>(GameWorldPath + "/" + Map.Name).GetChildren())
+			{
+				string ObjectPath = ObjectItem.SceneFilePath;
+				Vector3 ObjectPosition;
+				if (ObjectItem is Node3D Object3d)
+				{
+					ObjectPosition = Object3d.Position;
+				}
+				else
+				{
+					ObjectPosition = new Vector3();
+				}
+				Rpc("ReplicateObject", ObjectPath, Map.Name, ObjectItem.Name, ObjectPosition);
+				//Objects was duplicating on 1 client, so i decided to QueueFree() original object. Yes, i so lazy to find normal soulution.
+				ObjectItem.QueueFree();
+			}
+		}
+		else
+		{
+			RpcId(1, "ReplicateMap", Map);
 		}
 	}
 
@@ -71,6 +102,7 @@ public partial class ReplicationManager : Node
 			ObjectMap = PreLoadedMapScene.Instantiate() as GameMap;
 			GetNode<Node>(GameWorldPath).AddChild(ObjectMap);
 			ObjectMap.AddChild(InstantiatedObject);
+			ObjectMap.Name = MapName;
 		}
 
 		InstantiatedObject.Name = ObjectName;

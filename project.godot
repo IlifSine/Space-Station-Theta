@@ -33,6 +33,7 @@ project/assembly_name="Space-Station-Theta"
 
 folder_colors={
 "res://CSharp/": "purple",
+"res://Maps/": "yellow",
 "res://Scenes/": "red"
 }
 
