@@ -48,6 +48,7 @@ public partial class GameWorld : Node
 		if (LoadMap != null)
 		{
 			AddChild(LoadMap);
+			LoadMap.Name = LoadMap.DefaultName;
 		}
 	}
 
@@ -65,12 +66,12 @@ public partial class GameWorld : Node
 			if (LoadMap != null)
 			{
 				AddChild(LoadMap);
+				LoadMap.Name = LoadMap.DefaultName;
 			}
 			else
 			{
 				GD.PushError("No map found.");
 			}	
-			GD.Print("ou");
 			replicationManager.ReplicateMap(LoadMap);
 		}
 		else

@@ -45,22 +45,35 @@ public partial class ReplicationManager : Node
 		}
 	}
 
+	/// <summary>
+	/// Replicates already instanced map trough all clients. Only-server method.
+	/// </summary>
+	/// <param name="Map">Instanced map</param>
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	public void ReplicateMap(GameMap Map)
 	{
-		GD.Print("in");
-		foreach (var ObjectItem in GetNode<GameMap>(GameWorldPath + "/" + Map.Name).GetChildren())
+		if (Multiplayer.IsServer())
 		{
-			string ObjectPath = ObjectItem.SceneFilePath;
-			Vector3 ObjectPosition;
-			if (ObjectItem is Node3D Object3d)
+			foreach (var ObjectItem in GetNode<GameMap>(GameWorldPath + "/" + Map.Name).GetChildren())
 			{
-				ObjectPosition = Object3d.Position;
+				string ObjectPath = ObjectItem.SceneFilePath;
+				Vector3 ObjectPosition;
+				if (ObjectItem is Node3D Object3d)
+				{
+					ObjectPosition = Object3d.Position;
+				}
+				else
+				{
+					ObjectPosition = new Vector3();
+				}
+				Rpc("ReplicateObject", ObjectPath, Map.Name, ObjectItem.Name, ObjectPosition);
+				//Objects was duplicating on 1 client, so i decided to QueueFree() original object. Yes, i so lazy to find normal soulution.
+				ObjectItem.QueueFree();
 			}
-			else
-			{
-				ObjectPosition = new Vector3();
-			}
-			Rpc("ReplicateObject", ObjectPath, Map.Name, ObjectItem.Name, ObjectPosition);
+		}
+		else
+		{
+			RpcId(1, "ReplicateMap", Map);
 		}
 	}
 
@@ -89,6 +102,7 @@ public partial class ReplicationManager : Node
 			ObjectMap = PreLoadedMapScene.Instantiate() as GameMap;
 			GetNode<Node>(GameWorldPath).AddChild(ObjectMap);
 			ObjectMap.AddChild(InstantiatedObject);
+			ObjectMap.Name = MapName;
 		}
 
 		InstantiatedObject.Name = ObjectName;
