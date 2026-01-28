@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://cacj7lasth271"]
+
+[ext_resource type="Script" uid="uid://lv5f12t4gif1" path="res://CSharp/Multiplayer/ChatPanel.cs" id="1_aqtrp"]
+
+[node name="ChatPanel" type="Panel" unique_id=538469212 node_paths=PackedStringArray("lineEdit", "richTextLabel")]
+offset_right = 327.0
+offset_bottom = 272.0
+script = ExtResource("1_aqtrp")
+lineEdit = NodePath("MessageLineEdit")
+richTextLabel = NodePath("RichTextLabel")
+
+[node name="MessageLineEdit" type="LineEdit" parent="." unique_id=1467988194]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 60.0
+offset_top = -34.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 0
+placeholder_text = "type message here"
+
+[node name="ChatTypeSwitchButton" type="Button" parent="." unique_id=1500296619]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 238.0
+offset_right = 57.0
+offset_bottom = 269.0
+theme_override_font_sizes/font_size = 12
+text = "Near"
+autowrap_trim_flags = 0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=41005266]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 324.0
+offset_bottom = 235.0
+bbcode_enabled = true
+scroll_following = true
+scroll_following_visible_characters = true
+
+[connection signal="text_submitted" from="MessageLineEdit" to="." method="MessageEnter"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://bo0cc0w7qavld"]
+[gd_scene format=3 uid="uid://bo0cc0w7qavld"]
 
 [ext_resource type="Texture2D" uid="uid://ba22vnujyv16v" path="res://icon.svg" id="1_1ysua"]
 [ext_resource type="Script" uid="uid://bof3pa816kpyf" path="res://CSharp/World/GameMap.cs" id="1_yg8dx"]
