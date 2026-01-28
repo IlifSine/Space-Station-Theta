@@ -11,7 +11,6 @@ public partial class Ghost : CharacterBody3D
 
 	//Networking & multiplayer
 	private bool Authority;
-	private bool IsServer;
 
 	//Characteristics
 	private float MouseSensivity = 1f;
@@ -27,7 +26,6 @@ public partial class Ghost : CharacterBody3D
 
 	public override void _Ready()
 	{
-		IsServer = Multiplayer.GetUniqueId() == 1;
 		Authority = GetMultiplayerAuthority() == Multiplayer.GetUniqueId();
 		if (Authority)
 		{
@@ -99,7 +97,7 @@ public partial class Ghost : CharacterBody3D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (Authority || IsServer)
+		if (Authority || Multiplayer.IsServer())
 		{
 			Vector3 velocity = Velocity;
 			Vector3 direction = (Transform.Basis * new Vector3(WalkDirection.X, 0, WalkDirection.Y)).Normalized();
@@ -120,7 +118,7 @@ public partial class Ghost : CharacterBody3D
 
 	public void Sync()
 	{
-		if (IsServer)
+		if (Multiplayer.IsServer())
 		{
 			Rpc("SyncMoveDirection", WalkDirection);
 			Rpc("SyncPosition", Position);

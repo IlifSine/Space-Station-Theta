@@ -17,7 +17,7 @@ public partial class ReplicationManager : Node
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	public void GetObjects(long Id)
 	{
-		if (Multiplayer.GetUniqueId() == 1)
+		if (Multiplayer.IsServer())
 		{
 			foreach (var MapItem in GetNode<GameWorld>(GameWorldPath).GetChildren())
 			{
