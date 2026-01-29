@@ -24,6 +24,7 @@ config/icon="res://icon.svg"
 BasicMultiplayerManager="*res://CSharp/Multiplayer/BasicMultiplayerManager.cs"
 GameWorld="*res://Scenes/World/GameWorld.tscn"
 ReplicationManager="*res://CSharp/Multiplayer/ReplicationManager.cs"
+ChatServer="*uid://cey7i36c6rleb"
 
 [dotnet]
 
