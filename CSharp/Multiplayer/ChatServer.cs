@@ -25,7 +25,9 @@ public partial class ChatServer : Node
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	private void SendMessage(string Message)
 	{
-		GD.Print(ChatClients.Count);
+		//Replacing BBCode-used symbols to players cant use bbcode. muhahahahahahah
+		Message = Message.Replace("[", "");
+		Message = Message.Replace("]", "");
 		foreach (ChatPanel item in ChatClients)
 		{
 			item.MessageReceive(Message);
