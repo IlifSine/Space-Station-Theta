@@ -1,4 +1,4 @@
-//Licensed under AGPL 3.0
+//Licensed under AGPL 3.0. Glory to communism!
 using System.Collections.Generic;
 using Godot;
 
