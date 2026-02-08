@@ -13,5 +13,6 @@ public partial class LobbyMenu : Control
 	public void SpectateButtonPressed()
 	{
 		GetNode<GhostSpawner>(GhostSpawnerPath).SpawnGhost();
+		QueueFree();
 	}
 }
