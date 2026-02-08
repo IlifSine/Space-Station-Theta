@@ -1,3 +1,4 @@
+//Licensed under AGPL 3.0
 using System.Collections.Generic;
 using Godot;
 
@@ -5,22 +6,20 @@ public partial class ChatServer : Node
 {
 	public List<ChatPanel> ChatClients = new List<ChatPanel>();
 
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	public void AddClient(ChatPanel chatPanel)
+	public void AddClient(Node ControlChatPanel)
 	{
 		if (Multiplayer.IsServer())
 		{
-			ChatClients.Add(chatPanel);
-		}
-		else
-		{
-			RpcId(1, "AddClient", chatPanel);
+			if (ControlChatPanel is ChatPanel chatPanel)
+			{
+				ChatClients.Add(chatPanel);
+			}
 		}
 	}
 
 	public void ReceiveSentMessage(string Message)
 	{
-		RpcId(1, "SendMessageServer", Message);
+		RpcId(1, "SendMessage", Message);
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]

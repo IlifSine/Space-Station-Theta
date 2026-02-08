@@ -16,16 +16,14 @@ script = ExtResource("1_oc7xs")
 
 [node name="Label1" type="Label" parent="." unique_id=1738818241]
 layout_mode = 1
-anchors_preset = 11
+anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
 offset_left = -217.0
 offset_top = 2.0
 offset_right = -2.0
-offset_bottom = -585.0
+offset_bottom = 63.0
 grow_horizontal = 0
-grow_vertical = 2
 theme_override_font_sizes/font_size = 23
 text = "You are in a server"
 
@@ -58,17 +56,29 @@ text = "Spectate"
 
 [node name="MapLoaderMenu" parent="." unique_id=336366585 instance=ExtResource("3_poa8f")]
 layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_right = 0.0
 offset_left = 1.0
-offset_top = 495.0
-offset_right = -873.0
+offset_top = -153.0
+offset_right = 279.0
 offset_bottom = -2.0
+grow_horizontal = 1
+grow_vertical = 0
 
 [node name="ChatPanel" parent="." unique_id=538469212 instance=ExtResource("4_c60v6")]
-layout_mode = 0
-offset_left = 824.0
-offset_top = 374.0
-offset_right = 1151.0
-offset_bottom = 646.0
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -328.0
+offset_top = -274.0
+offset_right = -1.0
+offset_bottom = -2.0
+grow_horizontal = 0
+grow_vertical = 0
 
 [connection signal="pressed" from="ItemList/Refresh" to="ItemList" method="RefreshButtonPressed"]
 [connection signal="pressed" from="SpectateButton" to="." method="SpectateButtonPressed"]

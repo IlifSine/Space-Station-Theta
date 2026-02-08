@@ -40,6 +40,7 @@ offset_top = 3.0
 offset_right = 324.0
 offset_bottom = 235.0
 bbcode_enabled = true
+text = "[color=#ffd700]Welcome to Space Station Theta. Have a good shift![/color]"
 scroll_following = true
 scroll_following_visible_characters = true
 
