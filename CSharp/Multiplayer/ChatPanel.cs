@@ -1,3 +1,4 @@
+//Licensed under AGPL 3.0
 using Godot;
 
 public partial class ChatPanel : Panel
@@ -7,14 +8,29 @@ public partial class ChatPanel : Panel
 	private string ChatServerPath = "/root/ChatServer";
 	private ChatServer chatServer;
 
-	public void _Ready()
+	public override void _Ready()
 	{
 		chatServer = GetNode<ChatServer>(ChatServerPath);
-		chatServer.
+		if (Multiplayer.IsServer())
+		{
+			chatServer.AddClient(this);
+		}
 	}
 
-	private void MessageEnter()
+	private void MessageEnter(string Message)
 	{
-		chatServer.SendMessage(lineEdit.Text);
+		chatServer.ReceiveSentMessage(Message);
+		lineEdit.Clear();
+	}
+
+	public void MessageReceive(string Message)
+	{
+		Rpc("MessageReceiveRpc", Message);
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	private void MessageReceiveRpc(string Message)
+	{
+		richTextLabel.Text = string.Format("{0}\n{1}", richTextLabel.Text, Message);
 	}
 }

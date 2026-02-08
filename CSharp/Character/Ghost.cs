@@ -1,5 +1,4 @@
 //Licensed under AGPL 3.0
-using System;
 using Godot;
 
 public partial class Ghost : CharacterBody3D

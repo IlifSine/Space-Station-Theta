@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://blc4ydnplrj5d" path="res://CSharp/Menu/LobbyMenu.cs" id="1_oc7xs"]
 [ext_resource type="Script" uid="uid://co6a4ifufmqjg" path="res://CSharp/Menu/PlayerList.cs" id="2_poa8f"]
 [ext_resource type="PackedScene" uid="uid://bchnl4i3iou4v" path="res://Scenes/DevTools/MapLoaderMenu.tscn" id="3_poa8f"]
+[ext_resource type="PackedScene" uid="uid://cacj7lasth271" path="res://Scenes/Multiplayer/ChatPanel.tscn" id="4_c60v6"]
 
 [node name="LobbyMenu" type="Control" unique_id=1965122323]
 layout_mode = 3
@@ -15,16 +16,14 @@ script = ExtResource("1_oc7xs")
 
 [node name="Label1" type="Label" parent="." unique_id=1738818241]
 layout_mode = 1
-anchors_preset = 11
+anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
 offset_left = -217.0
 offset_top = 2.0
 offset_right = -2.0
-offset_bottom = -585.0
+offset_bottom = 63.0
 grow_horizontal = 0
-grow_vertical = 2
 theme_override_font_sizes/font_size = 23
 text = "You are in a server"
 
@@ -57,10 +56,29 @@ text = "Spectate"
 
 [node name="MapLoaderMenu" parent="." unique_id=336366585 instance=ExtResource("3_poa8f")]
 layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_right = 0.0
 offset_left = 1.0
-offset_top = 495.0
-offset_right = -873.0
+offset_top = -153.0
+offset_right = 279.0
 offset_bottom = -2.0
+grow_horizontal = 1
+grow_vertical = 0
+
+[node name="ChatPanel" parent="." unique_id=538469212 instance=ExtResource("4_c60v6")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -328.0
+offset_top = -274.0
+offset_right = -1.0
+offset_bottom = -2.0
+grow_horizontal = 0
+grow_vertical = 0
 
 [connection signal="pressed" from="ItemList/Refresh" to="ItemList" method="RefreshButtonPressed"]
 [connection signal="pressed" from="SpectateButton" to="." method="SpectateButtonPressed"]

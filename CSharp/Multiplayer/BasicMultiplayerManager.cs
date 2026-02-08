@@ -54,10 +54,13 @@ public partial class BasicMultiplayerManager : Node
 		//Loading server panel
 		/*var ServerPanelInstance = ResourceLoader.Load<PackedScene>(ServerPanelPath).Instantiate();
 		GetTree().Root.AddChild(ServerPanelInstance);*/
+		//Instantiating lobby with chat panel to make it work. Yes, it is a crutch but i too lazy to find normal solution.
+		var LobbyMenuInstance = ResourceLoader.Load<PackedScene>(LobbyMenuPath).Instantiate<LobbyMenu>();
+		GetTree().Root.CallDeferred(Node.MethodName.AddChild, LobbyMenuInstance);
 		//Loading map
 		GameWorldInstance.LoadMap("Dev");
 
-		GD.Print("Hosted server");     
+		GD.Print("Hosted server");
 	}
 
 	//This method connects player to server
