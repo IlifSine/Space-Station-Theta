@@ -7,10 +7,13 @@ public partial class ChatPanel : Panel
 	[Export] private RichTextLabel richTextLabel;
 	private string ChatServerPath = "/root/ChatServer";
 	private ChatServer chatServer;
+	private string BMMPath = "/root/BasicMultiplayerManager";
+	private BasicMultiplayerManager BMM;
 
 	public override void _Ready()
 	{
 		chatServer = GetNode<ChatServer>(ChatServerPath);
+		BMM = GetNode<BasicMultiplayerManager>(BMMPath);
 		if (Multiplayer.IsServer())
 		{
 			chatServer.AddClient(this);
@@ -19,7 +22,7 @@ public partial class ChatPanel : Panel
 
 	private void MessageEnter(string Message)
 	{
-		chatServer.ReceiveSentMessage(Message);
+		chatServer.ReceiveSentMessage(Message, BMM.SelfCkey);
 		lineEdit.Clear();
 	}
 
