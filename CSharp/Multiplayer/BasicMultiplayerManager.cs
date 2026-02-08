@@ -13,7 +13,7 @@ public partial class BasicMultiplayerManager : Node
 	private string ReplicationManagerPath = "/root/ReplicationManager";
 	private ReplicationManager ReplicationManagerInstance;
 
-	private string SelfCkey = "Player";
+	public string SelfCkey = "Player";
 	private int HostPort = 8910;
 
 	public List<PlayerData> ConnectedPlayersData = new List<PlayerData>();
