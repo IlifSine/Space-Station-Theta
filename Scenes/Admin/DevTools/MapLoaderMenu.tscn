@@ -71,3 +71,6 @@ anchor_left = 0.8884892
 anchor_top = 0.01986755
 anchor_right = 0.9928058
 anchor_bottom = 0.22516556
+
+[connection signal="pressed" from="LoadButton" to="." method="LoadMapButtonPressed"]
+[connection signal="pressed" from="PathLoadButton" to="." method="LoadMapPathButtonPressed"]
