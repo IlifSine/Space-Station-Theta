@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://b1wsf3e1hjjr2"]
+
+[ext_resource type="Script" uid="uid://c8oy05lngcgww" path="res://CSharp/BasicUI/ParentVisibleButton.cs" id="1_8thr0"]
+
+[node name="ParentVisibleButton" type="Button" unique_id=1778721774]
+anchors_preset = -1
+anchor_right = 0.027777778
+anchor_bottom = 0.049382716
+text = "X"
+script = ExtResource("1_8thr0")
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="." to="." method="OnPressed"]

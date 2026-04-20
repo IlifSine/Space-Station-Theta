@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://bkaieq1rlvhjy"]
+
+[ext_resource type="Script" uid="uid://co6a4ifufmqjg" path="res://CSharp/Admin/PlayerList.cs" id="1_x0i42"]
+[ext_resource type="PackedScene" uid="uid://b1wsf3e1hjjr2" path="res://Scenes/BasicUI/ParentVisibleButton.tscn" id="2_uqokr"]
+
+[node name="PlayersList" type="ItemList" unique_id=2003062828]
+offset_right = 218.0
+offset_bottom = 172.0
+script = ExtResource("1_x0i42")
+
+[node name="Refresh" type="Button" parent="." unique_id=92990073]
+layout_mode = 0
+offset_left = 150.0
+offset_top = 141.0
+offset_right = 218.0
+offset_bottom = 172.0
+text = "Refresh
+"
+
+[node name="ParentVisibleButton" parent="." unique_id=1778721774 instance=ExtResource("2_uqokr")]
+layout_mode = 1
+anchor_left = 0.8394495
+anchor_top = 0.023255812
+anchor_right = 0.98623854
+anchor_bottom = 0.20930232
+
+[connection signal="pressed" from="Refresh" to="." method="RefreshButtonPressed"]
