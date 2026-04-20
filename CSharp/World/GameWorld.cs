@@ -1,14 +1,81 @@
 //Licensed under AGPL 3.0. Glory to communism!
+using System.Collections.Generic;
 using Godot;
 
 public partial class GameWorld : Node
 {
+	private List<GhostRoleData> GhostRoles;
 	private string ReplicationManagerPath = "/root/ReplicationManager";
 	private ReplicationManager replicationManager;
 
 	public override void _Ready()
 	{
 		replicationManager = GetNode<ReplicationManager>(ReplicationManagerPath);
+	}
+
+	//Ghost roles
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	void AddGhostRole(string Name, string Desc)
+	{
+		if (Multiplayer.IsServer())
+		{
+			Rpc("LocalAddGhostRole", Name, Desc);
+		}
+		RpcId(1, "AddGhostRole", Name, Desc);
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	void RemoveGhostRole(string Name, string Desc)
+	{
+		if (Multiplayer.IsServer())
+		{
+			Rpc("LocalRemoveGhostRole", Name, Desc);
+		}
+		RpcId(1, "RemoveGhostRole", Name, Desc);
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	void GiveGhostRole(string Name, string Desc)
+	{
+		if (Multiplayer.IsServer())
+		{
+			Rpc("LocalRemoveGhostRole", Name, Desc);
+		}
+	}
+	
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	void SyncGhostRoles(int Id)
+	{
+		if (Multiplayer.IsServer())
+		{
+			foreach (GhostRoleData item in GhostRoles)
+			{
+				RpcId(Id, "LocalAddGhostRole", item.RoleName, item.RoleDesc);
+			}
+		}
+	}
+
+	//Local ghost role methods
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	void LocalAddGhostRole(string Name, string Desc)
+	{
+		GhostRoles.Add(new GhostRoleData()
+		{
+			RoleName = Name,
+			RoleDesc = Desc
+		});
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	void LocalRemoveGhostRole(string Name, string Desc)
+	{
+		GhostRoles.Remove(new GhostRoleData()
+		{
+			RoleName = Name,
+			RoleDesc = Desc
+		});
 	}
 
 	/// <summary>
