@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://cihou7d1inwqr"]
 
 [ext_resource type="Script" uid="uid://blc4ydnplrj5d" path="res://CSharp/Menu/LobbyMenu.cs" id="1_oc7xs"]
-[ext_resource type="Script" uid="uid://co6a4ifufmqjg" path="res://CSharp/Menu/PlayerList.cs" id="2_poa8f"]
-[ext_resource type="PackedScene" uid="uid://bchnl4i3iou4v" path="res://Scenes/DevTools/MapLoaderMenu.tscn" id="3_poa8f"]
+[ext_resource type="PackedScene" uid="uid://64tjgddbvfem" path="res://Scenes/Admin/AdminPanelButton.tscn" id="3_poa8f"]
 [ext_resource type="PackedScene" uid="uid://cacj7lasth271" path="res://Scenes/Multiplayer/ChatPanel.tscn" id="4_c60v6"]
+[ext_resource type="PackedScene" uid="uid://bn8o4gdbntow8" path="res://Scenes/Admin/AdminPanel.tscn" id="4_qpghk"]
 
 [node name="LobbyMenu" type="Control" unique_id=1965122323]
 layout_mode = 3
@@ -27,21 +27,6 @@ grow_horizontal = 0
 theme_override_font_sizes/font_size = 23
 text = "You are in a server"
 
-[node name="ItemList" type="ItemList" parent="." unique_id=462654882]
-layout_mode = 0
-offset_right = 218.0
-offset_bottom = 172.0
-script = ExtResource("2_poa8f")
-
-[node name="Refresh" type="Button" parent="ItemList" unique_id=1063182551]
-layout_mode = 0
-offset_left = 150.0
-offset_top = 141.0
-offset_right = 218.0
-offset_bottom = 172.0
-text = "Refresh
-"
-
 [node name="SpectateButton" type="Button" parent="." unique_id=1862143943]
 layout_mode = 1
 anchors_preset = 1
@@ -53,18 +38,6 @@ offset_right = -170.0
 offset_bottom = 87.0
 grow_horizontal = 0
 text = "Spectate"
-
-[node name="MapLoaderMenu" parent="." unique_id=336366585 instance=ExtResource("3_poa8f")]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_right = 0.0
-offset_left = 1.0
-offset_top = -153.0
-offset_right = 279.0
-offset_bottom = -2.0
-grow_horizontal = 1
-grow_vertical = 0
 
 [node name="ChatPanel" parent="." unique_id=538469212 instance=ExtResource("4_c60v6")]
 layout_mode = 1
@@ -80,5 +53,26 @@ offset_bottom = -2.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[connection signal="pressed" from="ItemList/Refresh" to="ItemList" method="RefreshButtonPressed"]
+[node name="AdminPanelButton" parent="." unique_id=178903739 node_paths=PackedStringArray("ChangeControl") instance=ExtResource("3_poa8f")]
+layout_mode = 0
+anchor_left = 0.0034722222
+anchor_top = 0.0061728396
+anchor_right = 0.059027776
+anchor_bottom = 0.10493827
+offset_right = 0.0
+offset_bottom = 0.0
+ChangeControl = NodePath("../AdminPanel")
+metadata/_edit_use_anchors_ = true
+
+[node name="AdminPanel" parent="." unique_id=337577654 instance=ExtResource("4_qpghk")]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.36024305
+anchor_top = 0.38425925
+anchor_right = 0.6440972
+anchor_bottom = 0.61419755
+offset_right = 0.0
+offset_bottom = 0.0
+
 [connection signal="pressed" from="SpectateButton" to="." method="SpectateButtonPressed"]

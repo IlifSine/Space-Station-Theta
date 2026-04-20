@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://64tjgddbvfem"]
+
+[ext_resource type="Texture2D" uid="uid://ck5m3og8a3wr2" path="res://AdminPanelIcon.png" id="1_awtvr"]
+[ext_resource type="Script" uid="uid://bxukcvev3idw3" path="res://CSharp/BasicUI/VisibleButton.cs" id="2_t7gyl"]
+
+[node name="AdminPanelButton" type="Button" unique_id=178903739]
+offset_right = 145.0
+offset_bottom = 145.0
+icon = ExtResource("1_awtvr")
+expand_icon = true
+script = ExtResource("2_t7gyl")
+
+[connection signal="pressed" from="." to="." method="OnPressed"]

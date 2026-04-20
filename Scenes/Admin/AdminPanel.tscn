@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://bn8o4gdbntow8"]
+
+[ext_resource type="Script" uid="uid://bxukcvev3idw3" path="res://CSharp/BasicUI/VisibleButton.cs" id="2_cel5h"]
+[ext_resource type="PackedScene" uid="uid://bkaieq1rlvhjy" path="res://Scenes/Admin/PlayersList.tscn" id="2_go13l"]
+[ext_resource type="PackedScene" uid="uid://bchnl4i3iou4v" path="res://Scenes/Admin/DevTools/MapLoaderMenu.tscn" id="2_xguqf"]
+[ext_resource type="PackedScene" uid="uid://b1wsf3e1hjjr2" path="res://Scenes/BasicUI/ParentVisibleButton.tscn" id="4_xguqf"]
+
+[node name="AdminPanel" type="Panel" unique_id=337577654]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -780.0
+offset_bottom = -499.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="." unique_id=522950427]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 28.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 20
+text = "Admin Panel"
+horizontal_alignment = 1
+
+[node name="HFlowContainer" type="HFlowContainer" parent="." unique_id=232198863]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.17300001
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 1.2229996
+offset_right = -2.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MapLoaderButton" type="Button" parent="HFlowContainer" unique_id=464949715 node_paths=PackedStringArray("ChangeControl")]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Map Loader"
+script = ExtResource("2_cel5h")
+ChangeControl = NodePath("../../MapLoaderMenu")
+
+[node name="PlayerListButton" type="Button" parent="HFlowContainer" unique_id=1069473447 node_paths=PackedStringArray("ChangeControl")]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Players"
+script = ExtResource("2_cel5h")
+ChangeControl = NodePath("../../PlayersList")
+
+[node name="MapLoaderMenu" parent="." unique_id=336366585 instance=ExtResource("2_xguqf")]
+visible = false
+layout_mode = 0
+offset_left = 13.0
+offset_top = -18.0
+offset_right = 346.0
+offset_bottom = 152.0
+
+[node name="PlayersList" parent="." unique_id=2003062828 instance=ExtResource("2_go13l")]
+visible = false
+layout_mode = 0
+offset_left = 77.0
+offset_top = -12.0
+offset_right = 295.0
+offset_bottom = 160.0
+
+[node name="ParentVisibleButton" parent="." unique_id=1778721774 instance=ExtResource("4_xguqf")]
+layout_mode = 1
+anchor_left = 0.90591395
+anchor_top = 0.026845638
+anchor_right = 0.9919355
+anchor_bottom = 0.24161074
+
+[connection signal="pressed" from="HFlowContainer/MapLoaderButton" to="HFlowContainer/MapLoaderButton" method="OnPressed"]
+[connection signal="pressed" from="HFlowContainer/PlayerListButton" to="HFlowContainer/PlayerListButton" method="OnPressed"]
