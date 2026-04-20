@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://uqtwwlwj4a1n"]
+
+[ext_resource type="Script" uid="uid://bxukcvev3idw3" path="res://CSharp/BasicUI/VisibleButton.cs" id="1_culab"]
+
+[node name="GhostRolesPanelButton" type="Button" unique_id=1964959115]
+offset_right = 33.0
+offset_bottom = 17.0
+text = "Ghost Roles"
+script = ExtResource("1_culab")
+
+[connection signal="pressed" from="." to="." method="OnPressed"]

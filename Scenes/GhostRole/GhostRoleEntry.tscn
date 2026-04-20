@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://di082ee8ipqqq"]
+
+[node name="GhostRoleEntry" type="Button" unique_id=459646117]
+offset_right = 190.0
+offset_bottom = 60.0
+
+[node name="RoleNameLabel" type="Label" parent="." unique_id=673774460]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 20.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 14
+text = "ERROR"
+
+[node name="RoleDescLabel" type="Label" parent="." unique_id=1581212603]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.31666666
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.76, 0.76, 0.76, 1)
+theme_override_font_sizes/font_size = 12
+text = "if you see this, YELL AT CODERS"
+metadata/_edit_use_anchors_ = true
