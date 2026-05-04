@@ -7,6 +7,7 @@ public partial class Ghost : CharacterBody3D
 	[Export] public Camera3D Camera;
 	[Export] public RayCast3D ExamineRay;
 	[Export] public Label ExamineLabel;
+	[Export] public CanvasLayer canvasLayer;
 
 	//Networking & multiplayer
 	private bool Authority;
@@ -33,6 +34,7 @@ public partial class Ghost : CharacterBody3D
 		else
 		{
 			Camera.ClearCurrent();
+			canvasLayer.QueueFree();
 		}
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 	}
