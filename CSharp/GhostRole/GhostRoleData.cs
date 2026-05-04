@@ -1,6 +1,6 @@
 
 public partial class GhostRoleData
 {
-    public string RoleName;
-    public string RoleDesc;
+	public string RoleName;
+	public string RoleDesc;
 }

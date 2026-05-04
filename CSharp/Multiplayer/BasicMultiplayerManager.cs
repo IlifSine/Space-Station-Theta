@@ -87,6 +87,9 @@ public partial class BasicMultiplayerManager : Node
 		//Loading lobby
 		var LobbyMenuInstance = ResourceLoader.Load<PackedScene>(LobbyMenuPath).Instantiate<LobbyMenu>();
 		GetTree().Root.AddChild(LobbyMenuInstance);
+		//Loading ghost roles
+		var gameWorld = GetNode<GameWorld>("/root/GameWorld");
+		gameWorld.SyncGhostRoles(Multiplayer.GetUniqueId());
 	}
 
 	private void ConnectionFailed()

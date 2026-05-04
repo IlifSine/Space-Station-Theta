@@ -11,32 +11,43 @@ public partial class GameWorld : Node
 	public override void _Ready()
 	{
 		replicationManager = GetNode<ReplicationManager>(ReplicationManagerPath);
+		//DEBUG.
+		if (Multiplayer.IsServer())
+		{
+			AddGhostRole("Ugly", "Ur ugly guy");
+		}
 	}
 
 	//Ghost roles
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	void AddGhostRole(string Name, string Desc)
+	public void AddGhostRole(string Name, string Desc)
 	{
 		if (Multiplayer.IsServer())
 		{
 			Rpc("LocalAddGhostRole", Name, Desc);
 		}
-		RpcId(1, "AddGhostRole", Name, Desc);
+		else
+		{
+			RpcId(1, "AddGhostRole", Name, Desc);
+		}
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	void RemoveGhostRole(string Name, string Desc)
+	public void RemoveGhostRole(string Name, string Desc)
 	{
 		if (Multiplayer.IsServer())
 		{
 			Rpc("LocalRemoveGhostRole", Name, Desc);
 		}
-		RpcId(1, "RemoveGhostRole", Name, Desc);
+		else
+		{
+			RpcId(1, "RemoveGhostRole", Name, Desc);
+		}
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	void GiveGhostRole(string Name, string Desc)
+	public void GiveGhostRole(string Name, string Desc)
 	{
 		if (Multiplayer.IsServer())
 		{
@@ -45,7 +56,7 @@ public partial class GameWorld : Node
 	}
 	
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	void SyncGhostRoles(int Id)
+	public void SyncGhostRoles(int Id)
 	{
 		if (Multiplayer.IsServer())
 		{
@@ -54,6 +65,8 @@ public partial class GameWorld : Node
 				RpcId(Id, "LocalAddGhostRole", item.RoleName, item.RoleDesc);
 			}
 		}
+		//DEBUG
+		PrintGhostRoles();
 	}
 
 	//Local ghost role methods
@@ -76,6 +89,18 @@ public partial class GameWorld : Node
 			RoleName = Name,
 			RoleDesc = Desc
 		});
+	}
+
+	//Debug ghost role methods
+
+	void PrintGhostRoles()
+	{
+		GD.Print("Current Ghost Roles:");
+		foreach (GhostRoleData item in GhostRoles)
+		{
+			GD.Print(item.RoleName);
+		}
+		GD.Print("GhostRolePrint ended");
 	}
 
 	/// <summary>
