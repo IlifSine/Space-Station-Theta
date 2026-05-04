@@ -34,6 +34,7 @@ anchor_right = 0.995
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 18
 metadata/_edit_use_anchors_ = true
 
 [connection signal="visibility_changed" from="." to="." method="RefreshRoles"]
