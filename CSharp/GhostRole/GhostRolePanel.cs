@@ -13,6 +13,10 @@ public partial class GhostRolePanel : Panel
 
 	public void RefreshRoles()
 	{   
+		foreach (var item in Container.GetChildren())
+		{
+			item.QueueFree();
+		}
 		foreach (GhostRoleData item in gameWorld.GhostRoles)
 		{
 			var EntryInstance = PackedEntry.Instantiate();
