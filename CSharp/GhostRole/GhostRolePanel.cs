@@ -24,6 +24,5 @@ public partial class GhostRolePanel : Panel
 			EntryInstance.GetNode<Label>("RoleDescLabel").Text = item.RoleDesc;
 			Container.AddChild(EntryInstance);
 		}
-		gameWorld.PrintGhostRoles();
 	}
 }

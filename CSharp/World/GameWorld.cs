@@ -27,10 +27,10 @@ public partial class GameWorld : Node
 		{
 			Rpc("LocalAddGhostRole", Name, Desc);
 		}
-		else
+		/*else
 		{
 			RpcId(1, "AddGhostRole", Name, Desc);
-		}
+		}*/
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
@@ -40,10 +40,10 @@ public partial class GameWorld : Node
 		{
 			Rpc("LocalRemoveGhostRole", Name, Desc);
 		}
-		else
+		/*else
 		{
 			RpcId(1, "RemoveGhostRole", Name, Desc);
-		}
+		}*/
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
