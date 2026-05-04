@@ -9,13 +9,14 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_judj1"]
 
-[node name="Ghost" type="CharacterBody3D" unique_id=567435747 node_paths=PackedStringArray("Camera", "ExamineRay", "ExamineLabel")]
+[node name="Ghost" type="CharacterBody3D" unique_id=567435747 node_paths=PackedStringArray("Camera", "ExamineRay", "ExamineLabel", "canvasLayer")]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_judj1")
 Camera = NodePath("Camera3D")
 ExamineRay = NodePath("ExamineRay")
 ExamineLabel = NodePath("CanvasLayer/ExamineLabel")
+canvasLayer = NodePath("CanvasLayer")
 
 [node name="SyncTimer" type="Timer" parent="." unique_id=1361730313]
 wait_time = 0.1
