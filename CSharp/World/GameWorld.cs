@@ -4,13 +4,18 @@ using Godot;
 
 public partial class GameWorld : Node
 {
-	private List<GhostRoleData> GhostRoles = new List<GhostRoleData>();
-	private string ReplicationManagerPath = "/root/ReplicationManager";
-	private ReplicationManager replicationManager;
+	public List<GhostRoleData> GhostRoles = new List<GhostRoleData>();
+	string ReplicationManagerPath = "/root/ReplicationManager";
+	ReplicationManager replicationManager;
 
 	public override void _Ready()
 	{
 		replicationManager = GetNode<ReplicationManager>(ReplicationManagerPath);
+		//DEBUG.
+		if (Multiplayer.IsServer())
+		{
+			AddGhostRole("Ugly", "Ur ugly guy");
+		}
 	}
 
 	//Ghost roles
@@ -82,6 +87,18 @@ public partial class GameWorld : Node
 			RoleName = Name,
 			RoleDesc = Desc
 		});
+	}
+
+	//Debug ghost role methods
+
+	public void PrintGhostRoles()
+	{
+		GD.Print("Current Ghost Roles:");
+		foreach (GhostRoleData item in GhostRoles)
+		{
+			GD.Print(item.RoleName);
+		}
+		GD.Print("GhostRolePrint ended");
 	}
 
 	/// <summary>
