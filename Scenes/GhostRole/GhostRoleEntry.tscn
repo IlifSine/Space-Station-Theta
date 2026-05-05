@@ -1,9 +1,14 @@
 [gd_scene format=3 uid="uid://di082ee8ipqqq"]
 
-[node name="GhostRoleEntry" type="Button" unique_id=459646117]
+[ext_resource type="Script" uid="uid://bm8hip4tjqslv" path="res://CSharp/GhostRole/GhostRoleEntry.cs" id="1_sndyf"]
+
+[node name="GhostRoleEntry" type="Button" unique_id=459646117 node_paths=PackedStringArray("RoleNameLabel", "RoleDescLabel")]
 anchors_preset = -1
 anchor_right = 0.16493055
 anchor_bottom = 0.10493827
+script = ExtResource("1_sndyf")
+RoleNameLabel = NodePath("RoleNameLabel")
+RoleDescLabel = NodePath("RoleDescLabel")
 metadata/_edit_use_anchors_ = true
 
 [node name="RoleNameLabel" type="Label" parent="." unique_id=673774460]

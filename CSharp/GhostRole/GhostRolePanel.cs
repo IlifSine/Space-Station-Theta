@@ -1,3 +1,4 @@
+//Licensed under AGPL 3.0. Glory to communism!
 using Godot;
 
 public partial class GhostRolePanel : Panel
@@ -13,16 +14,21 @@ public partial class GhostRolePanel : Panel
 
 	public void RefreshRoles()
 	{   
+		//Deleting old GhostRoleEntrys
 		foreach (var item in Container.GetChildren())
 		{
 			item.QueueFree();
 		}
+		//Instantiateing new GhostRoleEntrys
+		int roleIndex = 0;
 		foreach (GhostRoleData item in gameWorld.GhostRoles)
 		{
-			var EntryInstance = PackedEntry.Instantiate();
-			EntryInstance.GetNode<Label>("RoleNameLabel").Text = item.RoleName;
-			EntryInstance.GetNode<Label>("RoleDescLabel").Text = item.RoleDesc;
+			GhostRoleEntry EntryInstance = PackedEntry.Instantiate<GhostRoleEntry>();
+			EntryInstance.RoleNameLabel.Text = item.RoleName;
+			EntryInstance.RoleDescLabel.Text = item.RoleDesc;
+			EntryInstance.RoleIndex = roleIndex;
 			Container.AddChild(EntryInstance);
+			roleIndex++;
 		}
 	}
 }

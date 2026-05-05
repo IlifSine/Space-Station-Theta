@@ -29,24 +29,24 @@ public partial class GameWorld : Node
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	public void RemoveGhostRole(string Name, string Desc)
+	public void RemoveGhostRole(int RoleId)
 	{
 		if (Multiplayer.IsServer())
 		{
-			Rpc("LocalRemoveGhostRole", Name, Desc);
+			Rpc("LocalRemoveGhostRole", RoleId);
 		}
 		/*else
 		{
-			RpcId(1, "RemoveGhostRole", Name, Desc);
+			RpcId(1, "RemoveGhostRole", RoleId);
 		}*/
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	public void GiveGhostRole(string Name, string Desc)
+	public void GiveGhostRole(int RoleId)
 	{
 		if (Multiplayer.IsServer())
 		{
-			Rpc("LocalRemoveGhostRole", Name, Desc);
+			Rpc("RemoveGhostRole", RoleId);
 		}
 	}
 	
@@ -55,7 +55,6 @@ public partial class GameWorld : Node
 	{
 		if (Multiplayer.IsServer())
 		{
-			PrintGhostRoles();
 			foreach (GhostRoleData item in GhostRoles)
 			{
 				RpcId(Id, "LocalAddGhostRole", item.RoleName, item.RoleDesc);
@@ -80,13 +79,9 @@ public partial class GameWorld : Node
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	void LocalRemoveGhostRole(string Name, string Desc)
+	void LocalRemoveGhostRole(int RoleId)
 	{
-		GhostRoles.Remove(new GhostRoleData()
-		{
-			RoleName = Name,
-			RoleDesc = Desc
-		});
+		GhostRoles.RemoveAt(RoleId);
 	}
 
 	//Debug ghost role methods
