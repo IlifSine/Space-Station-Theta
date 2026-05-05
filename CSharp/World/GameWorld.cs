@@ -11,11 +11,6 @@ public partial class GameWorld : Node
 	public override void _Ready()
 	{
 		replicationManager = GetNode<ReplicationManager>(ReplicationManagerPath);
-		//DEBUG.
-		if (Multiplayer.IsServer())
-		{
-			AddGhostRole("Ugly", "Ur ugly guy");
-		}
 	}
 
 	//Ghost roles
@@ -60,10 +55,15 @@ public partial class GameWorld : Node
 	{
 		if (Multiplayer.IsServer())
 		{
+			PrintGhostRoles();
 			foreach (GhostRoleData item in GhostRoles)
 			{
 				RpcId(Id, "LocalAddGhostRole", item.RoleName, item.RoleDesc);
 			}
+		}
+		else
+		{
+			RpcId(1, "SyncGhostRoles", Id);
 		}
 	}
 

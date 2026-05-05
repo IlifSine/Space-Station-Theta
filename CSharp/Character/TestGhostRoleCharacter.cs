@@ -8,15 +8,10 @@ public partial class TestGhostRoleCharacter : Node3D
 	bool Authority;
 	public override void _Ready()
 	{
-		//DEBUG
-		GD.Print("sss");
 		gameWorld = GetNode<GameWorld>(GameWorldPath);
 		if (Multiplayer.IsServer())
 		{
-			//DEBUG
-			GD.Print("ddd");
 			gameWorld.AddGhostRole("Test Role", "Coder is testing");
-			gameWorld.PrintGhostRoles();
 		}
 	}
 

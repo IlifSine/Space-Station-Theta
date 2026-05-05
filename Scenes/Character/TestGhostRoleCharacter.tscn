@@ -8,3 +8,10 @@ Camera = NodePath("Camera3D")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1388462725]
 fov = 120.016266
+
+[node name="Timer" type="Timer" parent="." unique_id=512121485]
+wait_time = 1.706
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="LoadGhostRole"]
