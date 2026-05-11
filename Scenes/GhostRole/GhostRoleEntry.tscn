@@ -34,3 +34,5 @@ theme_override_font_sizes/font_size = 10
 text = "if you see this, YELL AT CODERS"
 autowrap_mode = 3
 metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="." to="." method="PickRole"]

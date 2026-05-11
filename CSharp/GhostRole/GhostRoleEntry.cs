@@ -9,6 +9,7 @@ public partial class GhostRoleEntry : Button
 
 	void PickRole()
 	{
-		
+		GetNode<GhostRolePanel>("../../").PickRole(RoleIndex);
+		QueueFree();
 	}
 }

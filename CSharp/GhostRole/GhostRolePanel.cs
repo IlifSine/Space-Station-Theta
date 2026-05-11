@@ -31,4 +31,9 @@ public partial class GhostRolePanel : Panel
 			roleIndex++;
 		}
 	}
+
+	public void PickRole(int RoleIndex)
+	{
+		gameWorld.GiveGhostRole(RoleIndex, Multiplayer.GetUniqueId());
+	}
 }

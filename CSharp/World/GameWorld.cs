@@ -42,11 +42,15 @@ public partial class GameWorld : Node
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	public void GiveGhostRole(int RoleId)
+	public void GiveGhostRole(int RoleId, int PlayerId)
 	{
 		if (Multiplayer.IsServer())
 		{
 			Rpc("RemoveGhostRole", RoleId);
+		}
+		else
+		{
+			RpcId(1, "GiveGhostRole", RoleId, PlayerId);
 		}
 	}
 	
