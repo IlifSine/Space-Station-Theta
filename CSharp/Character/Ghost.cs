@@ -9,9 +9,6 @@ public partial class Ghost : CharacterBody3D
 	[Export] public Label ExamineLabel;
 	[Export] public CanvasLayer canvasLayer;
 
-	//Networking & multiplayer
-	private bool Authority;
-
 	//Characteristics
 	private float MouseSensivity = 1f;
 
@@ -26,8 +23,7 @@ public partial class Ghost : CharacterBody3D
 
 	public override void _Ready()
 	{
-		Authority = GetMultiplayerAuthority() == Multiplayer.GetUniqueId();
-		if (Authority)
+		if (IsMultiplayerAuthority())
 		{
 			Camera.MakeCurrent();
 		}
@@ -41,7 +37,7 @@ public partial class Ghost : CharacterBody3D
 
 	public override void _Input(InputEvent Event)
 	{
-		if (Authority)
+		if (IsMultiplayerAuthority())
 		{
 		//Camera rotation
 		if (Event is InputEventMouseMotion MouseEvent && Input.MouseMode == Input.MouseModeEnum.Captured)
@@ -98,7 +94,7 @@ public partial class Ghost : CharacterBody3D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (Authority || Multiplayer.IsServer())
+		if (IsMultiplayerAuthority() || Multiplayer.IsServer())
 		{
 			Vector3 velocity = Velocity;
 			Vector3 direction = (Transform.Basis * new Vector3(WalkDirection.X, 0, WalkDirection.Y)).Normalized();

@@ -5,6 +5,7 @@ using Godot;
 public partial class GameWorld : Node
 {
 	public List<GhostRoleData> GhostRoles = new List<GhostRoleData>();
+	List<Node3D> RoleNodes = new List<Node3D>();
 	string ReplicationManagerPath = "/root/ReplicationManager";
 	ReplicationManager replicationManager;
 
@@ -16,11 +17,12 @@ public partial class GameWorld : Node
 	//Ghost roles
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	public void AddGhostRole(string Name, string Desc)
+	public void AddGhostRole(string Name, string Desc, string Path)
 	{
 		if (Multiplayer.IsServer())
 		{
 			Rpc("LocalAddGhostRole", Name, Desc);
+			RoleNodes.Add(GetNode<Node3D>(Path));
 		}
 		/*else
 		{
@@ -34,6 +36,7 @@ public partial class GameWorld : Node
 		if (Multiplayer.IsServer())
 		{
 			Rpc("LocalRemoveGhostRole", RoleId);
+			RoleNodes.RemoveAt(RoleId);
 		}
 		/*else
 		{
@@ -46,6 +49,8 @@ public partial class GameWorld : Node
 	{
 		if (Multiplayer.IsServer())
 		{
+			RoleNodes[RoleId].SetMultiplayerAuthority(PlayerId);
+			RoleNodes[RoleId].Rpc("RefreshAuthority");
 			Rpc("RemoveGhostRole", RoleId);
 		}
 		else
@@ -85,6 +90,11 @@ public partial class GameWorld : Node
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	void LocalRemoveGhostRole(int RoleId)
 	{
+		if (RoleId < 0 || RoleId >= GhostRoles.Count)
+		{
+			GD.PushError($"LocalRemoveGhostRole: invalid RoleId {RoleId}, GhostRoles count = {GhostRoles.Count}");
+			return;
+		}
 		GhostRoles.RemoveAt(RoleId);
 	}
 
