@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://ba22vnujyv16v" path="res://icon.svg" id="2_u55w5"]
 [ext_resource type="PackedScene" uid="uid://64tjgddbvfem" path="res://Scenes/Admin/AdminPanelButton.tscn" id="3_mygd6"]
 [ext_resource type="PackedScene" uid="uid://bn8o4gdbntow8" path="res://Scenes/Admin/AdminPanel.tscn" id="4_njkq3"]
-[ext_resource type="PackedScene" uid="uid://uqtwwlwj4a1n" path="res://Scenes/GhostRole/GhostRolesPanelButton.tscn" id="5_njkq3"]
-[ext_resource type="PackedScene" uid="uid://cdmdaev3a5l5v" path="res://Scenes/GhostRole/GhostRolePanel.tscn" id="5_ny5it"]
+[ext_resource type="PackedScene" uid="uid://uqtwwlwj4a1n" path="res://Scenes/Multiplayer/GhostRole/GhostRolesPanelButton.tscn" id="5_njkq3"]
+[ext_resource type="PackedScene" uid="uid://cdmdaev3a5l5v" path="res://Scenes/Multiplayer/GhostRole/GhostRolePanel.tscn" id="5_ny5it"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_judj1"]
 
