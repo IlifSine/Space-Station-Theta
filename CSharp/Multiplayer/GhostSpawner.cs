@@ -11,6 +11,11 @@ public partial class GhostSpawner : Node
 		Rpc("RpcSpawnGhost", Multiplayer.GetUniqueId());
 	}
 
+	public void DespawnGhost(int GhostPlayerId)
+	{
+		Rpc("RpcDespawnGhost", GhostPlayerId);
+	}
+
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	public void RpcSpawnGhost(int GhostPlayerId)
 	{
@@ -18,5 +23,21 @@ public partial class GhostSpawner : Node
 		GhostInstance.SetMultiplayerAuthority(GhostPlayerId);
 		GetNode<Node>("..").GetChildren().OfType<Node3D>().FirstOrDefault().AddChild(GhostInstance);
 		GhostInstance.Name = GhostInstance.Name + GhostPlayerId;
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	public void RpcDespawnGhost(int GhostPlayerId)
+	{
+		foreach (GameMap item in GetNode<GameWorld>("/root/GameWorld").GetChildren().OfType<GameMap>())
+		{
+			foreach (Ghost ghost in item.GetChildren().OfType<Ghost>())
+			{
+				if (ghost.GetMultiplayerAuthority() == GhostPlayerId)
+				{
+					ghost.QueueFree();
+					break;
+				}
+			}
+		}
 	}
 }
