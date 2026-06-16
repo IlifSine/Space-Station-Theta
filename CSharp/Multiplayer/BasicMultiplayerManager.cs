@@ -9,7 +9,9 @@ public partial class BasicMultiplayerManager : Node
 	private string ServerPanelPath = "res://Scenes/Menu/LobbyMenu.tscn";
 
 	private string GameWorldPath = "/root/GameWorld";
-	private GameWorld GameWorldInstance;
+	private string GhostManagerPath = "/root/GameWorld/GhostManager";
+	private GameWorld gameWorld;
+	private GhostManager ghostManager;
 	private string ReplicationManagerPath = "/root/ReplicationManager";
 	private ReplicationManager ReplicationManagerInstance;
 
@@ -21,7 +23,8 @@ public partial class BasicMultiplayerManager : Node
 	public override void _Ready()
 	{
 		ReplicationManagerInstance = GetNode<ReplicationManager>(ReplicationManagerPath);
-		GameWorldInstance = GetNode<GameWorld>(GameWorldPath);
+		gameWorld = GetNode<GameWorld>(GameWorldPath);
+		ghostManager = GetNode<GhostManager>(GhostManagerPath);
 
 		Multiplayer.PeerConnected += PeerConnected;
 		Multiplayer.PeerDisconnected += PeerDisconnected;
@@ -58,7 +61,7 @@ public partial class BasicMultiplayerManager : Node
 		var LobbyMenuInstance = ResourceLoader.Load<PackedScene>(LobbyMenuPath).Instantiate<LobbyMenu>();
 		GetTree().Root.CallDeferred(Node.MethodName.AddChild, LobbyMenuInstance);
 		//Loading map
-		GameWorldInstance.LoadMap("Dev");
+		gameWorld.LoadMap("Dev");
 
 		GD.Print("Hosted server");
 	}
@@ -87,6 +90,8 @@ public partial class BasicMultiplayerManager : Node
 		//Loading lobby
 		var LobbyMenuInstance = ResourceLoader.Load<PackedScene>(LobbyMenuPath).Instantiate<LobbyMenu>();
 		GetTree().Root.AddChild(LobbyMenuInstance);
+		//Loading ghost roles
+		ghostManager.SyncGhostRoles(Multiplayer.GetUniqueId());
 	}
 
 	private void ConnectionFailed()

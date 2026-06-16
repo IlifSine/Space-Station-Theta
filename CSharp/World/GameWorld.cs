@@ -3,8 +3,8 @@ using Godot;
 
 public partial class GameWorld : Node
 {
-	private string ReplicationManagerPath = "/root/ReplicationManager";
-	private ReplicationManager replicationManager;
+	string ReplicationManagerPath = "/root/ReplicationManager";
+	ReplicationManager replicationManager;
 
 	public override void _Ready()
 	{

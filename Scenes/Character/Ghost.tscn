@@ -2,6 +2,10 @@
 
 [ext_resource type="Script" uid="uid://dxh77d6pxnkw5" path="res://CSharp/Character/Ghost.cs" id="1_judj1"]
 [ext_resource type="Texture2D" uid="uid://ba22vnujyv16v" path="res://icon.svg" id="2_u55w5"]
+[ext_resource type="PackedScene" uid="uid://64tjgddbvfem" path="res://Scenes/Admin/AdminPanelButton.tscn" id="3_mygd6"]
+[ext_resource type="PackedScene" uid="uid://bn8o4gdbntow8" path="res://Scenes/Admin/AdminPanel.tscn" id="4_njkq3"]
+[ext_resource type="PackedScene" uid="uid://uqtwwlwj4a1n" path="res://Scenes/Multiplayer/GhostRole/GhostRolesPanelButton.tscn" id="5_njkq3"]
+[ext_resource type="PackedScene" uid="uid://cdmdaev3a5l5v" path="res://Scenes/Multiplayer/GhostRole/GhostRolePanel.tscn" id="5_ny5it"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_judj1"]
 
@@ -52,5 +56,47 @@ offset_right = 265.0
 offset_bottom = 90.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="GhostRolesPanelButton" parent="CanvasLayer" unique_id=1964959115 node_paths=PackedStringArray("ChangeControl") instance=ExtResource("5_njkq3")]
+anchors_preset = -1
+anchor_left = 0.453125
+anchor_top = 0.875
+anchor_right = 0.5399306
+anchor_bottom = 0.9228395
+offset_right = 0.0
+offset_bottom = 0.0
+ChangeControl = NodePath("../GhostRolePanel")
+metadata/_edit_use_anchors_ = true
+
+[node name="AdminPanelButton" parent="CanvasLayer" unique_id=178903739 node_paths=PackedStringArray("ChangeControl") instance=ExtResource("3_mygd6")]
+anchors_preset = -1
+anchor_left = 0.0034722222
+anchor_top = 0.0061728396
+anchor_right = 0.059027776
+anchor_bottom = 0.10493827
+offset_right = 0.0
+offset_bottom = 0.0
+ChangeControl = NodePath("../AdminPanel")
+
+[node name="GhostRolePanel" parent="CanvasLayer" unique_id=2051898930 instance=ExtResource("5_ny5it")]
+visible = false
+anchors_preset = -1
+anchor_left = 0.40711805
+anchor_top = 0.31944445
+anchor_right = 0.5807292
+anchor_bottom = 0.62808645
+offset_right = 0.0
+offset_bottom = -3.0517578e-05
+metadata/_edit_use_anchors_ = true
+
+[node name="AdminPanel" parent="CanvasLayer" unique_id=337577654 instance=ExtResource("4_njkq3")]
+visible = false
+anchors_preset = -1
+anchor_left = 0.36024305
+anchor_top = 0.38425925
+anchor_right = 0.6440972
+anchor_bottom = 0.61419755
+offset_right = 0.0
+offset_bottom = 0.0
 
 [connection signal="timeout" from="SyncTimer" to="." method="Sync"]

@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dmg8aw1tcorwy"]
+
+[ext_resource type="Script" uid="uid://blnvvvkqct3g8" path="res://CSharp/Character/TestGhostRoleCharacter.cs" id="1_3iybm"]
+
+[node name="TestGhostRoleCharacter" type="Node3D" unique_id=1465079265 node_paths=PackedStringArray("Camera")]
+script = ExtResource("1_3iybm")
+Camera = NodePath("Camera3D")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1388462725]
+fov = 120.016266
+
+[node name="Timer" type="Timer" parent="." unique_id=512121485]
+wait_time = 1.706
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="LoadGhostRole"]

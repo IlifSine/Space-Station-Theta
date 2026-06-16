@@ -51,6 +51,13 @@ text = "Players"
 script = ExtResource("2_cel5h")
 ChangeControl = NodePath("../../PlayersList")
 
+[node name="ParentVisibleButton" parent="." unique_id=1778721774 instance=ExtResource("4_xguqf")]
+layout_mode = 1
+anchor_left = 0.90591395
+anchor_top = 0.026845638
+anchor_right = 0.9919355
+anchor_bottom = 0.24161074
+
 [node name="MapLoaderMenu" parent="." unique_id=336366585 instance=ExtResource("2_xguqf")]
 visible = false
 layout_mode = 0
@@ -66,13 +73,6 @@ offset_left = 77.0
 offset_top = -12.0
 offset_right = 295.0
 offset_bottom = 160.0
-
-[node name="ParentVisibleButton" parent="." unique_id=1778721774 instance=ExtResource("4_xguqf")]
-layout_mode = 1
-anchor_left = 0.90591395
-anchor_top = 0.026845638
-anchor_right = 0.9919355
-anchor_bottom = 0.24161074
 
 [connection signal="pressed" from="HFlowContainer/MapLoaderButton" to="HFlowContainer/MapLoaderButton" method="OnPressed"]
 [connection signal="pressed" from="HFlowContainer/PlayerListButton" to="HFlowContainer/PlayerListButton" method="OnPressed"]
