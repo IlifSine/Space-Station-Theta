@@ -4,15 +4,15 @@ using Godot;
 public partial class TestGhostRoleCharacter : Node3D
 {
 	[Export] Camera3D Camera;
-	string GameWorldPath = "/root/GameWorld";
-	GameWorld gameWorld = new GameWorld();
+	string GhostManagerPath = "/root/GameWorld/GhostManager";
+	GhostManager ghostManager = new GhostManager();
 	
 	public override void _Ready()
 	{
-		gameWorld = GetNode<GameWorld>(GameWorldPath);
+		ghostManager = GetNode<GhostManager>(GhostManagerPath);
 		if (Multiplayer.IsServer())
 		{
-			gameWorld.AddGhostRole("Test Role", "Coder is testing", GetPath());
+			ghostManager.AddGhostRole("Test Role", "Coder is testing", GetPath());
 		}
 	}
 

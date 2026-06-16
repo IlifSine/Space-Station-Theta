@@ -5,11 +5,12 @@ public partial class GhostRolePanel : Panel
 {
 	[Export] VBoxContainer Container;
 	[Export] PackedScene PackedEntry;
-	string GameWorldPath = "/root/GameWorld";
-	GameWorld gameWorld = new GameWorld();
+	string GhostManagerPath = "/root/GameWorld/GhostManager";
+	GhostManager ghostManager = new GhostManager();
+
 	public override void _Ready()
 	{
-		gameWorld = GetNode<GameWorld>(GameWorldPath);
+		ghostManager = GetNode<GhostManager>(GhostManagerPath);
 	}
 
 	public void RefreshRoles()
@@ -21,7 +22,7 @@ public partial class GhostRolePanel : Panel
 		}
 		//Instantiateing new GhostRoleEntrys
 		int roleIndex = 0;
-		foreach (GhostRoleData item in gameWorld.GhostRoles)
+		foreach (GhostRoleData item in ghostManager.GhostRoles)
 		{
 			GhostRoleEntry EntryInstance = PackedEntry.Instantiate<GhostRoleEntry>();
 			EntryInstance.RoleNameLabel.Text = item.RoleName;
@@ -34,6 +35,6 @@ public partial class GhostRolePanel : Panel
 
 	public void PickRole(int RoleIndex)
 	{
-		gameWorld.GiveGhostRole(RoleIndex, Multiplayer.GetUniqueId());
+		ghostManager.GiveGhostRole(RoleIndex, Multiplayer.GetUniqueId());
 	}
 }
