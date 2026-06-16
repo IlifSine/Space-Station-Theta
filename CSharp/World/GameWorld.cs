@@ -49,8 +49,7 @@ public partial class GameWorld : Node
 	{
 		if (Multiplayer.IsServer())
 		{
-			RoleNodes[RoleId].SetMultiplayerAuthority(PlayerId);
-			RoleNodes[RoleId].Rpc("RefreshAuthority");
+			RoleNodes[RoleId].Rpc("ChangeOwner", PlayerId); 
 			Rpc("RemoveGhostRole", RoleId);
 		}
 		else

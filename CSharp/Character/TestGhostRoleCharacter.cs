@@ -17,6 +17,12 @@ public partial class TestGhostRoleCharacter : Node3D
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	void ChangeOwner(int PlayerId)
+	{
+		SetMultiplayerAuthority(PlayerId);
+		RefreshAuthority();
+	}
+
 	void RefreshAuthority()
 	{
 		if (IsMultiplayerAuthority())
