@@ -2,7 +2,7 @@
 using System.Linq;
 using Godot;
 
-public partial class GhostSpawner : Node
+public partial class GhostManager : Node
 {
 	[Export] private PackedScene GhostScene;
 

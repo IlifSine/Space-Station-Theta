@@ -3,7 +3,7 @@ using Godot;
 
 public partial class LobbyMenu : Control
 {
-	private string GhostSpawnerPath = "/root/GameWorld/GhostSpawner";
+	private string GhostManagerPath = "/root/GameWorld/GhostManager";
 
 	public override void _Ready()
 	{
@@ -12,7 +12,7 @@ public partial class LobbyMenu : Control
 
 	public void SpectateButtonPressed()
 	{
-		GetNode<GhostSpawner>(GhostSpawnerPath).SpawnGhost();
+		GetNode<GhostManager>(GhostManagerPath).SpawnGhost();
 		QueueFree();
 	}
 }

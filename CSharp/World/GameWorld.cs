@@ -8,7 +8,7 @@ public partial class GameWorld : Node
 	List<Node3D> RoleNodes = new List<Node3D>();
 	string ReplicationManagerPath = "/root/ReplicationManager";
 	ReplicationManager replicationManager;
-	[Export] GhostSpawner ghostSpawner;
+	[Export] GhostManager GhostManager;
 
 	public override void _Ready()
 	{
@@ -51,7 +51,7 @@ public partial class GameWorld : Node
 		if (Multiplayer.IsServer())
 		{
 			RoleNodes[RoleId].Rpc("ChangeOwner", PlayerId);
-			ghostSpawner.DespawnGhost(PlayerId);
+			GhostManager.DespawnGhost(PlayerId);
 			Rpc("RemoveGhostRole", RoleId);
 		}
 		else
