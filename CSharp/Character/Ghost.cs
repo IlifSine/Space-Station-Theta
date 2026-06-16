@@ -9,6 +9,9 @@ public partial class Ghost : CharacterBody3D
 	[Export] public Label ExamineLabel;
 	[Export] public CanvasLayer canvasLayer;
 
+	//Networking & multiplayer
+	private bool Authority;
+
 	//Characteristics
 	private float MouseSensivity = 1f;
 

@@ -9,7 +9,7 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_judj1"]
 
-[node name="Ghost" type="CharacterBody3D" unique_id=567435747 node_paths=PackedStringArray("Camera", "ExamineRay", "ExamineLabel", "canvasLayer")]
+[node name="Ghost" type="CharacterBody3D" unique_id=479645699 node_paths=PackedStringArray("Camera", "ExamineRay", "ExamineLabel", "canvasLayer")]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_judj1")
@@ -18,33 +18,33 @@ ExamineRay = NodePath("ExamineRay")
 ExamineLabel = NodePath("CanvasLayer/ExamineLabel")
 canvasLayer = NodePath("CanvasLayer")
 
-[node name="SyncTimer" type="Timer" parent="." unique_id=1361730313]
+[node name="SyncTimer" type="Timer" parent="." unique_id=1284540366]
 wait_time = 0.1
 autostart = true
 
-[node name="Sprite3D" type="Sprite3D" parent="." unique_id=704712914]
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=1585059781]
 billboard = 1
 texture = ExtResource("2_u55w5")
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=730285527]
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1890486315]
 
-[node name="Area3D" type="Area3D" parent="." unique_id=1457640372]
+[node name="Area3D" type="Area3D" parent="." unique_id=1077688405]
 editor_description = "This is a... ghost?"
 collision_layer = 2
 collision_mask = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1294226787]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1451074607]
 shape = SubResource("BoxShape3D_judj1")
 
-[node name="ExamineRay" type="RayCast3D" parent="." unique_id=313439100]
+[node name="ExamineRay" type="RayCast3D" parent="." unique_id=251543772]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 target_position = Vector3(0, 300, 0)
 collision_mask = 3
 collide_with_areas = true
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=929808986]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1186093967]
 
-[node name="ExamineLabel" type="Label" parent="CanvasLayer" unique_id=931327516]
+[node name="ExamineLabel" type="Label" parent="CanvasLayer" unique_id=276285028]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
