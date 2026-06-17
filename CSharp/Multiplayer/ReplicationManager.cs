@@ -26,15 +26,18 @@ public partial class ReplicationManager : Node
 					{
 						string ObjectPath = ObjectItem.SceneFilePath;
 						Vector3 ObjectPosition;
+						Vector3 ObjectRotation;
 						if (ObjectItem is Node3D Object3d)
 						{
 							ObjectPosition = Object3d.Position;
+							ObjectRotation = Object3d.Rotation;
 						}
 						else
 						{
 							ObjectPosition = new Vector3();
+							ObjectRotation = new Vector3();
 						}
-						RpcId(Id, "ReplicateObject", ObjectPath, MapItem.Name, ObjectItem.Name, ObjectPosition);
+						RpcId(Id, "ReplicateObject", ObjectPath, MapItem.Name, ObjectItem.Name, ObjectPosition, ObjectRotation);
 					}
 				}
 			}
@@ -58,15 +61,18 @@ public partial class ReplicationManager : Node
 			{
 				string ObjectPath = ObjectItem.SceneFilePath;
 				Vector3 ObjectPosition;
+				Vector3 ObjectRotation;
 				if (ObjectItem is Node3D Object3d)
 				{
 					ObjectPosition = Object3d.Position;
+					ObjectRotation = Object3d.Rotation;
 				}
 				else
 				{
 					ObjectPosition = new Vector3();
+					ObjectRotation = new Vector3();
 				}
-				Rpc("ReplicateObject", ObjectPath, Map.Name, ObjectItem.Name, ObjectPosition);
+				Rpc("ReplicateObject", ObjectPath, Map.Name, ObjectItem.Name, ObjectPosition, ObjectRotation);
 				//Objects was duplicating on 1 client, so i decided to QueueFree() original object. Yes, i so lazy to find normal soulution.
 				ObjectItem.QueueFree();
 			}
@@ -78,7 +84,7 @@ public partial class ReplicationManager : Node
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	public void ReplicateObject(string ObjectPath, string MapName, string ObjectName, Vector3 ObjectPosition)
+	public void ReplicateObject(string ObjectPath, string MapName, string ObjectName, Vector3 ObjectPosition, Vector3 ObjectRotation)
 	{
 		PackedScene LoadedObjectScene = new PackedScene();
 		if (ObjectPath != "")
@@ -87,7 +93,7 @@ public partial class ReplicationManager : Node
 		}
 		else
 		{
-			LoadedObjectScene.Pack(new CsgBox3D());
+			LoadedObjectScene.Pack(new Node());
 		}
 		var InstantiatedObject = LoadedObjectScene.Instantiate();
 
@@ -109,6 +115,7 @@ public partial class ReplicationManager : Node
 		if (InstantiatedObject is Node3D InstantiatedObject3d)
 		{
 			InstantiatedObject3d.Position = ObjectPosition;
+			InstantiatedObject3d.Rotation = ObjectRotation;
 		}
 	}
 }
