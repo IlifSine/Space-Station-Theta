@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bw8igb275ite4"]
+
+[ext_resource type="Script" uid="uid://db0nj2oywv3s" path="res://CSharp/Character/ExternalPopup.cs" id="1_xhdwk"]
+
+[node name="ExternalPopup" type="Label3D" unique_id=1164865311 node_paths=PackedStringArray("DurationTimer")]
+script = ExtResource("1_xhdwk")
+DurationTimer = NodePath("Timer")
+
+[node name="Timer" type="Timer" parent="." unique_id=1944404835]
+
+[connection signal="timeout" from="Timer" to="." method="Timeout"]
