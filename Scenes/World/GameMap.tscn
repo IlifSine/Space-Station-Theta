@@ -1,6 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://c1trp3j463fgk"]
+[gd_scene format=3 uid="uid://c1trp3j463fgk"]
 
 [ext_resource type="Script" uid="uid://bof3pa816kpyf" path="res://CSharp/World/GameMap.cs" id="1_4mp8d"]
 
-[node name="GameMap" type="Node3D"]
+[sub_resource type="Environment" id="Environment_4mp8d"]
+background_energy_multiplier = 0.03
+
+[node name="GameMap" type="Node3D" unique_id=1383756493]
 script = ExtResource("1_4mp8d")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1315525388]
+environment = SubResource("Environment_4mp8d")
