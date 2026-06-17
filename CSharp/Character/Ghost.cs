@@ -9,27 +9,31 @@ public partial class Ghost : CharacterBody3D
 	[Export] public Label ExamineLabel;
 	[Export] public CanvasLayer canvasLayer;
 	[Export] public VBoxContainer InternalPopupContainer;
+	[Export] public Node3D ExternalPopupContainer;
 
 	//PackedScene variables
 	[Export] private PackedScene InternalPopupScene;
+	[Export] private PackedScene ExternalPopupScene;
 
 	//Networking & multiplayer
-	private bool Authority;
+	bool Authority;
 
 	//Characteristics
-	private float MouseSensivity = 1f;
+	float MouseSensivity = 1f;
 
-	private bool ControlsDisabled = false;
+	bool ControlsDisabled = false;
 
-	private Vector3 InitialExamineVector;
-	private Vector3 InitialExaminePosition;
+	Vector3 InitialExamineVector;
+	Vector3 InitialExaminePosition;
 
 	//Movement
-	private float Speed = 5.0f;
-	private Vector2 WalkDirection = Vector2.Zero;
+	float Speed = 5.0f;
+	Vector2 WalkDirection = Vector2.Zero;
 
 	//Popup
-	private float InternalPopupWaitTimeMultiplier = 0.2f;
+	float InternalPopupWaitTimeMultiplier = 0.2f;
+	float ExternalPopupWaitTimeMultiplier = 0.2f;
+	float ExternalPopupDistance = 0.2f;
 
 	public override void _Ready()
 	{
@@ -142,11 +146,30 @@ public partial class Ghost : CharacterBody3D
 		if (IsMultiplayerAuthority())
 		{
 			Rpc("ShowExternalPopup", Text);
-			//ShowExternalPopup logic will be here
+			LocalShowExternalPopup(Text);
 		}
 		else
 		{
-			//ShowExternalPopup logic will be here
+			LocalShowExternalPopup(Text);
+		}
+	}
+
+	void LocalShowExternalPopup(string Text)
+	{
+		if (ExternalPopupContainer.GetChildCount() > 0)
+		{
+			var PopupInstance = ExternalPopupScene.Instantiate<ExternalPopup>();
+			ExternalPopupContainer.AddChild(PopupInstance);
+			PopupInstance.Text = Text;
+			PopupInstance.StartTimer(Text.Length * ExternalPopupWaitTimeMultiplier);
+			PopupInstance.Position = new Vector3(0, ExternalPopupDistance * ExternalPopupContainer.GetChildCount(), 0);
+		}
+		else
+		{
+			var PopupInstance = ExternalPopupScene.Instantiate<ExternalPopup>();
+			ExternalPopupContainer.AddChild(PopupInstance);
+			PopupInstance.Text = Text;
+			PopupInstance.StartTimer(Text.Length * ExternalPopupWaitTimeMultiplier);
 		}
 	}
 
@@ -161,25 +184,25 @@ public partial class Ghost : CharacterBody3D
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
-	private void SyncPosition(Vector3 SyncedPosition)
+	void SyncPosition(Vector3 SyncedPosition)
 	{
 		Position = SyncedPosition;
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
-	private void SyncRotation(Vector3 SyncedRotation)
+	void SyncRotation(Vector3 SyncedRotation)
 	{
 		Rotation = SyncedRotation;
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
-	private void SyncVelocity(Vector3 SyncedVelocity)
+	void SyncVelocity(Vector3 SyncedVelocity)
 	{
 		Velocity = SyncedVelocity;
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
-	private void SyncMoveDirection(Vector2 SyncedDirection)
+	void SyncMoveDirection(Vector2 SyncedDirection)
 	{
 		//This if needed to dont let cheaters make cheat which will give superspeed to them.
 		if (SyncedDirection.X <= 1 && SyncedDirection.X >= -1 && SyncedDirection.Y <= 1 && SyncedDirection.Y >= -1)
