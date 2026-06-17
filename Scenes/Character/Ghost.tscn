@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://w0efy3j4gjx5"]
 
 [ext_resource type="Script" uid="uid://dxh77d6pxnkw5" path="res://CSharp/Character/Ghost.cs" id="1_judj1"]
+[ext_resource type="PackedScene" uid="uid://bbresw7153v0g" path="res://Scenes/Character/InternalPopup.tscn" id="2_7xdab"]
 [ext_resource type="Texture2D" uid="uid://ba22vnujyv16v" path="res://icon.svg" id="2_u55w5"]
 [ext_resource type="PackedScene" uid="uid://64tjgddbvfem" path="res://Scenes/Admin/AdminPanelButton.tscn" id="3_mygd6"]
 [ext_resource type="PackedScene" uid="uid://bn8o4gdbntow8" path="res://Scenes/Admin/AdminPanel.tscn" id="4_njkq3"]
@@ -9,7 +10,7 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_judj1"]
 
-[node name="Ghost" type="CharacterBody3D" unique_id=479645699 node_paths=PackedStringArray("Camera", "ExamineRay", "ExamineLabel", "canvasLayer")]
+[node name="Ghost" type="CharacterBody3D" unique_id=479645699 node_paths=PackedStringArray("Camera", "ExamineRay", "ExamineLabel", "canvasLayer", "InternalPopupContainer")]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_judj1")
@@ -17,6 +18,8 @@ Camera = NodePath("Camera3D")
 ExamineRay = NodePath("ExamineRay")
 ExamineLabel = NodePath("CanvasLayer/ExamineLabel")
 canvasLayer = NodePath("CanvasLayer")
+InternalPopupContainer = NodePath("CanvasLayer/InternalPopupContainer")
+InternalPopupScene = ExtResource("2_7xdab")
 
 [node name="SyncTimer" type="Timer" parent="." unique_id=1284540366]
 wait_time = 0.1
@@ -98,5 +101,14 @@ anchor_right = 0.6440972
 anchor_bottom = 0.61419755
 offset_right = 0.0
 offset_bottom = 0.0
+
+[node name="InternalPopupContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=1063156686]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -21.0
+offset_right = 21.0
+offset_bottom = 23.0
+grow_horizontal = 2
 
 [connection signal="timeout" from="SyncTimer" to="." method="Sync"]

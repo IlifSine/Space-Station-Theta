@@ -8,6 +8,10 @@ public partial class Ghost : CharacterBody3D
 	[Export] public RayCast3D ExamineRay;
 	[Export] public Label ExamineLabel;
 	[Export] public CanvasLayer canvasLayer;
+	[Export] public VBoxContainer InternalPopupContainer;
+
+	//PackedScene variables
+	[Export] private PackedScene InternalPopupScene;
 
 	//Networking & multiplayer
 	private bool Authority;
@@ -23,6 +27,9 @@ public partial class Ghost : CharacterBody3D
 	//Movement
 	private float Speed = 5.0f;
 	private Vector2 WalkDirection = Vector2.Zero;
+
+	//Popup
+	private float InternalPopupWaitTimeMultiplier = 0.2f;
 
 	public override void _Ready()
 	{
@@ -114,6 +121,33 @@ public partial class Ghost : CharacterBody3D
 			Velocity = velocity;
 		}
 		MoveAndSlide();
+	}
+
+	/// <summary>
+	/// Shows a control label popup with some text on the local client. The popup will automatically disappear after a duration based on the length of the text.
+	/// </summary>
+	/// <param name="Text">Text to display in the popup</param>
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
+	void ShowInternalPopup(string Text)
+	{
+		var PopupInstance = InternalPopupScene.Instantiate<InternalPopup>();
+		InternalPopupContainer.AddChild(PopupInstance);
+		PopupInstance.Text = Text;
+		PopupInstance.StartTimer(Text.Length * InternalPopupWaitTimeMultiplier);
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
+	void ShowExternalPopup(string Text)
+	{
+		if (IsMultiplayerAuthority())
+		{
+			Rpc("ShowExternalPopup", Text);
+			//ShowExternalPopup logic will be here
+		}
+		else
+		{
+			//ShowExternalPopup logic will be here
+		}
 	}
 
 	public void Sync()
