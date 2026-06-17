@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://j65tv8r7x8eq"]
+
+[ext_resource type="PackedScene" uid="uid://btcg6gv7sv6v8" path="res://Models/Building/BasicPanel.fbx" id="1_ke6me"]
+[ext_resource type="Texture2D" uid="uid://b5xhle2ck70jb" path="res://Textures/Building/Panel/MetalPanel.jpg" id="2_7a0me"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6wowx"]
+albedo_texture = ExtResource("2_7a0me")
+texture_filter = 2
+
+[node name="MetalPanel" unique_id=1800097381 instance=ExtResource("1_ke6me")]
+
+[node name="Cube" parent="." index="0" unique_id=66119257]
+surface_material_override/0 = SubResource("StandardMaterial3D_6wowx")

@@ -19,7 +19,7 @@ public partial class Ghost : CharacterBody3D
 	bool Authority;
 
 	//Characteristics
-	float MouseSensivity = 1f;
+	float MouseSensivity = 1.4f;
 
 	bool ControlsDisabled = false;
 

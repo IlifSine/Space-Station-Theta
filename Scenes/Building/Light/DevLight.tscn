@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://c6dge4r2hafcx"]
+
+[node name="DevLight" type="Node3D" unique_id=928542540]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1527211223]
+light_energy = 3.376
+omni_range = 6.9634213

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ck5m3og8a3wr2"
-path="res://.godot/imported/AdminPanelIcon.png-cb3db2a0a819b8c606df7fff4ad1b3c9.ctex"
+path="res://.godot/imported/AdminPanelIcon.png-545f052caea2ffb3acdfd55d2122a8c0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://AdminPanelIcon.png"
-dest_files=["res://.godot/imported/AdminPanelIcon.png-cb3db2a0a819b8c606df7fff4ad1b3c9.ctex"]
+source_file="res://Textures/Admin/AdminPanelIcon.png"
+dest_files=["res://.godot/imported/AdminPanelIcon.png-545f052caea2ffb3acdfd55d2122a8c0.ctex"]
 
 [params]
 
