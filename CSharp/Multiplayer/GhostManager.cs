@@ -10,6 +10,12 @@ public partial class GhostManager : Node
 
 	[Export] private PackedScene GhostScene;
 
+	/// <summary>
+	/// Adds a new ghost role to the available roles list on the server and broadcasts it to all clients.
+	/// </summary>
+	/// <param name="Name">The name of the ghost role</param>
+	/// <param name="Desc">The description of the ghost role</param>
+	/// <param name="Path">The node path to the role in the scene tree</param>
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	public void AddGhostRole(string Name, string Desc, string Path)
 	{
@@ -20,6 +26,10 @@ public partial class GhostManager : Node
 		}
 	}
 
+	/// <summary>
+	/// Removes a ghost role from the available roles list on the server and broadcasts the removal to all clients.
+	/// </summary>
+	/// <param name="RoleId">The index of the role to remove</param>
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	public void RemoveGhostRole(int RoleId)
 	{
@@ -30,6 +40,11 @@ public partial class GhostManager : Node
 		}
 	}
 
+	/// <summary>
+	/// Assigns a ghost role to a player, despawns their ghost, and removes the role from availability.
+	/// </summary>
+	/// <param name="RoleId">The index of the role to assign</param>
+	/// <param name="PlayerId">The multiplayer ID of the player receiving the role</param>
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	public void GiveGhostRole(int RoleId, int PlayerId)
 	{
@@ -45,6 +60,10 @@ public partial class GhostManager : Node
 		}
 	}
 
+	/// <summary>
+	/// Synchronizes all currently available ghost roles to a specific client.
+	/// </summary>
+	/// <param name="Id">The multiplayer ID of the target client</param>
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	public void SyncGhostRoles(int Id)
 	{
@@ -61,6 +80,11 @@ public partial class GhostManager : Node
 		}
 	}
 
+	/// <summary>
+	/// Locally adds a ghost role to the roles list on this client. Called via RPC from the server.
+	/// </summary>
+	/// <param name="Name">The name of the ghost role</param>
+	/// <param name="Desc">The description of the ghost role</param>
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	void LocalAddGhostRole(string Name, string Desc)
 	{
@@ -71,6 +95,10 @@ public partial class GhostManager : Node
 		});
 	}
 
+	/// <summary>
+	/// Locally removes a ghost role from the roles list on this client with bounds checking. Called via RPC from the server.
+	/// </summary>
+	/// <param name="RoleId">The index of the role to remove</param>
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	void LocalRemoveGhostRole(int RoleId)
 	{
@@ -82,26 +110,27 @@ public partial class GhostManager : Node
 		GhostRoles.RemoveAt(RoleId);
 	}
 
-	public void PrintGhostRoles()
-	{
-		GD.Print("Current Ghost Roles:");
-		foreach (GhostRoleData item in GhostRoles)
-		{
-			GD.Print(item.RoleName);
-		}
-		GD.Print("GhostRolePrint ended");
-	}
-
+	/// <summary>
+	/// Spawns a ghost character for the calling player across the network.
+	/// </summary>
 	public void SpawnGhost()
 	{
 		Rpc("RpcSpawnGhost", Multiplayer.GetUniqueId());
 	}
 
+	/// <summary>
+	/// Despawns a ghost character from the network.
+	/// </summary>
+	/// <param name="GhostPlayerId">The multiplayer ID of the ghost player to despawn</param>
 	public void DespawnGhost(int GhostPlayerId)
 	{
 		Rpc("RpcDespawnGhost", GhostPlayerId);
 	}
 
+	/// <summary>
+	/// RPC method that instantiates a ghost on all clients and sets the ghost's multiplayer authority.
+	/// </summary>
+	/// <param name="GhostPlayerId">The multiplayer ID of the player who owns this ghost</param>
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	public void RpcSpawnGhost(int GhostPlayerId)
 	{
@@ -111,6 +140,10 @@ public partial class GhostManager : Node
 		GhostInstance.Name = GhostInstance.Name + GhostPlayerId;
 	}
 
+	/// <summary>
+	/// RPC method that removes a ghost character from the game world by finding and freeing it by its multiplayer authority.
+	/// </summary>
+	/// <param name="GhostPlayerId">The multiplayer ID of the ghost player to despawn</param>
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	public void RpcDespawnGhost(int GhostPlayerId)
 	{
