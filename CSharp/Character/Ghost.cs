@@ -18,7 +18,6 @@ public partial class Ghost : CharacterBody3D
 	//Networking & multiplayer
 	bool Authority;
 
-	//Characteristics
 	float MouseSensivity = 1.4f;
 
 	bool ControlsDisabled = false;
@@ -28,7 +27,9 @@ public partial class Ghost : CharacterBody3D
 
 	//Movement
 	float Speed = 5.0f;
-	Vector2 WalkDirection = Vector2.Zero;
+	float Acceleration = 1.5f;
+	float SlowdownMultiplier = 0.5f;
+	Vector3 velocity;
 
 	//Popup
 	float InternalPopupWaitTimeMultiplier = 0.2f;
@@ -64,21 +65,13 @@ public partial class Ghost : CharacterBody3D
 				Camera.Rotation.Y,
 				Camera.Rotation.Z
 			);
-			RpcId(1, "SyncRotation", Rotation);
-			if (ExamineLabel.Text != "")
+			/*if (ExamineLabel.Text != "")
 			{
 				if (InitialExamineVector - Camera.Rotation > new Vector3(10,10,10))
 				{
 					ExamineLabel.Text = "";
 				}
-			}
-		}
-
-		//Movement
-		if (Event.IsAction("Forward") || Event.IsAction("Backward") || Event.IsAction("Right") || Event.IsAction("Left"))
-		{
-			WalkDirection = Input.GetVector("Left", "Right", "Forward", "Backward");
-			RpcId(1, "SyncMoveDirection", WalkDirection);
+			}*/
 		}
 
 		if (Event.IsActionPressed("ShowCursor"))
@@ -108,23 +101,26 @@ public partial class Ghost : CharacterBody3D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (IsMultiplayerAuthority() || Multiplayer.IsServer())
+		if (IsMultiplayerAuthority())
 		{
-			Vector3 velocity = Velocity;
-			Vector3 direction = (Transform.Basis * new Vector3(WalkDirection.X, 0, WalkDirection.Y)).Normalized();
+			velocity = Velocity;
+			Vector2 inputDir = Input.GetVector("Left", "Right", "Forward", "Backward");
+			Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
 			if (direction != Vector3.Zero)
 			{
-				velocity.X = direction.X * Speed;
-				velocity.Z = direction.Z * Speed;
+				velocity.X = Mathf.MoveToward(Velocity.X, direction.X * Speed, Acceleration);
+				velocity.Z = Mathf.MoveToward(Velocity.Z, direction.Z * Speed, Acceleration);
 			}
 			else
 			{
-				velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-				velocity.Z = Mathf.MoveToward(Velocity.Z, 0, Speed);
+				velocity.X = Mathf.MoveToward(Velocity.X, 0, SlowdownMultiplier);
+				velocity.Z = Mathf.MoveToward(Velocity.Z, 0, SlowdownMultiplier);
 			}
-			Velocity = velocity;
+			GD.Print(velocity);
 		}
+		Velocity = velocity;
 		MoveAndSlide();
+
 	}
 
 	/// <summary>
@@ -170,48 +166,6 @@ public partial class Ghost : CharacterBody3D
 			ExternalPopupContainer.AddChild(PopupInstance);
 			PopupInstance.Text = Text;
 			PopupInstance.StartTimer(Text.Length * ExternalPopupWaitTimeMultiplier);
-		}
-	}
-
-	public void Sync()
-	{
-		if (Multiplayer.IsServer())
-		{
-			Rpc("SyncMoveDirection", WalkDirection);
-			Rpc("SyncPosition", Position);
-			Rpc("SyncVelocity", Velocity);
-		}
-	}
-
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
-	void SyncPosition(Vector3 SyncedPosition)
-	{
-		Position = SyncedPosition;
-	}
-
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
-	void SyncRotation(Vector3 SyncedRotation)
-	{
-		Rotation = SyncedRotation;
-	}
-
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
-	void SyncVelocity(Vector3 SyncedVelocity)
-	{
-		Velocity = SyncedVelocity;
-	}
-
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
-	void SyncMoveDirection(Vector2 SyncedDirection)
-	{
-		//This if needed to dont let cheaters make cheat which will give superspeed to them.
-		if (SyncedDirection.X <= 1 && SyncedDirection.X >= -1 && SyncedDirection.Y <= 1 && SyncedDirection.Y >= -1)
-		{
-			WalkDirection = SyncedDirection;
-		}
-		else
-		{
-			GD.Print("CHEATER WARNING!");
 		}
 	}
 }

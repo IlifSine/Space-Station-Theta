@@ -37,7 +37,8 @@ public partial class ReplicationManager : Node
 							ObjectPosition = new Vector3();
 							ObjectRotation = new Vector3();
 						}
-						RpcId(Id, "ReplicateObject", ObjectPath, MapItem.Name, ObjectItem.Name, ObjectPosition, ObjectRotation);
+
+						RpcId(Id, "ReplicateObject", ObjectPath, MapItem.Name, ObjectItem.Name, ObjectPosition, ObjectRotation, ObjectItem.GetMultiplayerAuthority());
 					}
 				}
 			}
@@ -72,7 +73,9 @@ public partial class ReplicationManager : Node
 					ObjectPosition = new Vector3();
 					ObjectRotation = new Vector3();
 				}
-				Rpc("ReplicateObject", ObjectPath, Map.Name, ObjectItem.Name, ObjectPosition, ObjectRotation);
+
+				Rpc("ReplicateObject", ObjectPath, Map.Name, ObjectItem.Name, ObjectPosition, ObjectRotation, ObjectItem.GetMultiplayerAuthority());
+
 				//Objects was duplicating on 1 client, so i decided to QueueFree() original object. Yes, i so lazy to find normal soulution.
 				ObjectItem.QueueFree();
 			}
@@ -83,8 +86,8 @@ public partial class ReplicationManager : Node
 		}
 	}
 
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	public void ReplicateObject(string ObjectPath, string MapName, string ObjectName, Vector3 ObjectPosition, Vector3 ObjectRotation)
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
+	public void ReplicateObject(string ObjectPath, string MapName, string ObjectName, Vector3 ObjectPosition, Vector3 ObjectRotation, int ObjectAuthority)
 	{
 		PackedScene LoadedObjectScene = new PackedScene();
 		if (ObjectPath != "")
@@ -116,6 +119,11 @@ public partial class ReplicationManager : Node
 		{
 			InstantiatedObject3d.Position = ObjectPosition;
 			InstantiatedObject3d.Rotation = ObjectRotation;
+		}
+
+		if (ObjectAuthority != 1)
+		{
+			InstantiatedObject.SetMultiplayerAuthority(ObjectAuthority);
 		}
 	}
 }

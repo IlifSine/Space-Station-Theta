@@ -11,6 +11,17 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_judj1"]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_uyn2f"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = false
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = false
+properties/1/replication_mode = 2
+properties/2/path = NodePath(".:velocity")
+properties/2/spawn = false
+properties/2/replication_mode = 2
+
 [node name="Ghost" type="CharacterBody3D" unique_id=479645699 node_paths=PackedStringArray("Camera", "ExamineRay", "ExamineLabel", "canvasLayer", "InternalPopupContainer", "ExternalPopupContainer")]
 collision_layer = 2
 collision_mask = 2
@@ -116,5 +127,10 @@ offset_left = -21.0
 offset_right = 21.0
 offset_bottom = 23.0
 grow_horizontal = 2
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1833483741]
+replication_interval = 0.1
+delta_interval = 0.1
+replication_config = SubResource("SceneReplicationConfig_uyn2f")
 
 [connection signal="timeout" from="SyncTimer" to="." method="Sync"]
