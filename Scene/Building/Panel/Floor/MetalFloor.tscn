@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bei6swfsxkoa1"]
+
+[ext_resource type="PackedScene" uid="uid://btcg6gv7sv6v8" path="res://Model/Building/BasicPanel.fbx" id="1_twpt5"]
+[ext_resource type="Texture2D" uid="uid://d0y4oclcydm0a" path="res://Texture/Building/Panel/Floor/MetalFloor.jpg" id="2_rssvi"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6wowx"]
+albedo_texture = ExtResource("2_rssvi")
+texture_filter = 2
+
+[node name="MetalFloor" unique_id=1800097381 instance=ExtResource("1_twpt5")]
+
+[node name="Cube" parent="." index="0" unique_id=66119257]
+surface_material_override/0 = SubResource("StandardMaterial3D_6wowx")

@@ -22,7 +22,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 BasicMultiplayerManager="*res://CSharp/Multiplayer/BasicMultiplayerManager.cs"
-GameWorld="*res://Scenes/World/GameWorld.tscn"
+GameWorld="*res://Scene/World/GameWorld.tscn"
 ReplicationManager="*res://CSharp/Multiplayer/ReplicationManager.cs"
 ChatServer="*uid://cey7i36c6rleb"
 
@@ -34,11 +34,11 @@ project/assembly_name="Space-Station-Theta"
 
 folder_colors={
 "res://CSharp/": "purple",
-"res://Maps/": "yellow",
-"res://Models/": "green",
-"res://Scenes/": "red",
-"res://Sounds/": "blue",
-"res://Textures/": "teal"
+"res://Map/": "yellow",
+"res://Model/": "green",
+"res://Scene/": "red",
+"res://Sound/": "blue",
+"res://Texture/": "teal"
 }
 
 [input]
