@@ -116,7 +116,6 @@ public partial class Ghost : CharacterBody3D
 				velocity.X = Mathf.MoveToward(Velocity.X, 0, SlowdownMultiplier);
 				velocity.Z = Mathf.MoveToward(Velocity.Z, 0, SlowdownMultiplier);
 			}
-			GD.Print(velocity);
 		}
 		Velocity = velocity;
 		MoveAndSlide();
