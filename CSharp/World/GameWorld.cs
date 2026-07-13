@@ -39,7 +39,7 @@ public partial class GameWorld : Node
 		switch (Map)
 		{
 			case "Dev":
-				LoadMap = ResourceLoader.Load<PackedScene>("res://Maps/GameMapDev.tscn").Instantiate<GameMap>();
+				LoadMap = ResourceLoader.Load<PackedScene>("res://Map/GameMapDev.tscn").Instantiate<GameMap>();
 			break;
 			default:
 				GD.PushError("No map found.");

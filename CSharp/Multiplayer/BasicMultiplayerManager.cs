@@ -5,18 +5,18 @@ using System.Linq;
 
 public partial class BasicMultiplayerManager : Node
 {
-	private string LobbyMenuPath = "res://Scenes/Menu/LobbyMenu.tscn";
-	private string ServerPanelPath = "res://Scenes/Menu/LobbyMenu.tscn";
+	[Export] PackedScene LobbyMenuPath;
+	[Export] PackedScene ServerPanelPath;
 
-	private string GameWorldPath = "/root/GameWorld";
-	private string GhostManagerPath = "/root/GameWorld/GhostManager";
-	private GameWorld gameWorld;
-	private GhostManager ghostManager;
-	private string ReplicationManagerPath = "/root/ReplicationManager";
-	private ReplicationManager ReplicationManagerInstance;
+	string GameWorldPath = "/root/GameWorld";
+	string GhostManagerPath = "/root/GameWorld/GhostManager";
+	GameWorld gameWorld;
+	GhostManager ghostManager;
+	string ReplicationManagerPath = "/root/ReplicationManager";
+	ReplicationManager ReplicationManagerInstance;
 
 	public string SelfCkey = "Player";
-	private int HostPort = 8910;
+	int HostPort = 8910;
 
 	public List<PlayerData> ConnectedPlayersData = new List<PlayerData>();
 
@@ -58,7 +58,7 @@ public partial class BasicMultiplayerManager : Node
 		/*var ServerPanelInstance = ResourceLoader.Load<PackedScene>(ServerPanelPath).Instantiate();
 		GetTree().Root.AddChild(ServerPanelInstance);*/
 		//Instantiating lobby with chat panel to make it work. Yes, it is a crutch but i too lazy to find normal solution.
-		var LobbyMenuInstance = ResourceLoader.Load<PackedScene>(LobbyMenuPath).Instantiate<LobbyMenu>();
+		var LobbyMenuInstance = LobbyMenuPath.Instantiate<LobbyMenu>();
 		GetTree().Root.CallDeferred(Node.MethodName.AddChild, LobbyMenuInstance);
 		//Loading map
 		gameWorld.LoadMap("Dev");
@@ -88,7 +88,7 @@ public partial class BasicMultiplayerManager : Node
 		//Loading game objects with ReplicationManager
 		ReplicationManagerInstance.GetAll(Multiplayer.GetUniqueId());
 		//Loading lobby
-		var LobbyMenuInstance = ResourceLoader.Load<PackedScene>(LobbyMenuPath).Instantiate<LobbyMenu>();
+		var LobbyMenuInstance = LobbyMenuPath.Instantiate<LobbyMenu>();
 		GetTree().Root.AddChild(LobbyMenuInstance);
 		//Loading ghost roles
 		ghostManager.SyncGhostRoles(Multiplayer.GetUniqueId());

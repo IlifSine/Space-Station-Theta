@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://bkpa8tlbrv8vi"]
+[gd_scene format=3 uid="uid://bkpa8tlbrv8vi"]
 
 [ext_resource type="Script" uid="uid://47owg32og1t7" path="res://CSharp/Menu/MainMenu.cs" id="1_i26rj"]
 
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="Control" unique_id=249581677]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,7 +12,7 @@ grow_vertical = 2
 script = ExtResource("1_i26rj")
 Address = "localhost"
 
-[node name="JoinButton" type="Button" parent="."]
+[node name="JoinButton" type="Button" parent="." unique_id=1352537551]
 layout_mode = 0
 offset_left = 318.0
 offset_top = 258.0

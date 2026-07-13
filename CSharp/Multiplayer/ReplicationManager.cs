@@ -4,8 +4,8 @@ using Godot;
 public partial class ReplicationManager : Node
 {
 	private BasicMultiplayerManager BMM;
+	[Export] private PackedScene MapScenePath;
 	private string BMMPath = "/root/BasicMultiplayerManager";
-	private string MapScenePath = "res://Scenes/World/GameMap.tscn";
 	private string GameWorldPath = "/root/GameWorld";
 
 	public override void _Ready()
@@ -107,7 +107,7 @@ public partial class ReplicationManager : Node
 		}
 		else
 		{
-			var PreLoadedMapScene = ResourceLoader.Load<PackedScene>(MapScenePath);
+			var PreLoadedMapScene = MapScenePath;
 			ObjectMap = PreLoadedMapScene.Instantiate() as GameMap;
 			GetNode<Node>(GameWorldPath).AddChild(ObjectMap);
 			ObjectMap.AddChild(InstantiatedObject);

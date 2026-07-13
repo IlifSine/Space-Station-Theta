@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://d0qxftfenb8ra"]
+
+[ext_resource type="Script" uid="uid://b8bjm05kmp11k" path="res://CSharp/Multiplayer/BasicMultiplayerManager.cs" id="1_w4yan"]
+[ext_resource type="PackedScene" uid="uid://cihou7d1inwqr" path="res://Scene/Menu/LobbyMenu.tscn" id="2_06jjr"]
+[ext_resource type="PackedScene" uid="uid://4nq151ui8wfj" path="res://Scene/Menu/ServerPanel.tscn" id="3_1p40h"]
+
+[node name="BasicMultiplayerManager" type="Node" unique_id=1524752503]
+script = ExtResource("1_w4yan")
+LobbyMenuPath = ExtResource("2_06jjr")
+ServerPanelPath = ExtResource("3_1p40h")
