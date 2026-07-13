@@ -16,25 +16,25 @@ public partial class Ghost : CharacterBody3D
 	[Export] private PackedScene ExternalPopupScene;
 
 	//Networking & multiplayer
-	bool Authority;
+	private bool Authority;
 
-	float MouseSensivity = 1.4f;
+	private float MouseSensivity = 1.4f;
 
-	bool ControlsDisabled = false;
+	private bool ControlsDisabled = false;
 
-	Vector3 InitialExamineVector;
-	Vector3 InitialExaminePosition;
+	private Vector3 InitialExamineVector;
+	private Vector3 InitialExaminePosition;
 
 	//Movement
-	float Speed = 5.0f;
-	float Acceleration = 1.5f;
-	float SlowdownMultiplier = 0.5f;
-	Vector3 velocity;
+	private float Speed = 5.0f;
+	private float Acceleration = 1.5f;
+	private float SlowdownMultiplier = 0.5f;
+	private Vector3 velocity;
 
 	//Popup
-	float InternalPopupWaitTimeMultiplier = 0.2f;
-	float ExternalPopupWaitTimeMultiplier = 0.2f;
-	float ExternalPopupDistance = 0.2f;
+	private float InternalPopupWaitTimeMultiplier = 0.2f;
+	private float ExternalPopupWaitTimeMultiplier = 0.2f;
+	private float ExternalPopupDistance = 0.2f;
 
 	public override void _Ready()
 	{
@@ -127,7 +127,7 @@ public partial class Ghost : CharacterBody3D
 	/// </summary>
 	/// <param name="Text">Text to display in the popup</param>
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
-	void ShowInternalPopup(string Text)
+	private void ShowInternalPopup(string Text)
 	{
 		var PopupInstance = InternalPopupScene.Instantiate<InternalPopup>();
 		InternalPopupContainer.AddChild(PopupInstance);
@@ -136,7 +136,7 @@ public partial class Ghost : CharacterBody3D
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
-	void ShowExternalPopup(string Text)
+	private void ShowExternalPopup(string Text)
 	{
 		if (IsMultiplayerAuthority())
 		{
@@ -149,7 +149,7 @@ public partial class Ghost : CharacterBody3D
 		}
 	}
 
-	void LocalShowExternalPopup(string Text)
+	private void LocalShowExternalPopup(string Text)
 	{
 		if (ExternalPopupContainer.GetChildCount() > 0)
 		{

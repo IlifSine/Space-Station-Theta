@@ -7,7 +7,7 @@ public partial class GhostRoleEntry : Button
 	[Export] public Label RoleDescLabel;
 	public int RoleIndex;
 
-	void PickRole()
+	private void PickRole()
 	{
 		GetNode<GhostRolePanel>("../../").PickRole(RoleIndex);
 		QueueFree();

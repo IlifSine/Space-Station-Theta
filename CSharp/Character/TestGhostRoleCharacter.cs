@@ -3,9 +3,9 @@ using Godot;
 
 public partial class TestGhostRoleCharacter : Node3D
 {
-	[Export] Camera3D Camera;
-	string GhostManagerPath = "/root/GameWorld/GhostManager";
-	GhostManager ghostManager = new GhostManager();
+	[Export] private Camera3D Camera;
+	private string GhostManagerPath = "/root/GameWorld/GhostManager";
+	private GhostManager ghostManager = new GhostManager();
 	
 	public override void _Ready()
 	{
@@ -17,13 +17,13 @@ public partial class TestGhostRoleCharacter : Node3D
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	void ChangeOwner(int PlayerId)
+	private void ChangeOwner(int PlayerId)
 	{
 		SetMultiplayerAuthority(PlayerId);
 		RefreshAuthority();
 	}
 
-	void RefreshAuthority()
+	private void RefreshAuthority()
 	{
 		if (IsMultiplayerAuthority())
 		{

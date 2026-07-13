@@ -86,7 +86,7 @@ public partial class GhostManager : Node
 	/// <param name="Name">The name of the ghost role</param>
 	/// <param name="Desc">The description of the ghost role</param>
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	void LocalAddGhostRole(string Name, string Desc)
+	private void LocalAddGhostRole(string Name, string Desc)
 	{
 		GhostRoles.Add(new GhostRoleData()
 		{
@@ -100,7 +100,7 @@ public partial class GhostManager : Node
 	/// </summary>
 	/// <param name="RoleId">The index of the role to remove</param>
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	void LocalRemoveGhostRole(int RoleId)
+	private void LocalRemoveGhostRole(int RoleId)
 	{
 		if (RoleId < 0 || RoleId >= GhostRoles.Count)
 		{

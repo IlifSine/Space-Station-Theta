@@ -10,7 +10,7 @@ public partial class ParentVisibleButton : Button
 		ParentNode = GetNode<Control>("../");
 	}
 
-	void OnPressed()
+	private void OnPressed()
 	{
 		ParentNode.Visible = false;
 	}

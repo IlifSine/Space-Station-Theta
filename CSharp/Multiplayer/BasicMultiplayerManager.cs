@@ -5,18 +5,18 @@ using System.Linq;
 
 public partial class BasicMultiplayerManager : Node
 {
-	[Export] PackedScene LobbyMenuPath;
-	[Export] PackedScene ServerPanelPath;
+	[Export] private PackedScene LobbyMenuPath;
+	[Export] private PackedScene ServerPanelPath;
 
-	string GameWorldPath = "/root/GameWorld";
-	string GhostManagerPath = "/root/GameWorld/GhostManager";
-	GameWorld gameWorld;
-	GhostManager ghostManager;
-	string ReplicationManagerPath = "/root/ReplicationManager";
-	ReplicationManager ReplicationManagerInstance;
+	private string GameWorldPath = "/root/GameWorld";
+	private string GhostManagerPath = "/root/GameWorld/GhostManager";
+	private GameWorld gameWorld;
+	private GhostManager ghostManager;
+	private string ReplicationManagerPath = "/root/ReplicationManager";
+	private ReplicationManager ReplicationManagerInstance;
 
 	public string SelfCkey = "Player";
-	int HostPort = 8910;
+	private int HostPort = 8910;
 
 	public List<PlayerData> ConnectedPlayersData = new List<PlayerData>();
 
@@ -26,7 +26,7 @@ public partial class BasicMultiplayerManager : Node
 		gameWorld = GetNode<GameWorld>(GameWorldPath);
 		ghostManager = GetNode<GhostManager>(GhostManagerPath);
 
-		Multiplayer.PeerConnected += PeerConnected;
+		Multiplayer.PeerConnected += PeerConnected; 
 		Multiplayer.PeerDisconnected += PeerDisconnected;
 		Multiplayer.ConnectedToServer += ConnectedToServer;
 		Multiplayer.ConnectionFailed += ConnectionFailed;

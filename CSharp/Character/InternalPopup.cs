@@ -3,14 +3,14 @@ using Godot;
 
 public partial class InternalPopup : Label
 {
-	[Export] Timer DurationTimer;
+	[Export] private Timer DurationTimer;
 	public void StartTimer(float Duration)
 	{
 		DurationTimer.WaitTime = Duration;
 		DurationTimer.Start();
 	}
 
-	void Timeout()
+	private void Timeout()
 	{
 		QueueFree();
 	}

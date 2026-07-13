@@ -5,7 +5,7 @@ public partial class VisibleButton : Button
 {
 	[Export] public Control ChangeControl;
 
-	void OnPressed()
+	private void OnPressed()
 	{
 		ChangeControl.Visible = !ChangeControl.Visible;
 	}

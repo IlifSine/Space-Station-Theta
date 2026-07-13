@@ -3,10 +3,10 @@ using Godot;
 
 public partial class GhostRolePanel : Panel
 {
-	[Export] VBoxContainer Container;
-	[Export] PackedScene PackedEntry;
+	[Export] private VBoxContainer Container;
+	[Export] private PackedScene PackedEntry;
 	string GhostManagerPath = "/root/GameWorld/GhostManager";
-	GhostManager ghostManager = new GhostManager();
+	private GhostManager ghostManager = new GhostManager();
 
 	public override void _Ready()
 	{
