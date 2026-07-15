@@ -19,9 +19,14 @@ public partial class ChatPanel : Panel
 			chatServer.AddClient(this);
 		}
 	}
-
+	/// <summary>
+	/// Called once message is submitted from the chatbar
+	/// </summary>
+	/// <param name="Message"></param>
 	private void MessageEnter(string Message)
 	{
+		if (string.IsNullOrWhiteSpace(Message))	return;
+
 		chatServer.ReceiveSentMessage(Message, BMM.SelfCkey);
 		lineEdit.Clear();
 	}
@@ -34,6 +39,6 @@ public partial class ChatPanel : Panel
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	private void MessageReceiveRpc(string Message)
 	{
-		richTextLabel.Text = string.Format("{0}\n{1}", richTextLabel.Text, Message);
+		richTextLabel.AppendText("\n" + Message);
 	}
 }
