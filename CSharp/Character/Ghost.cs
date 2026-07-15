@@ -1,4 +1,5 @@
 //Licensed under AGPL 3.0. Glory to communism!
+using System;
 using Godot;
 
 public partial class Ghost : CharacterBody3D
@@ -22,9 +23,6 @@ public partial class Ghost : CharacterBody3D
 
 	private bool ControlsDisabled = false;
 
-	private Vector3 InitialExamineVector;
-	private Vector3 InitialExaminePosition;
-
 	//Movement
 	private float Speed = 5.0f;
 	private float Acceleration = 1.5f;
@@ -35,6 +33,11 @@ public partial class Ghost : CharacterBody3D
 	private float InternalPopupWaitTimeMultiplier = 0.2f;
 	private float ExternalPopupWaitTimeMultiplier = 0.2f;
 	private float ExternalPopupDistance = 0.2f;
+
+	//Examine
+	private Vector3 InitialExamineRotation;
+	private Vector3 InitialExaminePosition;
+	private const float ExamineQuaternionRotationHideThreshold = 0.5f;
 
 	public override void _Ready()
 	{
@@ -65,13 +68,21 @@ public partial class Ghost : CharacterBody3D
 					Camera.Rotation.Y,
 					Camera.Rotation.Z
 				);
-				/*if (ExamineLabel.Text != "")
+
+				//Examine hide
+				if (ExamineLabel.Text != "")
 				{
-					if (InitialExamineVector - Camera.Rotation > new Vector3(10,10,10))
+					Quaternion quatA = Quaternion.FromEuler(InitialExamineRotation);
+       				Quaternion quatB = Quaternion.FromEuler(Camera.Rotation);
+        			Quaternion diffQuat = quatA.Inverse() * quatB;
+        			Vector3 diffEuler = diffQuat.GetEuler();
+					//DEBUG
+					GD.Print(diffEuler);
+					if (diffEuler.X > ExamineQuaternionRotationHideThreshold || diffEuler.X < -ExamineQuaternionRotationHideThreshold || diffEuler.Z > ExamineQuaternionRotationHideThreshold || diffEuler.Z < -ExamineQuaternionRotationHideThreshold)
 					{
 						ExamineLabel.Text = "";
 					}
-				}*/
+				}
 			}
 
 			if (Event.IsActionPressed("ShowCursor"))
@@ -88,11 +99,10 @@ public partial class Ghost : CharacterBody3D
 			}
 			if (Event.IsActionPressed("Examine"))
 			{
-				if (ExamineRay.IsColliding())
+				if (ExamineRay.IsColliding() && ExamineRay.GetCollider() is ExamineStaticBody ExamineCollider)
 				{
-					Node ExamineCollider = ExamineRay.GetCollider() as Node;
-					ExamineLabel.Text = ExamineCollider.Name;
-					InitialExamineVector = Camera.Rotation;
+					ExamineLabel.Text = ExamineCollider.ExamineName;
+					InitialExamineRotation = Camera.Rotation;
 					InitialExaminePosition = Position;
 				}
 			}
