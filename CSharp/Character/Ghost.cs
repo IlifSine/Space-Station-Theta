@@ -54,48 +54,48 @@ public partial class Ghost : CharacterBody3D
 	{
 		if (IsMultiplayerAuthority())
 		{
-		//Camera rotation
-		if (Event is InputEventMouseMotion MouseEvent && Input.MouseMode == Input.MouseModeEnum.Captured)
-		{
-			RotateY(MouseEvent.Relative.X * MouseSensivity * -0.002f);
-			Camera.RotateX(MouseEvent.Relative.Y * MouseSensivity * -0.002f);
-			Camera.Rotation = new Vector3
-			(
-				Mathf.Clamp(Camera.Rotation.X, Mathf.DegToRad(-90), Mathf.DegToRad(90)),
-				Camera.Rotation.Y,
-				Camera.Rotation.Z
-			);
-			/*if (ExamineLabel.Text != "")
+			//Camera rotation
+			if (Event is InputEventMouseMotion MouseEvent && Input.MouseMode == Input.MouseModeEnum.Captured)
 			{
-				if (InitialExamineVector - Camera.Rotation > new Vector3(10,10,10))
+				RotateY(MouseEvent.Relative.X * MouseSensivity * -0.002f);
+				Camera.RotateX(MouseEvent.Relative.Y * MouseSensivity * -0.002f);
+				Camera.Rotation = new Vector3
+				(
+					Mathf.Clamp(Camera.Rotation.X, Mathf.DegToRad(-90), Mathf.DegToRad(90)),
+					Camera.Rotation.Y,
+					Camera.Rotation.Z
+				);
+				/*if (ExamineLabel.Text != "")
 				{
-					ExamineLabel.Text = "";
-				}
-			}*/
-		}
-
-		if (Event.IsActionPressed("ShowCursor"))
-		{
-			//Disable most controls and show mouse cursor when alt is hold
-			ControlsDisabled = true;
-			Input.MouseMode = Input.MouseModeEnum.Visible;
-		}
-		if (Event.IsActionReleased("ShowCursor"))
-		{
-			//Enable most controls and hide mouse cursor when alt isn't hold
-			ControlsDisabled = false;
-			Input.MouseMode = Input.MouseModeEnum.Captured;
-		}
-		if (Event.IsActionPressed("Examine"))
-		{
-			if (ExamineRay.IsColliding())
-			{
-				Node ExamineCollider = ExamineRay.GetCollider() as Node;
-				ExamineLabel.Text = ExamineCollider.EditorDescription;
-				InitialExamineVector = Camera.Rotation;
-				InitialExaminePosition = Position;
+					if (InitialExamineVector - Camera.Rotation > new Vector3(10,10,10))
+					{
+						ExamineLabel.Text = "";
+					}
+				}*/
 			}
-		}
+
+			if (Event.IsActionPressed("ShowCursor"))
+			{
+				//Disable most controls and show mouse cursor when alt is hold
+				ControlsDisabled = true;
+				Input.MouseMode = Input.MouseModeEnum.Visible;
+			}
+			if (Event.IsActionReleased("ShowCursor"))
+			{
+				//Enable most controls and hide mouse cursor when alt isn't hold
+				ControlsDisabled = false;
+				Input.MouseMode = Input.MouseModeEnum.Captured;
+			}
+			if (Event.IsActionPressed("Examine"))
+			{
+				if (ExamineRay.IsColliding())
+				{
+					Node ExamineCollider = ExamineRay.GetCollider() as Node;
+					ExamineLabel.Text = ExamineCollider.Name;
+					InitialExamineVector = Camera.Rotation;
+					InitialExaminePosition = Position;
+				}
+			}
 		}
 	}
 
