@@ -4,8 +4,8 @@ using Godot;
 public partial class MainMenu : Control
 {
 	private BasicMultiplayerManager BMM;
-	[Export] private string Address;
-	[Export] private int Port = 8910;
+	[Export] private LineEdit inputPort;
+	[Export] private LineEdit inputAddress;
 
 	public override void _Ready()
 	{
@@ -14,6 +14,9 @@ public partial class MainMenu : Control
 
 	public void JoinButtonPressed()
 	{
-		BMM.JoinGame(Address, Port);
+		if (int.TryParse(inputPort.Text, out int port))
+		{
+			BMM.JoinGame(inputAddress.Text, port);
+		}
 	}
 }

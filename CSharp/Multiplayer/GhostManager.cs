@@ -21,7 +21,7 @@ public partial class GhostManager : Node
 	{
 		if (Multiplayer.IsServer())
 		{
-			Rpc("LocalAddGhostRole", Name, Desc);
+			Rpc(MethodName.LocalAddGhostRole, Name, Desc);
 			RoleNodes.Add(GetNode<Node3D>(Path));
 		}
 	}
@@ -35,7 +35,7 @@ public partial class GhostManager : Node
 	{
 		if (Multiplayer.IsServer())
 		{
-			Rpc("LocalRemoveGhostRole", RoleId);
+			Rpc(MethodName.LocalRemoveGhostRole, RoleId);
 			RoleNodes.RemoveAt(RoleId);
 		}
 	}
@@ -50,13 +50,13 @@ public partial class GhostManager : Node
 	{
 		if (Multiplayer.IsServer())
 		{
-			RoleNodes[RoleId].Rpc("ChangeOwner", PlayerId);
+			RoleNodes[RoleId].Rpc(TestGhostRoleCharacter.MethodName.ChangeOwner, PlayerId);
 			DespawnGhost(PlayerId);
-			Rpc("RemoveGhostRole", RoleId);
+			Rpc(MethodName.RemoveGhostRole, RoleId);
 		}
 		else
 		{
-			RpcId(1, "GiveGhostRole", RoleId, PlayerId);
+			RpcId(1, MethodName.GiveGhostRole, RoleId, PlayerId);
 		}
 	}
 
@@ -71,12 +71,12 @@ public partial class GhostManager : Node
 		{
 			foreach (GhostRoleData item in GhostRoles)
 			{
-				RpcId(Id, "LocalAddGhostRole", item.RoleName, item.RoleDesc);
+				RpcId(Id, MethodName.LocalAddGhostRole, item.RoleName, item.RoleDesc);
 			}
 		}
 		else
 		{
-			RpcId(1, "SyncGhostRoles", Id);
+			RpcId(1, MethodName.SyncGhostRoles, Id);
 		}
 	}
 
@@ -115,7 +115,7 @@ public partial class GhostManager : Node
 	/// </summary>
 	public void SpawnGhost()
 	{
-		Rpc("RpcSpawnGhost", Multiplayer.GetUniqueId());
+		Rpc(MethodName.RpcSpawnGhost, Multiplayer.GetUniqueId());
 	}
 
 	/// <summary>
@@ -124,7 +124,7 @@ public partial class GhostManager : Node
 	/// <param name="GhostPlayerId">The multiplayer ID of the ghost player to despawn</param>
 	public void DespawnGhost(int GhostPlayerId)
 	{
-		Rpc("RpcDespawnGhost", GhostPlayerId);
+		Rpc(MethodName.RpcDespawnGhost, GhostPlayerId);
 	}
 
 	/// <summary>

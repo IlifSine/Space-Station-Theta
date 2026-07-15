@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://47owg32og1t7" path="res://CSharp/Menu/MainMenu.cs" id="1_i26rj"]
 
-[node name="MainMenu" type="Control" unique_id=249581677]
+[node name="MainMenu" type="Control" unique_id=249581677 node_paths=PackedStringArray("inputPort", "inputAddress")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -10,7 +10,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_i26rj")
-Address = "localhost"
+inputPort = NodePath("Port")
+inputAddress = NodePath("IP")
 
 [node name="JoinButton" type="Button" parent="." unique_id=1352537551]
 layout_mode = 0
@@ -20,5 +21,23 @@ offset_right = 462.49997
 offset_bottom = 315.49997
 text = "join
 "
+
+[node name="Port" type="LineEdit" parent="." unique_id=726674835]
+layout_mode = 0
+offset_left = 236.0
+offset_top = 162.0
+offset_right = 375.0
+offset_bottom = 193.0
+text = "8910"
+placeholder_text = "8910"
+
+[node name="IP" type="LineEdit" parent="." unique_id=1218129282]
+layout_mode = 0
+offset_left = 236.0
+offset_top = 107.0
+offset_right = 375.0
+offset_bottom = 138.0
+text = "127.0.0.1"
+placeholder_text = "127.0.0.1"
 
 [connection signal="pressed" from="JoinButton" to="." method="JoinButtonPressed"]

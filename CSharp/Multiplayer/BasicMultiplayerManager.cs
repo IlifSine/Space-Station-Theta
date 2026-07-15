@@ -16,7 +16,6 @@ public partial class BasicMultiplayerManager : Node
 	private ReplicationManager ReplicationManagerInstance;
 
 	public string SelfCkey = "Player";
-	private int HostPort = 8910;
 
 	public List<PlayerData> ConnectedPlayersData = new List<PlayerData>();
 
@@ -33,16 +32,36 @@ public partial class BasicMultiplayerManager : Node
 
 		if (OS.GetCmdlineArgs().Contains("--server"))
 		{
-			HostGame();
+			int port = 8910;
+
+			foreach (string item in OS.GetCmdlineArgs())
+			{
+				// find custom port
+				if (item.Contains("--port"))
+				{
+					string[] args = item.Split('=');
+					if (args.Length < 1)
+					{
+						continue;
+					}
+					if (int.TryParse(args[1], out int result))
+					{
+						port = result;
+					}
+				}
+			}
+
+			SelfCkey = "Server";
+			HostGame(port);
 		}
 	}
 
 	//Method needed to host server
-	public void HostGame()
+	public void HostGame(int port)
 	{
 		//Estabilishing connection
 		ENetMultiplayerPeer Peer = new ENetMultiplayerPeer();
-		var Error = Peer.CreateServer(HostPort, 32);
+		var Error = Peer.CreateServer(port, 32);
 		if (Error != Error.Ok)
 		{
 			GD.Print("Host error:" + Error.ToString());
@@ -79,7 +98,7 @@ public partial class BasicMultiplayerManager : Node
 
 	private void ConnectedToServer()
 	{
-		RpcId(1, "AddConnectedPlayer", SelfCkey, Multiplayer.GetUniqueId());
+		RpcId(1, MethodName.AddConnectedPlayer, SelfCkey, Multiplayer.GetUniqueId());
 		GD.Print("Connected to server");
 
 		//Deleting main menu
@@ -140,7 +159,7 @@ public partial class BasicMultiplayerManager : Node
 		{
 			foreach (PlayerData item in ConnectedPlayersData)
 			{
-				Rpc("AddConnectedPlayer", item.Ckey, item.Id);
+				Rpc(MethodName.AddConnectedPlayer, item.Ckey, item.Id);
 			}
 		}
 	}
@@ -160,7 +179,7 @@ public partial class BasicMultiplayerManager : Node
 		{
 			foreach (PlayerData item in ConnectedPlayersData)
 			{
-				Rpc("RemoveConnectedPlayer", item.Id);
+				Rpc(MethodName.RemoveConnectedPlayer, item.Id);
 			}
 		}
 	}

@@ -140,7 +140,7 @@ public partial class Ghost : CharacterBody3D
 	{
 		if (IsMultiplayerAuthority())
 		{
-			Rpc("ShowExternalPopup", Text);
+			Rpc(MethodName.ShowExternalPopup, Text);
 			LocalShowExternalPopup(Text);
 		}
 		else

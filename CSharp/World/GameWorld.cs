@@ -20,11 +20,11 @@ public partial class GameWorld : Node
 	{
 		if (Multiplayer.IsServer())
 		{
-			Rpc("InstantiateMap", Map);
+			Rpc(MethodName.InstantiateMap, Map);
 		}
 		else
 		{
-			RpcId(1, "LoadMap", Map);
+			RpcId(1, MethodName.LoadMap, Map);
 		}
 	}
 
@@ -76,7 +76,7 @@ public partial class GameWorld : Node
 		}
 		else
 		{
-			RpcId(1, "LoadMapFromPath", MapPath);
+			RpcId(1, MethodName.LoadMapFromPath, MapPath);
 		}
 	}
 }
