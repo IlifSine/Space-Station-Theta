@@ -19,7 +19,7 @@ public partial class ChatServer : Node
 
 	public void ReceiveSentMessage(string Message, string SenderName)
 	{
-		RpcId(1, "SendMessage", Message, SenderName);
+		RpcId(1, MethodName.SendMessage, Message, SenderName);
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]

@@ -38,14 +38,14 @@ public partial class ReplicationManager : Node
 							ObjectRotation = new Vector3();
 						}
 
-						RpcId(Id, "ReplicateObject", ObjectPath, MapItem.Name, ObjectItem.Name, ObjectPosition, ObjectRotation, ObjectItem.GetMultiplayerAuthority());
+						RpcId(Id, MethodName.ReplicateObject, ObjectPath, MapItem.Name, ObjectItem.Name, ObjectPosition, ObjectRotation, ObjectItem.GetMultiplayerAuthority());
 					}
 				}
 			}
 		}
 		else
 		{
-			RpcId(1, "GetAll", Id);
+			RpcId(1, MethodName.GetAll, Id);
 		}
 	}
 
@@ -74,7 +74,7 @@ public partial class ReplicationManager : Node
 					ObjectRotation = new Vector3();
 				}
 
-				Rpc("ReplicateObject", ObjectPath, Map.Name, ObjectItem.Name, ObjectPosition, ObjectRotation, ObjectItem.GetMultiplayerAuthority());
+				Rpc(MethodName.ReplicateObject, ObjectPath, Map.Name, ObjectItem.Name, ObjectPosition, ObjectRotation, ObjectItem.GetMultiplayerAuthority());
 
 				//Objects was duplicating on 1 client, so i decided to QueueFree() original object. Yes, i so lazy to find normal soulution.
 				ObjectItem.QueueFree();
@@ -82,7 +82,7 @@ public partial class ReplicationManager : Node
 		}
 		else
 		{
-			RpcId(1, "ReplicateMap", Map);
+			RpcId(1, MethodName.ReplicateMap, Map);
 		}
 	}
 

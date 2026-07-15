@@ -28,7 +28,7 @@ public partial class ChatPanel : Panel
 
 	public void MessageReceive(string Message)
 	{
-		Rpc("MessageReceiveRpc", Message);
+		Rpc(MethodName.MessageReceiveRpc, Message);
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]

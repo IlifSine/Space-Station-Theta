@@ -98,7 +98,7 @@ public partial class BasicMultiplayerManager : Node
 
 	private void ConnectedToServer()
 	{
-		RpcId(1, "AddConnectedPlayer", SelfCkey, Multiplayer.GetUniqueId());
+		RpcId(1, MethodName.AddConnectedPlayer, SelfCkey, Multiplayer.GetUniqueId());
 		GD.Print("Connected to server");
 
 		//Deleting main menu
@@ -159,7 +159,7 @@ public partial class BasicMultiplayerManager : Node
 		{
 			foreach (PlayerData item in ConnectedPlayersData)
 			{
-				Rpc("AddConnectedPlayer", item.Ckey, item.Id);
+				Rpc(MethodName.AddConnectedPlayer, item.Ckey, item.Id);
 			}
 		}
 	}
@@ -179,7 +179,7 @@ public partial class BasicMultiplayerManager : Node
 		{
 			foreach (PlayerData item in ConnectedPlayersData)
 			{
-				Rpc("RemoveConnectedPlayer", item.Id);
+				Rpc(MethodName.RemoveConnectedPlayer, item.Id);
 			}
 		}
 	}
