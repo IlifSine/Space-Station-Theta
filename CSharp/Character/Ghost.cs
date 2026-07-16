@@ -38,6 +38,7 @@ public partial class Ghost : CharacterBody3D
 	private Vector3 InitialExamineRotation;
 	private Vector3 InitialExaminePosition;
 	private const float ExamineQuaternionRotationHideThreshold = 0.5f;
+	private const float ExaminePositionHideThreshold = 1f;
 
 	public override void _Ready()
 	{
@@ -126,10 +127,16 @@ public partial class Ghost : CharacterBody3D
 				velocity.X = Mathf.MoveToward(Velocity.X, 0, SlowdownMultiplier);
 				velocity.Z = Mathf.MoveToward(Velocity.Z, 0, SlowdownMultiplier);
 			}
+
+			//Examine hide
+			if (ExamineLabel.Text != "" && InitialExaminePosition.DistanceTo(Position) > ExaminePositionHideThreshold)
+			{
+				ExamineLabel.Text = "";
+			}
 		}
+
 		Velocity = velocity;
 		MoveAndSlide();
-
 	}
 
 	/// <summary>
