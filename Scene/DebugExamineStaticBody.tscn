@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dpknqsfur0lcb"]
+
+[ext_resource type="PackedScene" uid="uid://btngh8jxq8hht" path="res://Scene/ExamineStaticBody.tscn" id="1_ferje"]
+[ext_resource type="Texture2D" uid="uid://ba22vnujyv16v" path="res://icon.svg" id="2_2dcr1"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f7w6k"]
+
+[node name="DebugExamineStaticBody" unique_id=1923162845 instance=ExtResource("1_ferje")]
+ExamineName = "Debug"
+ExamineDesc = "This is developer-only territory. Leave now or you will bombed with 200 000 tons of code."
+
+[node name="CollisionShape3D" parent="." index="0" unique_id=1065692857]
+shape = SubResource("BoxShape3D_f7w6k")
+
+[node name="Sprite3D" type="Sprite3D" parent="." index="1" unique_id=1665681104]
+billboard = 1
+texture = ExtResource("2_2dcr1")

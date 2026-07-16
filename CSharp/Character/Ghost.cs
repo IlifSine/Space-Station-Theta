@@ -1,12 +1,13 @@
 //Licensed under AGPL 3.0. Glory to communism!
+using System;
 using Godot;
 
 public partial class Ghost : CharacterBody3D
 {	
 	//Export variables
 	[Export] public Camera3D Camera;
+	[Export] public ExaminePanel examinePanel;
 	[Export] public RayCast3D ExamineRay;
-	[Export] public Label ExamineLabel;
 	[Export] public CanvasLayer canvasLayer;
 	[Export] public VBoxContainer InternalPopupContainer;
 	[Export] public Node3D ExternalPopupContainer;
@@ -22,9 +23,6 @@ public partial class Ghost : CharacterBody3D
 
 	private bool ControlsDisabled = false;
 
-	private Vector3 InitialExamineVector;
-	private Vector3 InitialExaminePosition;
-
 	//Movement
 	private float Speed = 5.0f;
 	private float Acceleration = 1.5f;
@@ -35,6 +33,12 @@ public partial class Ghost : CharacterBody3D
 	private float InternalPopupWaitTimeMultiplier = 0.2f;
 	private float ExternalPopupWaitTimeMultiplier = 0.2f;
 	private float ExternalPopupDistance = 0.2f;
+
+	//Examine
+	private Vector3 InitialExamineRotation;
+	private Vector3 InitialExaminePosition;
+	//private const float ExamineRotationHideThreshold = 0.5f;
+	private const float ExaminePositionHideThreshold = 1f;
 
 	public override void _Ready()
 	{
@@ -54,48 +58,58 @@ public partial class Ghost : CharacterBody3D
 	{
 		if (IsMultiplayerAuthority())
 		{
-		//Camera rotation
-		if (Event is InputEventMouseMotion MouseEvent && Input.MouseMode == Input.MouseModeEnum.Captured)
-		{
-			RotateY(MouseEvent.Relative.X * MouseSensivity * -0.002f);
-			Camera.RotateX(MouseEvent.Relative.Y * MouseSensivity * -0.002f);
-			Camera.Rotation = new Vector3
-			(
-				Mathf.Clamp(Camera.Rotation.X, Mathf.DegToRad(-90), Mathf.DegToRad(90)),
-				Camera.Rotation.Y,
-				Camera.Rotation.Z
-			);
-			/*if (ExamineLabel.Text != "")
+			//Camera rotation
+			if (Event is InputEventMouseMotion MouseEvent && Input.MouseMode == Input.MouseModeEnum.Captured)
 			{
-				if (InitialExamineVector - Camera.Rotation > new Vector3(10,10,10))
-				{
-					ExamineLabel.Text = "";
-				}
-			}*/
-		}
+				RotateY(MouseEvent.Relative.X * MouseSensivity * -0.002f);
+				Camera.RotateX(MouseEvent.Relative.Y * MouseSensivity * -0.002f);
+				Camera.Rotation = new Vector3
+				(
+					Mathf.Clamp(Camera.Rotation.X, Mathf.DegToRad(-90), Mathf.DegToRad(90)),
+					Camera.Rotation.Y,
+					Camera.Rotation.Z
+				);
 
-		if (Event.IsActionPressed("ShowCursor"))
-		{
-			//Disable most controls and show mouse cursor when alt is hold
-			ControlsDisabled = true;
-			Input.MouseMode = Input.MouseModeEnum.Visible;
-		}
-		if (Event.IsActionReleased("ShowCursor"))
-		{
-			//Enable most controls and hide mouse cursor when alt isn't hold
-			ControlsDisabled = false;
-			Input.MouseMode = Input.MouseModeEnum.Captured;
-		}
-		if (Event.IsActionPressed("Examine"))
-		{
-			if (ExamineRay.IsColliding())
-			{
-				Node ExamineCollider = ExamineRay.GetCollider() as Node;
-				ExamineLabel.Text = ExamineCollider.EditorDescription;
-				InitialExamineVector = Camera.Rotation;
-				InitialExaminePosition = Position;
+				/*//Examine hide
+				if (ExamineLabel.Text != "")
+				{
+					double angle1 = InitialExamineRotation.euler_angles.x;
+					double angle2 = vector2.euler_angles.x;
+
+					double difference = (angle2 - angle1) % 360;
+
+					//DEBUG
+					GD.Print(diffEuler);
+					if (diffEuler.X > ExamineQuaternionRotationHideThreshold || diffEuler.X < -ExamineQuaternionRotationHideThreshold || diffEuler.Z > ExamineQuaternionRotationHideThreshold || diffEuler.Z < -ExamineQuaternionRotationHideThreshold)
+					{
+						ExamineLabel.Text = "";
+					}
+				}*/
 			}
-		}
+
+			if (Event.IsActionPressed("ShowCursor"))
+			{
+				//Disable most controls and show mouse cursor when alt is hold
+				ControlsDisabled = true;
+				Input.MouseMode = Input.MouseModeEnum.Visible;
+			}
+			if (Event.IsActionReleased("ShowCursor"))
+			{
+				//Enable most controls and hide mouse cursor when alt isn't hold
+				ControlsDisabled = false;
+				Input.MouseMode = Input.MouseModeEnum.Captured;
+			}
+			if (Event.IsActionPressed("Examine"))
+			{
+				if (ExamineRay.IsColliding() && ExamineRay.GetCollider() is ExamineStaticBody ExamineCollider)
+				{
+					examinePanel.TitleLabel.Text = ExamineCollider.ExamineName;
+					examinePanel.DescLabel.Text = ExamineCollider.ExamineDesc;
+					//InitialExamineRotation = Camera.Rotation;
+					InitialExaminePosition = Position;
+					examinePanel.Visible = true;
+				}
+			}
 		}
 	}
 
@@ -116,10 +130,16 @@ public partial class Ghost : CharacterBody3D
 				velocity.X = Mathf.MoveToward(Velocity.X, 0, SlowdownMultiplier);
 				velocity.Z = Mathf.MoveToward(Velocity.Z, 0, SlowdownMultiplier);
 			}
+
+			//Examine hide
+			if (examinePanel.Visible != false && InitialExaminePosition.DistanceTo(Position) > ExaminePositionHideThreshold)
+			{
+				examinePanel.Visible = false;
+			}
 		}
+
 		Velocity = velocity;
 		MoveAndSlide();
-
 	}
 
 	/// <summary>
