@@ -6,8 +6,8 @@ public partial class Ghost : CharacterBody3D
 {	
 	//Export variables
 	[Export] public Camera3D Camera;
+	[Export] public ExaminePanel examinePanel;
 	[Export] public RayCast3D ExamineRay;
-	[Export] public Label ExamineLabel;
 	[Export] public CanvasLayer canvasLayer;
 	[Export] public VBoxContainer InternalPopupContainer;
 	[Export] public Node3D ExternalPopupContainer;
@@ -103,9 +103,11 @@ public partial class Ghost : CharacterBody3D
 			{
 				if (ExamineRay.IsColliding() && ExamineRay.GetCollider() is ExamineStaticBody ExamineCollider)
 				{
-					ExamineLabel.Text = ExamineCollider.ExamineName;
-					InitialExamineRotation = Camera.Rotation;
+					examinePanel.TitleLabel.Text = ExamineCollider.ExamineName;
+					examinePanel.DescLabel.Text = ExamineCollider.ExamineDesc;
+					//InitialExamineRotation = Camera.Rotation;
 					InitialExaminePosition = Position;
+					examinePanel.Visible = true;
 				}
 			}
 		}
@@ -130,9 +132,9 @@ public partial class Ghost : CharacterBody3D
 			}
 
 			//Examine hide
-			if (ExamineLabel.Text != "" && InitialExaminePosition.DistanceTo(Position) > ExaminePositionHideThreshold)
+			if (examinePanel.Visible != false && InitialExaminePosition.DistanceTo(Position) > ExaminePositionHideThreshold)
 			{
-				ExamineLabel.Text = "";
+				examinePanel.Visible = false;
 			}
 		}
 

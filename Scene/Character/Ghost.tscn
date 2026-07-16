@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://64tjgddbvfem" path="res://Scene/Admin/AdminPanelButton.tscn" id="3_mygd6"]
 [ext_resource type="PackedScene" uid="uid://bw8igb275ite4" path="res://Scene/Character/ExternalPopup.tscn" id="3_uyn2f"]
 [ext_resource type="PackedScene" uid="uid://bn8o4gdbntow8" path="res://Scene/Admin/AdminPanel.tscn" id="4_njkq3"]
+[ext_resource type="PackedScene" uid="uid://bbaluhknmrdgm" path="res://Scene/ExaminePanel.tscn" id="5_0uhaq"]
 [ext_resource type="PackedScene" uid="uid://uqtwwlwj4a1n" path="res://Scene/Multiplayer/GhostRole/GhostRolesPanelButton.tscn" id="5_njkq3"]
 [ext_resource type="PackedScene" uid="uid://cdmdaev3a5l5v" path="res://Scene/Multiplayer/GhostRole/GhostRolePanel.tscn" id="5_ny5it"]
 
@@ -22,13 +23,13 @@ properties/2/path = NodePath(".:velocity")
 properties/2/spawn = false
 properties/2/replication_mode = 2
 
-[node name="Ghost" type="CharacterBody3D" unique_id=479645699 node_paths=PackedStringArray("Camera", "ExamineRay", "ExamineLabel", "canvasLayer", "InternalPopupContainer", "ExternalPopupContainer")]
+[node name="Ghost" type="CharacterBody3D" unique_id=479645699 node_paths=PackedStringArray("Camera", "examinePanel", "ExamineRay", "canvasLayer", "InternalPopupContainer", "ExternalPopupContainer")]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_judj1")
 Camera = NodePath("Camera3D")
+examinePanel = NodePath("CanvasLayer/ExaminePanel")
 ExamineRay = NodePath("ExamineRay")
-ExamineLabel = NodePath("CanvasLayer/ExamineLabel")
 canvasLayer = NodePath("CanvasLayer")
 InternalPopupContainer = NodePath("CanvasLayer/InternalPopupContainer")
 ExternalPopupContainer = NodePath("ExternalPopupContainer")
@@ -64,18 +65,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6614437, 0)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1186093967]
 
-[node name="ExamineLabel" type="Label" parent="CanvasLayer" unique_id=276285028]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 8.0
-offset_top = -35.0
-offset_right = 265.0
-offset_bottom = 90.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="ExaminePanel" parent="CanvasLayer" unique_id=831268577 instance=ExtResource("5_0uhaq")]
+visible = false
 
 [node name="GhostRolesPanelButton" parent="CanvasLayer" unique_id=1964959115 node_paths=PackedStringArray("ChangeControl") instance=ExtResource("5_njkq3")]
 anchors_preset = -1
