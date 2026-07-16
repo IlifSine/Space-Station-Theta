@@ -37,7 +37,7 @@ public partial class Ghost : CharacterBody3D
 	//Examine
 	private Vector3 InitialExamineRotation;
 	private Vector3 InitialExaminePosition;
-	private const float ExamineQuaternionRotationHideThreshold = 0.5f;
+	//private const float ExamineRotationHideThreshold = 0.5f;
 	private const float ExaminePositionHideThreshold = 1f;
 
 	public override void _Ready()
@@ -70,20 +70,21 @@ public partial class Ghost : CharacterBody3D
 					Camera.Rotation.Z
 				);
 
-				//Examine hide
+				/*//Examine hide
 				if (ExamineLabel.Text != "")
 				{
-					Quaternion quatA = Quaternion.FromEuler(InitialExamineRotation);
-       				Quaternion quatB = Quaternion.FromEuler(Camera.Rotation);
-        			Quaternion diffQuat = quatA.Inverse() * quatB;
-        			Vector3 diffEuler = diffQuat.GetEuler();
+					double angle1 = InitialExamineRotation.euler_angles.x;
+					double angle2 = vector2.euler_angles.x;
+
+					double difference = (angle2 - angle1) % 360;
+
 					//DEBUG
 					GD.Print(diffEuler);
 					if (diffEuler.X > ExamineQuaternionRotationHideThreshold || diffEuler.X < -ExamineQuaternionRotationHideThreshold || diffEuler.Z > ExamineQuaternionRotationHideThreshold || diffEuler.Z < -ExamineQuaternionRotationHideThreshold)
 					{
 						ExamineLabel.Text = "";
 					}
-				}
+				}*/
 			}
 
 			if (Event.IsActionPressed("ShowCursor"))
