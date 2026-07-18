@@ -34,6 +34,10 @@ public partial class Ghost : CharacterBody3D
 	private float ExternalPopupWaitTimeMultiplier = 0.2f;
 	private float ExternalPopupDistance = 0.2f;
 
+	//Camera
+	private float Yaw = 0;
+	private float Pitch = 0;
+
 	//Examine
 	private Vector3 InitialExamineRotation;
 	private Vector3 InitialExaminePosition;
@@ -61,14 +65,12 @@ public partial class Ghost : CharacterBody3D
 			//Camera rotation
 			if (Event is InputEventMouseMotion MouseEvent && Input.MouseMode == Input.MouseModeEnum.Captured)
 			{
-				RotateY(MouseEvent.Relative.X * MouseSensivity * -0.002f);
-				Camera.RotateX(MouseEvent.Relative.Y * MouseSensivity * -0.002f);
-				Camera.Rotation = new Vector3
-				(
-					Mathf.Clamp(Camera.Rotation.X, Mathf.DegToRad(-90), Mathf.DegToRad(90)),
-					Camera.Rotation.Y,
-					Camera.Rotation.Z
-				);
+       			Yaw += MouseEvent.Relative.X * MouseSensivity * -0.002f;
+        		Pitch += MouseEvent.Relative.Y * MouseSensivity * -0.002f;
+        
+        		Pitch = Mathf.Clamp(Pitch, Mathf.DegToRad(-90), Mathf.DegToRad(90));
+        
+        		Rotation = new Vector3(Pitch, Yaw, 0);
 
 				/*//Examine hide
 				if (ExamineLabel.Text != "")
@@ -124,11 +126,13 @@ public partial class Ghost : CharacterBody3D
 			{
 				velocity.X = Mathf.MoveToward(Velocity.X, direction.X * Speed, Acceleration);
 				velocity.Z = Mathf.MoveToward(Velocity.Z, direction.Z * Speed, Acceleration);
+				velocity.Y = Mathf.MoveToward(Velocity.Y, direction.Y * Speed, Acceleration);
 			}
 			else
 			{
 				velocity.X = Mathf.MoveToward(Velocity.X, 0, SlowdownMultiplier);
 				velocity.Z = Mathf.MoveToward(Velocity.Z, 0, SlowdownMultiplier);
+				velocity.Y = Mathf.MoveToward(Velocity.Y, 0, SlowdownMultiplier);
 			}
 
 			//Examine hide
