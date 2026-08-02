@@ -1,13 +1,64 @@
-[gd_scene format=3 uid="uid://j65tv8r7x8eq"]
+[gd_scene format=4 uid="uid://j65tv8r7x8eq"]
 
-[ext_resource type="PackedScene" uid="uid://btcg6gv7sv6v8" path="res://Model/Building/BasicPanel.fbx" id="1_bn27b"]
+[ext_resource type="PackedScene" uid="uid://tyv845bqxt00" path="res://Scene/Building/BuildingStaticBody.tscn" id="1_aapgh"]
 [ext_resource type="Texture2D" uid="uid://b5xhle2ck70jb" path="res://Texture/Building/Panel/MetalPanel.jpg" id="2_tcvvg"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6wowx"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_bn27b"]
+size = Vector3(2, 0.05, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bn27b"]
 albedo_texture = ExtResource("2_tcvvg")
 texture_filter = 2
 
-[node name="MetalPanel" unique_id=1800097381 instance=ExtResource("1_bn27b")]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4yt6h"]
+resource_name = "Material"
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.9063318, 0.9063318, 0.9063318, 1)
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.0
 
-[node name="Cube" parent="." index="0" unique_id=766737541]
-surface_material_override/0 = SubResource("StandardMaterial3D_6wowx")
+[sub_resource type="ArrayMesh" id="ArrayMesh_0pjj0"]
+_surfaces = [{
+"aabb": AABB(-0.01, -0.01, -0.00018618777, 0.02, 0.02, 0.00037237554),
+"format": 34359742465,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAQAAAAMAAgAEAAAAAwAFAAEAAgABAAUABgADAAAAAAAEAAYABQADAAYABAACAAcABQAHAAIABwAGAAQABgAHAAUA"),
+"name": "Material",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("CtcjvArXI7xmO0M5CtcjvArXIzxmO0M5CtcjPArXIzxmO0M5CtcjvArXI7xmO0O5CtcjPArXI7xmO0M5CtcjvArXIzxmO0O5CtcjPArXI7xmO0O5CtcjPArXIzxmO0O5")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_tcvvg"]
+resource_name = "Cube"
+_surfaces = [{
+"aabb": AABB(-0.01, -0.01, -0.00018618777, 0.02, 0.02, 0.00037237554),
+"attribute_data": PackedByteArray("00YAP1c7ZD/TRgA/AHTPOkyvfz8AfM86TK9/P1k7ZD88pHw+8RpyPzXEFjvyGnI/NcQWO+b1bz88pHw+5vVvP2uw/j7xGnI/PKR8PvEacj88pHw+5vVvP2uw/j7m9W8/G740OpTLZD8bvjQ6AMjfOnme/z4AyN86eZ7/PpjLZD9/tn8/8RpyP16HPz/xGnI/Xoc/P+b1bz9/tn8/5vVvP16HPz/xGnI/a7D+PvEacj9rsP4+5vVvP16HPz/m9W8/"),
+"format": 34359742487,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAgADAAAABAAFAAYABgAHAAQACAAJAAoACgALAAgADAANAA4ADgAPAAwAEAARABIAEgATABAAFAAVABYAFgAXABQA"),
+"material": SubResource("StandardMaterial3D_4yt6h"),
+"name": "Material",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("CtcjvArXI7xmO0M5CtcjvArXIzxmO0M5CtcjPArXIzxmO0M5CtcjPArXI7xmO0M5CtcjvArXI7xmO0M5CtcjPArXI7xmO0M5CtcjPArXI7xmO0O5CtcjvArXI7xmO0O5CtcjvArXIzxmO0M5CtcjvArXI7xmO0M5CtcjvArXI7xmO0O5CtcjvArXIzxmO0O5CtcjPArXI7xmO0O5CtcjPArXIzxmO0O5CtcjvArXIzxmO0O5CtcjvArXI7xmO0O5CtcjPArXI7xmO0M5CtcjPArXIzxmO0M5CtcjPArXIzxmO0O5CtcjPArXI7xmO0O5CtcjPArXIzxmO0M5CtcjvArXIzxmO0M5CtcjvArXIzxmO0O5CtcjPArXIzxmO0O5/3//f/7//7//f/9//v//v/9//3/+//+//3//f/7//7//fwAAAAD/v/9/AAAAAP+//38AAAAA/7//fwAAAAD/vwAA/3//f///AAD/f/9///8AAP9//3///wAA/3//f////////wAA/7//////AAD/v/////8AAP+//////wAA/7////9//38AgP///3//fwCA////f/9/AID///9//38AgP9///////+//3///////7//f///////v/9///////+/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_0pjj0")
+
+[node name="MetalPanel" unique_id=1923162845 instance=ExtResource("1_aapgh")]
+ExamineName = "Metal Wall"
+ExamineDesc = "Keeps the air in, and the graytide out"
+
+[node name="CollisionShape3D" parent="." index="0" unique_id=1065692857]
+shape = SubResource("BoxShape3D_bn27b")
+
+[node name="Cube" type="MeshInstance3D" parent="." index="1" unique_id=697650457]
+transform = Transform3D(100, 0, 0, 0, -1.1920929e-05, 99.99999, 0, -99.99999, -1.1920929e-05, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_bn27b")
+mesh = SubResource("ArrayMesh_tcvvg")
+skeleton = NodePath("")
