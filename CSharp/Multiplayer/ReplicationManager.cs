@@ -13,8 +13,25 @@ public partial class ReplicationManager : Node
 		BMM = GetNode<BasicMultiplayerManager>(BMMPath);
 	}
 
+	/// <summary>
+	/// This method gets all maps from server and replicates it (calls GetAllServer). Called from client.
+	/// </summary>
+	/// <param name="Id"></param>
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	public void GetAll(long Id)
+	{
+		if (Id != 1)
+		{
+			RpcId(1, MethodName.GetAllServer, Id);
+		}
+	}
+
+	/// <summary>
+	/// Server-only method that actually gets and sends all maps.
+	/// </summary>
+	/// <param name="Id"></param>
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	private void GetAllServer(long Id)
 	{
 		if (Multiplayer.IsServer())
 		{
@@ -42,10 +59,6 @@ public partial class ReplicationManager : Node
 					}
 				}
 			}
-		}
-		else
-		{
-			RpcId(1, MethodName.GetAll, Id);
 		}
 	}
 
@@ -75,9 +88,6 @@ public partial class ReplicationManager : Node
 				}
 
 				Rpc(MethodName.ReplicateObject, ObjectPath, Map.Name, ObjectItem.Name, ObjectPosition, ObjectRotation, ObjectItem.GetMultiplayerAuthority());
-
-				//Objects was duplicating on 1 client, so i decided to QueueFree() original object. Yes, i so lazy to find normal soulution.
-				ObjectItem.QueueFree();
 			}
 		}
 		else
@@ -86,7 +96,16 @@ public partial class ReplicationManager : Node
 		}
 	}
 
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
+	/// <summary>
+	/// Instantiates 1 object on client with these params.
+	/// </summary>
+	/// <param name="ObjectPath"></param>
+	/// <param name="MapName"></param>
+	/// <param name="ObjectName"></param>
+	/// <param name="ObjectPosition"></param>
+	/// <param name="ObjectRotation"></param>
+	/// <param name="ObjectAuthority"></param>
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
 	public void ReplicateObject(string ObjectPath, string MapName, string ObjectName, Vector3 ObjectPosition, Vector3 ObjectRotation, int ObjectAuthority)
 	{
 		PackedScene LoadedObjectScene = new PackedScene();

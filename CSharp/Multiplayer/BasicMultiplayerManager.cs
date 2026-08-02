@@ -13,7 +13,7 @@ public partial class BasicMultiplayerManager : Node
 	private GameWorld gameWorld;
 	private GhostManager ghostManager;
 	private string ReplicationManagerPath = "/root/ReplicationManager";
-	private ReplicationManager ReplicationManagerInstance;
+	private ReplicationManager replicationManager;
 
 	public string SelfCkey = "Player";
 
@@ -21,7 +21,7 @@ public partial class BasicMultiplayerManager : Node
 
 	public override void _Ready()
 	{
-		ReplicationManagerInstance = GetNode<ReplicationManager>(ReplicationManagerPath);
+		replicationManager = GetNode<ReplicationManager>(ReplicationManagerPath);
 		gameWorld = GetNode<GameWorld>(GameWorldPath);
 		ghostManager = GetNode<GhostManager>(GhostManagerPath);
 
@@ -105,7 +105,7 @@ public partial class BasicMultiplayerManager : Node
 		var MM = GetTree().Root.GetChildren().OfType<MainMenu>().FirstOrDefault();
 		MM.QueueFree();
 		//Loading game objects with ReplicationManager
-		ReplicationManagerInstance.GetAll(Multiplayer.GetUniqueId());
+		replicationManager.GetAll(Multiplayer.GetUniqueId());
 		//Loading lobby
 		var LobbyMenuInstance = LobbyMenuPath.Instantiate<LobbyMenu>();
 		GetTree().Root.AddChild(LobbyMenuInstance);
@@ -131,6 +131,11 @@ public partial class BasicMultiplayerManager : Node
 		RemoveConnectedPlayer(DisconnectedId);
 	}
 
+	/// <summary>
+	/// Adds connected player to player database (currently it is PlayerData list) and doing other things related to player connection
+	/// </summary>
+	/// <param name="ConnectedCkey">Connected player Ckey</param>
+	/// <param name="ConnectedId">Connected player id</param>
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	private void AddConnectedPlayer(string ConnectedCkey, long ConnectedId)
 	{
@@ -164,6 +169,10 @@ public partial class BasicMultiplayerManager : Node
 		}
 	}
 
+	/// <summary>
+	/// Removes disconnected player from player database (currently it is PlayerData list) and doing other things related to player connection
+	/// </summary>
+	/// <param name="DisconnectedId">Disconnected player id</param>
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	private void RemoveConnectedPlayer(long DisconnectedId)
 	{
