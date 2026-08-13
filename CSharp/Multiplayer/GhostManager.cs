@@ -50,7 +50,7 @@ public partial class GhostManager : Node
 	{
 		if (Multiplayer.IsServer())
 		{
-			RoleNodes[RoleId].Rpc(TestGhostRoleCharacter.MethodName.ChangeOwner, PlayerId);
+			RoleNodes[RoleId].Rpc(BasicCharacter.MethodName.ChangeOwner, PlayerId);
 			DespawnGhost(PlayerId);
 			Rpc(MethodName.RemoveGhostRole, RoleId);
 		}

@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://dmg8aw1tcorwy"]
+
+[ext_resource type="Script" uid="uid://blnvvvkqct3g8" path="res://CSharp/Character/BasicCharacter.cs" id="1_67ktq"]
+[ext_resource type="PackedScene" uid="uid://bbresw7153v0g" path="res://Scene/Character/InternalPopup.tscn" id="2_bwia1"]
+[ext_resource type="PackedScene" uid="uid://bbaluhknmrdgm" path="res://Scene/ExaminePanel.tscn" id="2_ef2x1"]
+[ext_resource type="PackedScene" uid="uid://bw8igb275ite4" path="res://Scene/Character/ExternalPopup.tscn" id="3_1e167"]
+[ext_resource type="PackedScene" uid="uid://64tjgddbvfem" path="res://Scene/Admin/AdminPanelButton.tscn" id="4_bwia1"]
+[ext_resource type="PackedScene" uid="uid://bn8o4gdbntow8" path="res://Scene/Admin/AdminPanel.tscn" id="6_lfvfl"]
+
+[node name="BasicCharacter" type="CharacterBody3D" unique_id=4975453 node_paths=PackedStringArray("Camera", "examinePanel", "ExamineRay", "canvasLayer", "InternalPopupContainer", "ExternalPopupContainer")]
+script = ExtResource("1_67ktq")
+Camera = NodePath("Camera3D")
+examinePanel = NodePath("CanvasLayer/ExaminePanel")
+ExamineRay = NodePath("ExamineRay")
+canvasLayer = NodePath("CanvasLayer")
+InternalPopupContainer = NodePath("CanvasLayer/InternalPopupContainer")
+ExternalPopupContainer = NodePath("ExternalPopupContainer")
+InternalPopupScene = ExtResource("2_bwia1")
+ExternalPopupScene = ExtResource("3_1e167")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1388462725]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=370657322]
+
+[node name="ExamineRay" type="RayCast3D" parent="." unique_id=242193289]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+target_position = Vector3(0, 5.5, 0)
+collision_mask = 3
+collide_with_areas = true
+
+[node name="ExternalPopupContainer" type="Node3D" parent="." unique_id=1318583268]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6614437, 0)
+
+[node name="Timer" type="Timer" parent="." unique_id=512121485]
+wait_time = 1.706
+one_shot = true
+autostart = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1746281478]
+
+[node name="ExaminePanel" parent="CanvasLayer" unique_id=831268577 instance=ExtResource("2_ef2x1")]
+visible = false
+
+[node name="AdminPanelButton" parent="CanvasLayer" unique_id=178903739 node_paths=PackedStringArray("ChangeControl") instance=ExtResource("4_bwia1")]
+anchors_preset = -1
+anchor_left = 0.0034722222
+anchor_top = 0.0061728396
+anchor_right = 0.059027776
+anchor_bottom = 0.10493827
+offset_right = 0.0
+offset_bottom = 0.0
+ChangeControl = NodePath("../AdminPanel")
+metadata/_edit_use_anchors_ = true
+
+[node name="AdminPanel" parent="CanvasLayer" unique_id=337577654 instance=ExtResource("6_lfvfl")]
+visible = false
+anchors_preset = -1
+anchor_left = 0.36024305
+anchor_top = 0.38425925
+anchor_right = 0.6440972
+anchor_bottom = 0.61419755
+offset_right = 0.0
+offset_bottom = 0.0
+
+[node name="InternalPopupContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=817100675]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -21.0
+offset_right = 21.0
+offset_bottom = 23.0
+grow_horizontal = 2
+metadata/_edit_use_anchors_ = true

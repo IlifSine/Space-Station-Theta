@@ -88,6 +88,7 @@ anchor_bottom = 0.10493827
 offset_right = 0.0
 offset_bottom = 0.0
 ChangeControl = NodePath("../AdminPanel")
+metadata/_edit_use_anchors_ = true
 
 [node name="GhostRolePanel" parent="CanvasLayer" unique_id=2051898930 instance=ExtResource("5_ny5it")]
 visible = false
@@ -118,6 +119,7 @@ offset_left = -21.0
 offset_right = 21.0
 offset_bottom = 23.0
 grow_horizontal = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1833483741]
 replication_interval = 0.1

@@ -1,11 +1,12 @@
 //Licensed under AGPL 3.0. Glory to communism!
-using System;
 using Godot;
 
-public partial class Ghost : CharacterBody3D
-{	
+public partial class BasicCharacter : CharacterBody3D
+{
 	//Export variables
-	[Export] public Camera3D Camera;
+	[Export] private Camera3D Camera;
+	private string GhostManagerPath = "/root/GameWorld/GhostManager";
+	[Export] private bool IsGhostRole = false;
 	[Export] public ExaminePanel examinePanel;
 	[Export] public RayCast3D ExamineRay;
 	[Export] public CanvasLayer canvasLayer;
@@ -20,7 +21,7 @@ public partial class Ghost : CharacterBody3D
 	private bool ControlsDisabled = false;
 
 	//Movement
-	private float Speed = 5.0f;
+	[Export] private float Speed = 5.0f;
 	private float Acceleration = 1.5f;
 	private float SlowdownMultiplier = 0.5f;
 	private Vector3 velocity;
@@ -39,19 +40,14 @@ public partial class Ghost : CharacterBody3D
 	private Vector3 InitialExaminePosition;
 	//private const float ExamineRotationHideThreshold = 0.5f;
 	private const float ExaminePositionHideThreshold = 1f;
-
+	
 	public override void _Ready()
 	{
-		if (IsMultiplayerAuthority())
+		RefreshAuthority();
+		if (IsGhostRole)
 		{
-			Camera.MakeCurrent();
+			AddGhostRole();
 		}
-		else
-		{
-			Camera.ClearCurrent();
-			canvasLayer.QueueFree();
-		}
-		Input.MouseMode = Input.MouseModeEnum.Captured;
 	}
 
 	public override void _Input(InputEvent Event)
@@ -61,12 +57,12 @@ public partial class Ghost : CharacterBody3D
 			//Camera rotation
 			if (Event is InputEventMouseMotion MouseEvent && Input.MouseMode == Input.MouseModeEnum.Captured)
 			{
-       			Yaw += MouseEvent.Relative.X * MouseSensivity * -0.002f;
-        		Pitch += MouseEvent.Relative.Y * MouseSensivity * -0.002f;
-        
-        		Pitch = Mathf.Clamp(Pitch, Mathf.DegToRad(-90), Mathf.DegToRad(90));
-        
-        		Rotation = new Vector3(Pitch, Yaw, 0);
+	   			Yaw += MouseEvent.Relative.X * MouseSensivity * -0.002f;
+				Pitch += MouseEvent.Relative.Y * MouseSensivity * -0.002f;
+		
+				Pitch = Mathf.Clamp(Pitch, Mathf.DegToRad(-90), Mathf.DegToRad(90));
+		
+				Rotation = new Vector3(Pitch, Yaw, 0);
 
 				/*//Examine hide
 				if (ExamineLabel.Text != "")
@@ -91,12 +87,12 @@ public partial class Ghost : CharacterBody3D
 				ControlsDisabled = true;
 				Input.MouseMode = Input.MouseModeEnum.Visible;
 			}
-			/*if (Event.IsActionReleased("ShowCursor"))
+			if (Event.IsActionReleased("ShowCursor"))
 			{
 				//Enable most controls and hide mouse cursor when alt isn't hold
 				ControlsDisabled = false;
 				Input.MouseMode = Input.MouseModeEnum.Captured;
-			}*/
+			}
 			if (Event.IsActionPressed("Examine"))
 			{
 				if (ExamineRay.IsColliding() && ExamineRay.GetCollider() is ExamineStaticBody ExamineCollider)
@@ -122,13 +118,11 @@ public partial class Ghost : CharacterBody3D
 			{
 				velocity.X = Mathf.MoveToward(Velocity.X, direction.X * Speed, Acceleration);
 				velocity.Z = Mathf.MoveToward(Velocity.Z, direction.Z * Speed, Acceleration);
-				velocity.Y = Mathf.MoveToward(Velocity.Y, direction.Y * Speed, Acceleration);
 			}
 			else
 			{
 				velocity.X = Mathf.MoveToward(Velocity.X, 0, SlowdownMultiplier);
 				velocity.Z = Mathf.MoveToward(Velocity.Z, 0, SlowdownMultiplier);
-				velocity.Y = Mathf.MoveToward(Velocity.Y, 0, SlowdownMultiplier);
 			}
 
 			//Examine hide
@@ -142,49 +136,32 @@ public partial class Ghost : CharacterBody3D
 		MoveAndSlide();
 	}
 
-	/// <summary>
-	/// Shows a control label popup with some text on the local client. The popup will automatically disappear after a duration based on the length of the text.
-	/// </summary>
-	/// <param name="Text">Text to display in the popup</param>
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
-	private void ShowInternalPopup(string Text)
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	private void ChangeOwner(int PlayerId)
 	{
-		var PopupInstance = InternalPopupScene.Instantiate<InternalPopup>();
-		InternalPopupContainer.AddChild(PopupInstance);
-		PopupInstance.Text = Text;
-		PopupInstance.StartTimer(Text.Length * InternalPopupWaitTimeMultiplier);
+		SetMultiplayerAuthority(PlayerId);
+		RefreshAuthority();
 	}
 
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Unreliable)]
-	private void ShowExternalPopup(string Text)
+	private void RefreshAuthority()
 	{
 		if (IsMultiplayerAuthority())
 		{
-			Rpc(MethodName.ShowExternalPopup, Text);
-			LocalShowExternalPopup(Text);
+			Camera.MakeCurrent();
+			Input.MouseMode = Input.MouseModeEnum.Captured;
 		}
 		else
 		{
-			LocalShowExternalPopup(Text);
+			Camera.ClearCurrent();
 		}
 	}
 
-	private void LocalShowExternalPopup(string Text)
+	private void AddGhostRole()
 	{
-		if (ExternalPopupContainer.GetChildCount() > 0)
+		var ghostManager = GetNode<GhostManager>(GhostManagerPath);
+		if (Multiplayer.IsServer())
 		{
-			var PopupInstance = ExternalPopupScene.Instantiate<ExternalPopup>();
-			ExternalPopupContainer.AddChild(PopupInstance);
-			PopupInstance.Text = Text;
-			PopupInstance.StartTimer(Text.Length * ExternalPopupWaitTimeMultiplier);
-			PopupInstance.Position = new Vector3(0, ExternalPopupDistance * ExternalPopupContainer.GetChildCount(), 0);
-		}
-		else
-		{
-			var PopupInstance = ExternalPopupScene.Instantiate<ExternalPopup>();
-			ExternalPopupContainer.AddChild(PopupInstance);
-			PopupInstance.Text = Text;
-			PopupInstance.StartTimer(Text.Length * ExternalPopupWaitTimeMultiplier);
+			ghostManager.AddGhostRole("Test Role", "Coder is testing", GetPath());
 		}
 	}
 }
