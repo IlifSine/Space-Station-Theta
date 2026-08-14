@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://j65tv8r7x8eq" path="res://Scene/Building/Panel/MetalPanel.tscn" id="4_vv0md"]
 [ext_resource type="PackedScene" uid="uid://c6dge4r2hafcx" path="res://Scene/Building/Light/DevLight.tscn" id="5_gx1dd"]
 [ext_resource type="PackedScene" uid="uid://dpknqsfur0lcb" path="res://Scene/DebugExamineStaticBody.tscn" id="6_6clm1"]
+[ext_resource type="PackedScene" uid="uid://14kdjfjbxb3o" path="res://Scene/Character/Advanced/Monkey.tscn" id="6_dsry3"]
 
 [sub_resource type="Environment" id="Environment_4mp8d"]
 background_energy_multiplier = 0.03
@@ -531,3 +532,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.934083, 0, -1.9893999)
 
 [node name="DebugExamineStaticBody" parent="." unique_id=1923162845 instance=ExtResource("6_6clm1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.0532732, 0, -7.27975)
+
+[node name="Monkey" parent="." unique_id=4975453 instance=ExtResource("6_dsry3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.066541, -0.25400516, 3.3391254)
+IsGhostRole = true

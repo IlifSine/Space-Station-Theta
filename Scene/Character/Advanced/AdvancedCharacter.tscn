@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://m5bclpc57oge"]
+
+[ext_resource type="PackedScene" uid="uid://dmg8aw1tcorwy" path="res://Scene/Character/Basic/BasicCharacter.tscn" id="1_qte7g"]
+[ext_resource type="Script" uid="uid://dhflerpbfd4gf" path="res://CSharp/Character/AdvancedCharacter.cs" id="2_fpyeo"]
+
+[node name="AdvancedCharacter" unique_id=4975453 instance=ExtResource("1_qte7g")]
+script = ExtResource("2_fpyeo")

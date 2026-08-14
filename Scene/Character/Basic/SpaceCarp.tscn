@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://vwp0k4daltw5"]
+
+[ext_resource type="PackedScene" uid="uid://dmg8aw1tcorwy" path="res://Scene/Character/Basic/BasicCharacter.tscn" id="1_p7thh"]
+
+[node name="SpaceCarp" unique_id=4975453 instance=ExtResource("1_p7thh")]
+IsGhostRole = true
