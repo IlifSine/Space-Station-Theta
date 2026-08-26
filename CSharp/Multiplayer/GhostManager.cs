@@ -153,6 +153,11 @@ public partial class GhostManager : Node
 			{
 				if (ghost.GetMultiplayerAuthority() == GhostPlayerId)
 				{
+					if (Multiplayer.GetUniqueId() == GhostPlayerId)
+					{
+						ghost.Camera.ClearCurrent();
+						Input.MouseMode = Input.MouseModeEnum.Captured;
+					}
 					ghost.QueueFree();
 					break;
 				}

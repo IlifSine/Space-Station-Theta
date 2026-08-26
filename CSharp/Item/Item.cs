@@ -2,7 +2,6 @@
 using Godot;
 using System;
 
-public partial class BuildingStaticBody : ExamineStaticBody
+public partial class Item : ExamineRigidBody
 {
-	
 }

@@ -1,5 +1,6 @@
 //Licensed under AGPL 3.0. Glory to communism!
 using System;
+using System.ComponentModel.DataAnnotations;
 using Godot;
 
 public partial class Ghost : CharacterBody3D
@@ -88,21 +89,38 @@ public partial class Ghost : CharacterBody3D
 			if (Event.IsActionPressed("ShowCursor"))
 			{
 				//Disable most controls and show mouse cursor when alt is hold
-				ControlsDisabled = true;
-				Input.MouseMode = Input.MouseModeEnum.Visible;
+				if (!ControlsDisabled)
+				{
+					ControlsDisabled = true;
+					Input.MouseMode = Input.MouseModeEnum.Visible;
+				}
+				else
+				{
+					ControlsDisabled = false;
+					Input.MouseMode = Input.MouseModeEnum.Captured;
+				}		
 			}
+			//will be returned in future
 			/*if (Event.IsActionReleased("ShowCursor"))
 			{
 				//Enable most controls and hide mouse cursor when alt isn't hold
 				ControlsDisabled = false;
 				Input.MouseMode = Input.MouseModeEnum.Captured;
 			}*/
-			if (Event.IsActionPressed("Examine"))
+			if (Event.IsActionPressed("Examine") && ExamineRay.IsColliding())
 			{
-				if (ExamineRay.IsColliding() && ExamineRay.GetCollider() is ExamineStaticBody ExamineCollider)
+				if (ExamineRay.GetCollider() is ExamineStaticBody StaticExamineCollider)
 				{
-					examinePanel.TitleLabel.Text = ExamineCollider.ExamineName;
-					examinePanel.DescLabel.Text = ExamineCollider.ExamineDesc;
+					examinePanel.TitleLabel.Text = StaticExamineCollider.ExamineName;
+					examinePanel.DescLabel.Text = StaticExamineCollider.ExamineDesc;
+					//InitialExamineRotation = Camera.Rotation;
+					InitialExaminePosition = Position;
+					examinePanel.Visible = true;
+				}
+				else if (ExamineRay.GetCollider() is ExamineRigidBody RigidExamineCollider)
+				{
+					examinePanel.TitleLabel.Text = RigidExamineCollider.ExamineName;
+					examinePanel.DescLabel.Text = RigidExamineCollider.ExamineDesc;
 					//InitialExamineRotation = Camera.Rotation;
 					InitialExaminePosition = Position;
 					examinePanel.Visible = true;

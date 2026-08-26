@@ -25,7 +25,7 @@ ExternalPopupScene = ExtResource("3_1e167")
 [node name="ExamineRay" type="RayCast3D" parent="." unique_id=242193289]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 target_position = Vector3(0, 5.5, 0)
-collision_mask = 3
+collision_mask = 19
 collide_with_areas = true
 
 [node name="ExternalPopupContainer" type="Node3D" parent="." unique_id=1318583268]

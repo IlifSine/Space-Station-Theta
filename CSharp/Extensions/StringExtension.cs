@@ -1,3 +1,4 @@
+//Licensed under AGPL 3.0. Glory to communism!
 using System.Text;
 using System.Text.RegularExpressions;
 

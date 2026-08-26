@@ -84,17 +84,29 @@ public partial class BasicCharacter : CharacterBody3D
 			if (Event.IsActionPressed("ShowCursor"))
 			{
 				//Disable most controls and show mouse cursor when alt is hold
-				ControlsDisabled = true;
-				Input.MouseMode = Input.MouseModeEnum.Visible;
+				if (!ControlsDisabled)
+				{
+					ControlsDisabled = true;
+					Input.MouseMode = Input.MouseModeEnum.Visible;
+				}
+				else
+				{
+					ControlsDisabled = false;
+					Input.MouseMode = Input.MouseModeEnum.Captured;
+				}		
 			}
-			if (Event.IsActionReleased("ShowCursor"))
+			//will be returned in future
+			/*if (Event.IsActionReleased("ShowCursor"))
 			{
 				//Enable most controls and hide mouse cursor when alt isn't hold
 				ControlsDisabled = false;
 				Input.MouseMode = Input.MouseModeEnum.Captured;
-			}
+			}*/
+
 			if (Event.IsActionPressed("Examine"))
 			{
+				//DEBUG
+				GD.Print(ExamineRay.GetCollider());
 				if (ExamineRay.IsColliding() && ExamineRay.GetCollider() is ExamineStaticBody ExamineCollider)
 				{
 					examinePanel.TitleLabel.Text = ExamineCollider.ExamineName;
@@ -149,10 +161,12 @@ public partial class BasicCharacter : CharacterBody3D
 		{
 			Camera.MakeCurrent();
 			Input.MouseMode = Input.MouseModeEnum.Captured;
+			canvasLayer.Visible = true;
 		}
 		else
 		{
 			Camera.ClearCurrent();
+			canvasLayer.Visible = false;
 		}
 	}
 
