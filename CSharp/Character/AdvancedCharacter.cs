@@ -14,7 +14,7 @@ public partial class AdvancedCharacter : BasicCharacter
 	private int HandSelected = 0; //0 - Right hand, 1 - Left. 2+ - more arahnid and other monsters' hands.
 	private const int HandCount = 1; //Count from 0!!! 
 
-	public override void _Input(InputEvent Event)
+	/*public override void _Input(InputEvent Event)
 	{
 		if (Event.IsActionPressed("LMB"))
 		{
@@ -28,7 +28,7 @@ public partial class AdvancedCharacter : BasicCharacter
 		{
 			Rpc(MethodName.ChangeHand);
 		}
-	}
+	}*/
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	private void LMB()
