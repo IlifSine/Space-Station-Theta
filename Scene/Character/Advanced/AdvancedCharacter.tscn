@@ -3,9 +3,23 @@
 [ext_resource type="PackedScene" uid="uid://dmg8aw1tcorwy" path="res://Scene/Character/Basic/BasicCharacter.tscn" id="1_qte7g"]
 [ext_resource type="Script" uid="uid://dhflerpbfd4gf" path="res://CSharp/Character/AdvancedCharacter.cs" id="2_fpyeo"]
 
-[node name="AdvancedCharacter" unique_id=4975453 node_paths=PackedStringArray("InteractionRay", "RightHandPanelLabel", "LeftHandPanelLabel", "RightHand", "LeftHand") instance=ExtResource("1_qte7g")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3btyu"]
+bg_color = Color(0.1254902, 0.1254902, 0.1254902, 1)
+border_color = Color(0.11764706, 0.5647059, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fpyeo"]
+bg_color = Color(0.1254902, 0.1254902, 0.1254902, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.11764706, 0.5647059, 1, 1)
+
+[node name="AdvancedCharacter" unique_id=4975453 node_paths=PackedStringArray("InteractionRay", "RightHandPanel", "LeftHandPanel", "RightHandPanelLabel", "LeftHandPanelLabel", "RightHand", "LeftHand") instance=ExtResource("1_qte7g")]
 script = ExtResource("2_fpyeo")
 InteractionRay = NodePath("InteractionRay")
+RightHandPanel = NodePath("CanvasLayer/HandsPanel/RightHand")
+LeftHandPanel = NodePath("CanvasLayer/HandsPanel/LeftHand")
 RightHandPanelLabel = NodePath("CanvasLayer/HandsPanel/RightHand/Label")
 LeftHandPanelLabel = NodePath("CanvasLayer/HandsPanel/LeftHand/Label")
 RightHand = NodePath("RightHand")
@@ -42,6 +56,7 @@ anchor_right = 0.492
 anchor_bottom = 0.96000004
 offset_left = 0.19999981
 offset_right = 0.19999695
+theme_override_styles/panel = SubResource("StyleBoxFlat_3btyu")
 
 [node name="Label" type="Label" parent="CanvasLayer/HandsPanel/LeftHand" index="0" unique_id=1487206638]
 layout_mode = 1
@@ -65,6 +80,7 @@ anchor_right = 0.99200004
 anchor_bottom = 0.96000004
 offset_left = 0.19998169
 offset_right = 0.19998169
+theme_override_styles/panel = SubResource("StyleBoxFlat_fpyeo")
 
 [node name="Label" type="Label" parent="CanvasLayer/HandsPanel/RightHand" index="0" unique_id=25360520]
 layout_mode = 1

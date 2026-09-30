@@ -681,3 +681,9 @@ bones/65/scale = Vector3(1, 1, 1)
 material_override = SubResource("StandardMaterial3D_trj2w")
 mesh = SubResource("ArrayMesh_lq0ed")
 skin = SubResource("Skin_1inih")
+
+[node name="RightHand" parent="." index="6" unique_id=760635079]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2407856, -0.19367531, -0.6104584)
+
+[node name="LeftHand" parent="." index="7" unique_id=1601724602]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25387168, -0.18844078, -0.8184128)

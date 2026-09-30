@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ba22vnujyv16v" path="res://icon.svg" id="2_q662k"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_q662k"]
-radius = 1.8265408
+radius = 0.75060767
 
 [node name="DebugItem" unique_id=1825441485 instance=ExtResource("1_iufup")]
 ExamineName = "the item of developers"

@@ -62,7 +62,8 @@ public partial class BasicCharacter : CharacterBody3D
 		
 				Pitch = Mathf.Clamp(Pitch, Mathf.DegToRad(-90), Mathf.DegToRad(90));
 		
-				Rotation = new Vector3(Pitch, Yaw, 0);
+				Rotation = new Vector3(0, Yaw, 0);
+				Camera.Rotation = new Vector3(Pitch, 0, 0);
 
 				/*//Examine hide
 				if (ExamineLabel.Text != "")
@@ -105,8 +106,6 @@ public partial class BasicCharacter : CharacterBody3D
 
 			if (Event.IsActionPressed("Examine"))
 			{
-				//DEBUG
-				GD.Print(ExamineRay.GetCollider());
 				if (ExamineRay.IsColliding() && ExamineRay.GetCollider() is ExamineStaticBody ExamineCollider)
 				{
 					examinePanel.TitleLabel.Text = ExamineCollider.ExamineName;
@@ -116,6 +115,8 @@ public partial class BasicCharacter : CharacterBody3D
 					examinePanel.Visible = true;
 				}
 			}
+
+			Call("AdvancedCharacterInput", Event);
 		}
 	}
 

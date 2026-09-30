@@ -7,6 +7,17 @@
 [ext_resource type="PackedScene" uid="uid://64tjgddbvfem" path="res://Scene/Admin/AdminPanelButton.tscn" id="4_bwia1"]
 [ext_resource type="PackedScene" uid="uid://bn8o4gdbntow8" path="res://Scene/Admin/AdminPanel.tscn" id="6_lfvfl"]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ylf5o"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = false
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = false
+properties/1/replication_mode = 2
+properties/2/path = NodePath(".:velocity")
+properties/2/spawn = false
+properties/2/replication_mode = 2
+
 [node name="BasicCharacter" type="CharacterBody3D" unique_id=4975453 node_paths=PackedStringArray("Camera", "examinePanel", "ExamineRay", "canvasLayer", "InternalPopupContainer", "ExternalPopupContainer")]
 script = ExtResource("1_67ktq")
 Camera = NodePath("Camera3D")
@@ -71,3 +82,8 @@ offset_right = 21.0
 offset_bottom = 23.0
 grow_horizontal = 2
 metadata/_edit_use_anchors_ = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=516539826]
+replication_interval = 0.1
+delta_interval = 0.1
+replication_config = SubResource("SceneReplicationConfig_ylf5o")
