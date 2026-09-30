@@ -20,11 +20,11 @@ public partial class AdvancedCharacter : BasicCharacter
 	{
 		if (Event.IsActionPressed("LMB") && !Event.IsActionPressed("Examine"))
 		{
-			Rpc(MethodName.LMB);
+			RpcId(1, MethodName.LMB);
 		}
 		if (Event.IsActionPressed("DropItem"))
 		{
-			Rpc(MethodName.DropItem);
+			RpcId(1, MethodName.DropItem);
 		}
 		if (Event.IsActionPressed("ChangeHand"))
 		{
@@ -32,47 +32,69 @@ public partial class AdvancedCharacter : BasicCharacter
 		}
 	}
 
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	private void LMB()
+	{
+		if (Multiplayer.IsServer())
+		{
+			Item CurrentHandItem;
+			switch (HandSelected)
+			{	
+				case 0:
+					CurrentHandItem = RightHandItem;
+					break;
+				case 1:
+					CurrentHandItem = LeftHandItem;
+					break;
+				default:
+					CurrentHandItem = RightHandItem;
+					break;
+			}
+
+			if (CurrentHandItem == null)
+			{
+				if (InteractionRay.GetCollider() is Item PickingItem)
+				{
+					Rpc(MethodName.PickItemLocal, PickingItem.GetPath().ToString());
+				}
+			}
+		}
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	private void PickItemLocal(string PickingItemName)
 	{
 		Item CurrentHandItem;
 		Node3D CurrentHandNode;
 		Label CurrentPanelLabel;
+		Item PickingItem = GetNode<Item>(PickingItemName);
+
 		switch (HandSelected)
 		{	
 			case 0:
-				CurrentHandItem = RightHandItem;
 				CurrentHandNode = RightHand;
 				CurrentPanelLabel = RightHandPanelLabel;
 				break;
 			case 1:
-				CurrentHandItem = LeftHandItem;
 				CurrentHandNode = LeftHand;
 				CurrentPanelLabel = LeftHandPanelLabel;
 				break;
 			default:
-				CurrentHandItem = RightHandItem;
 				CurrentHandNode = RightHand;
 				CurrentPanelLabel = RightHandPanelLabel;
 				break;
 		}
 
-		if (CurrentHandItem == null)
-		{
-			if (InteractionRay.GetCollider() is Item PickingItem)
-			{
-				PickingItem.GetParent().RemoveChild(PickingItem);
-				CurrentHandNode.AddChild(PickingItem);
-				PickingItem.Freeze = true;
-				PickingItem.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = true;
-				PickingItem.Position = Vector3.Zero;
-				PickingItem.Rotation = Vector3.Zero;
-				
-				CurrentPanelLabel.Text = PickingItem.Name;
+		PickingItem.GetParent().RemoveChild(PickingItem);
+		CurrentHandNode.AddChild(PickingItem);
+		PickingItem.Freeze = true;
+		PickingItem.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = true;
+		PickingItem.Position = Vector3.Zero;
+		PickingItem.Rotation = Vector3.Zero;
 
-				CurrentHandItem = PickingItem;
-			}
-		}
+		CurrentPanelLabel.Text = PickingItem.Name;
+
+		CurrentHandItem = PickingItem;
 
 		switch (HandSelected)
 		{	
@@ -88,8 +110,48 @@ public partial class AdvancedCharacter : BasicCharacter
 		}
 	}
 
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	private void DropItem()
+	{
+		if (Multiplayer.IsServer())
+		{
+			Item CurrentHandItem;
+			switch (HandSelected)
+			{	
+				case 0:
+					CurrentHandItem = RightHandItem;
+					break;
+				case 1:
+					CurrentHandItem = LeftHandItem;
+					break;
+				default:
+					CurrentHandItem = RightHandItem;
+					break;
+			}
+
+			if (CurrentHandItem != null)
+			{
+				Rpc(MethodName.DropItemLocal);
+			}
+
+			switch (HandSelected)
+			{	
+				case 0:
+					RightHandItem = CurrentHandItem;
+					break;
+				case 1:
+					LeftHandItem = CurrentHandItem;
+					break;
+				default:
+					RightHandItem = CurrentHandItem;
+					break;
+			}
+		}
+
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	private void DropItemLocal()
 	{
 		Item CurrentHandItem;
 		Node3D CurrentHandNode;
@@ -113,30 +175,25 @@ public partial class AdvancedCharacter : BasicCharacter
 				break;
 		}
 
-		if (CurrentHandItem != null)
-		{
-			CurrentHandNode.RemoveChild(CurrentHandItem);
-			GetParent().AddChild(CurrentHandItem);
-			CurrentHandItem.Freeze = false;
-			CurrentHandItem.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = false;
-			CurrentHandItem.Position = Position;
-			CurrentHandItem.Rotation = Rotation;
+		CurrentHandNode.RemoveChild(CurrentHandItem);
+		GetParent().AddChild(CurrentHandItem);
+		CurrentHandItem.Freeze = false;
+		CurrentHandItem.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = false;
+		CurrentHandItem.Position = Position;
+		CurrentHandItem.Rotation = Rotation;
 
-			CurrentPanelLabel.Text = "Hand empty";
-
-			CurrentHandItem = null;
-		}
+		CurrentPanelLabel.Text = "Hand empty";
 
 		switch (HandSelected)
 		{	
 			case 0:
-				RightHandItem = CurrentHandItem;
+				RightHandItem = null;
 				break;
 			case 1:
-				LeftHandItem = CurrentHandItem;
+				LeftHandItem = null;
 				break;
 			default:
-				RightHandItem = CurrentHandItem;
+				RightHandItem = null;
 				break;
 		}
 	}
