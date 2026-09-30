@@ -132,22 +132,20 @@ public partial class AdvancedCharacter : BasicCharacter
 			if (CurrentHandItem != null)
 			{
 				Rpc(MethodName.DropItemLocal);
-			}
-
-			switch (HandSelected)
-			{	
-				case 0:
-					RightHandItem = CurrentHandItem;
-					break;
-				case 1:
-					LeftHandItem = CurrentHandItem;
-					break;
-				default:
-					RightHandItem = CurrentHandItem;
-					break;
+				switch (HandSelected)
+				{	
+					case 0:
+						RightHandItem = null;
+						break;
+					case 1:
+						LeftHandItem = null;
+						break;
+					default:
+						RightHandItem = null;
+						break;
+				}
 			}
 		}
-
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
@@ -173,6 +171,11 @@ public partial class AdvancedCharacter : BasicCharacter
 				CurrentHandNode = RightHand;
 				CurrentPanelLabel = RightHandPanelLabel;
 				break;
+		}
+
+		if (CurrentHandItem == null)
+		{
+			return;
 		}
 
 		CurrentHandNode.RemoveChild(CurrentHandItem);
