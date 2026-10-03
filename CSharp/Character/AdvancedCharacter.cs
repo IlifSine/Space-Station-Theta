@@ -256,4 +256,53 @@ public partial class AdvancedCharacter : BasicCharacter
 		RightHandPanel.AddThemeStyleboxOverride("panel", styler);
 		LeftHandPanel.AddThemeStyleboxOverride("panel", stylel);
 	}
+
+	public void OnReplication(int Id)
+	{
+		if (Multiplayer.IsServer())
+		{
+			string RightHandItemScene = "";
+			string LeftHandItemScene = "";
+
+			if (RightHandItem != null)
+			{
+				RightHandItemScene = RightHandItem.SceneFilePath;
+			}
+			if (LeftHandItem != null)
+			{
+				LeftHandItemScene = LeftHandItem.SceneFilePath;
+			}
+
+			RpcId(Id, MethodName.OnClientReplication, RightHandItemScene, LeftHandItemScene);
+		}
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	public void OnClientReplication(string RightHandItemScene, string LeftHandItemScene)
+	{
+		if (RightHandItemScene != "")
+		{
+			var LoadedItemScene = ResourceLoader.Load<PackedScene>(RightHandItemScene);
+			var HandItemInstance = LoadedItemScene.Instantiate<Item>();
+			RightHand.AddChild(HandItemInstance);
+			RightHandItem = HandItemInstance;
+			RightHandItem.Freeze = true;
+			RightHandItem.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = true;
+			RightHandItem.Position = Vector3.Zero;
+			RightHandItem.Rotation = Vector3.Zero;
+			RightHandPanelLabel.Text = RightHandItem.Name;
+		}
+		if (LeftHandItemScene != "")
+		{
+			var LoadedItemScene = ResourceLoader.Load<PackedScene>(LeftHandItemScene);
+			var HandItemInstance = LoadedItemScene.Instantiate<Item>();
+			LeftHand.AddChild(HandItemInstance);
+			LeftHandItem = HandItemInstance;
+			LeftHandItem.Freeze = true;
+			LeftHandItem.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = true;
+			LeftHandItem.Position = Vector3.Zero;
+			LeftHandItem.Rotation = Vector3.Zero;
+			LeftHandPanelLabel.Text = LeftHandItem.Name;
+		}
+	}
 }
