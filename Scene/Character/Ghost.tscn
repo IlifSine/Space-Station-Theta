@@ -35,6 +35,8 @@ InternalPopupContainer = NodePath("CanvasLayer/InternalPopupContainer")
 ExternalPopupContainer = NodePath("ExternalPopupContainer")
 InternalPopupScene = ExtResource("2_7xdab")
 ExternalPopupScene = ExtResource("3_uyn2f")
+ExamineName = "Ghost"
+ExamineDesc = "What the..."
 
 [node name="SyncTimer" type="Timer" parent="." unique_id=1284540366]
 wait_time = 0.1
