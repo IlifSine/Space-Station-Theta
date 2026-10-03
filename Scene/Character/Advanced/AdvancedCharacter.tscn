@@ -1,0 +1,97 @@
+[gd_scene format=3 uid="uid://m5bclpc57oge"]
+
+[ext_resource type="PackedScene" uid="uid://dmg8aw1tcorwy" path="res://Scene/Character/Basic/BasicCharacter.tscn" id="1_qte7g"]
+[ext_resource type="Script" uid="uid://dhflerpbfd4gf" path="res://CSharp/Character/AdvancedCharacter.cs" id="2_fpyeo"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3btyu"]
+bg_color = Color(0.1254902, 0.1254902, 0.1254902, 1)
+border_color = Color(0.11764706, 0.5647059, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fpyeo"]
+bg_color = Color(0.1254902, 0.1254902, 0.1254902, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.11764706, 0.5647059, 1, 1)
+
+[node name="AdvancedCharacter" unique_id=4975453 node_paths=PackedStringArray("InteractionRay", "RightHandPanel", "LeftHandPanel", "RightHandPanelLabel", "LeftHandPanelLabel", "RightHand", "LeftHand") instance=ExtResource("1_qte7g")]
+script = ExtResource("2_fpyeo")
+InteractionRay = NodePath("InteractionRay")
+RightHandPanel = NodePath("CanvasLayer/HandsPanel/RightHand")
+LeftHandPanel = NodePath("CanvasLayer/HandsPanel/LeftHand")
+RightHandPanelLabel = NodePath("CanvasLayer/HandsPanel/RightHand/Label")
+LeftHandPanelLabel = NodePath("CanvasLayer/HandsPanel/LeftHand/Label")
+RightHand = NodePath("RightHand")
+LeftHand = NodePath("LeftHand")
+
+[node name="InteractionRay" type="RayCast3D" parent="." index="3" unique_id=985113072]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+target_position = Vector3(0, 1.5, 0)
+collision_mask = 18
+
+[node name="RightHand" type="Node3D" parent="." index="5" unique_id=760635079]
+
+[node name="LeftHand" type="Node3D" parent="." index="6" unique_id=1601724602]
+
+[node name="HandsPanel" type="Panel" parent="CanvasLayer" parent_id_path=PackedInt32Array(1746281478) index="4" unique_id=122309601]
+anchors_preset = -1
+anchor_left = 0.326
+anchor_top = 0.87700003
+anchor_right = 0.674
+anchor_bottom = 0.99200004
+offset_left = 0.44799805
+offset_top = -0.2960205
+offset_right = -0.44799805
+offset_bottom = 0.18395996
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="LeftHand" type="Panel" parent="CanvasLayer/HandsPanel" index="0" unique_id=78788513]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.007
+anchor_top = 0.040000003
+anchor_right = 0.492
+anchor_bottom = 0.96000004
+offset_left = 0.19999981
+offset_right = 0.19999695
+theme_override_styles/panel = SubResource("StyleBoxFlat_3btyu")
+
+[node name="Label" type="Label" parent="CanvasLayer/HandsPanel/LeftHand" index="0" unique_id=1487206638]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.010000001
+anchor_top = 0.029000001
+anchor_right = 0.99000007
+anchor_bottom = 0.36200002
+offset_left = 0.059999824
+offset_top = -0.0010001659
+offset_right = -0.060012817
+offset_bottom = 0.02199936
+text = "Hand Empty"
+
+[node name="RightHand" type="Panel" parent="CanvasLayer/HandsPanel" index="1" unique_id=1324659650]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.507
+anchor_top = 0.040000003
+anchor_right = 0.99200004
+anchor_bottom = 0.96000004
+offset_left = 0.19998169
+offset_right = 0.19998169
+theme_override_styles/panel = SubResource("StyleBoxFlat_fpyeo")
+
+[node name="Label" type="Label" parent="CanvasLayer/HandsPanel/RightHand" index="0" unique_id=25360520]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.010000001
+anchor_top = 0.029000001
+anchor_right = 0.99000007
+anchor_bottom = 0.36200002
+offset_left = 0.059999824
+offset_top = -0.0010001659
+offset_right = -0.060012817
+offset_bottom = 0.02199936
+text = "Hand Empty"
+horizontal_alignment = 2

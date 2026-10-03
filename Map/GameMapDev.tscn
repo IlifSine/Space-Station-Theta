@@ -1,11 +1,12 @@
 [gd_scene format=3 uid="uid://bo0cc0w7qavld"]
 
 [ext_resource type="Script" uid="uid://bof3pa816kpyf" path="res://CSharp/World/GameMap.cs" id="1_ulrkf"]
-[ext_resource type="PackedScene" uid="uid://dmg8aw1tcorwy" path="res://Scene/Character/TestGhostRoleCharacter.tscn" id="2_6clm1"]
 [ext_resource type="PackedScene" uid="uid://bei6swfsxkoa1" path="res://Scene/Building/Panel/Floor/MetalFloor.tscn" id="3_dsry3"]
 [ext_resource type="PackedScene" uid="uid://j65tv8r7x8eq" path="res://Scene/Building/Panel/MetalPanel.tscn" id="4_vv0md"]
 [ext_resource type="PackedScene" uid="uid://c6dge4r2hafcx" path="res://Scene/Building/Light/DevLight.tscn" id="5_gx1dd"]
 [ext_resource type="PackedScene" uid="uid://dpknqsfur0lcb" path="res://Scene/DebugExamineStaticBody.tscn" id="6_6clm1"]
+[ext_resource type="PackedScene" uid="uid://14kdjfjbxb3o" path="res://Scene/Character/Advanced/Monkey.tscn" id="6_dsry3"]
+[ext_resource type="PackedScene" uid="uid://c3ij8xwpk4ud4" path="res://Scene/Item/DebugItem.tscn" id="7_dsry3"]
 
 [sub_resource type="Environment" id="Environment_4mp8d"]
 background_energy_multiplier = 0.03
@@ -13,9 +14,6 @@ background_energy_multiplier = 0.03
 [node name="Dev" type="Node3D" unique_id=987747873]
 script = ExtResource("1_ulrkf")
 DefaultName = "Dev"
-
-[node name="TestGhostRoleCharacter" parent="." unique_id=1465079265 instance=ExtResource("2_6clm1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.287917, 1.1920929e-07, 4.8378816)
 
 [node name="MetalFloor" parent="." unique_id=1800097381 instance=ExtResource("3_dsry3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -1, 1)
@@ -535,3 +533,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.934083, 0, -1.9893999)
 
 [node name="DebugExamineStaticBody" parent="." unique_id=1923162845 instance=ExtResource("6_6clm1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.0532732, 0, -7.27975)
+
+[node name="Monkey" parent="." unique_id=4975453 instance=ExtResource("6_dsry3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.066541, -0.25400516, 3.3391254)
+IsGhostRole = true
+
+[node name="DebugItem" parent="." unique_id=1825441485 instance=ExtResource("7_dsry3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.179386, 0.061861068, -5.2484846)

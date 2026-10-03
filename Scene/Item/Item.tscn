@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://dv2o37yr163fa"]
+
+[ext_resource type="PackedScene" uid="uid://onvfq4ahpeaw" path="res://Scene/ExamineRigidBody.tscn" id="1_7c5d4"]
+[ext_resource type="Script" uid="uid://dxigcsc4vall3" path="res://CSharp/Item/Item.cs" id="2_bt412"]
+
+[node name="Item" unique_id=1825441485 instance=ExtResource("1_7c5d4")]
+collision_layer = 16
+collision_mask = 16
+script = ExtResource("2_bt412")

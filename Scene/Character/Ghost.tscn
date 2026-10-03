@@ -57,7 +57,7 @@ shape = SubResource("BoxShape3D_judj1")
 [node name="ExamineRay" type="RayCast3D" parent="." unique_id=251543772]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 target_position = Vector3(0, 5.5, 0)
-collision_mask = 3
+collision_mask = 19
 collide_with_areas = true
 
 [node name="ExternalPopupContainer" type="Node3D" parent="." unique_id=2146957914]
@@ -88,6 +88,7 @@ anchor_bottom = 0.10493827
 offset_right = 0.0
 offset_bottom = 0.0
 ChangeControl = NodePath("../AdminPanel")
+metadata/_edit_use_anchors_ = true
 
 [node name="GhostRolePanel" parent="CanvasLayer" unique_id=2051898930 instance=ExtResource("5_ny5it")]
 visible = false
@@ -118,6 +119,7 @@ offset_left = -21.0
 offset_right = 21.0
 offset_bottom = 23.0
 grow_horizontal = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1833483741]
 replication_interval = 0.1

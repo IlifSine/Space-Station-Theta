@@ -56,6 +56,11 @@ public partial class ReplicationManager : Node
 						}
 
 						RpcId(Id, MethodName.ReplicateObject, ObjectPath, MapItem.Name, ObjectItem.Name, ObjectPosition, ObjectRotation, ObjectItem.GetMultiplayerAuthority());
+
+						if (ObjectItem.HasMethod("OnReplication"))
+						{
+							ObjectItem.Call("OnReplication", Id);
+						}
 					}
 				}
 			}

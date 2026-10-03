@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://c3ij8xwpk4ud4"]
+
+[ext_resource type="PackedScene" uid="uid://dv2o37yr163fa" path="res://Scene/Item/Item.tscn" id="1_iufup"]
+[ext_resource type="Texture2D" uid="uid://ba22vnujyv16v" path="res://icon.svg" id="2_q662k"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_q662k"]
+radius = 0.75060767
+
+[node name="DebugItem" unique_id=1825441485 instance=ExtResource("1_iufup")]
+ExamineName = "the item of developers"
+ExamineDesc = "WHY ARE YOU HOLDING THAT! YOU RE NOT DEVELOPER!"
+
+[node name="CollisionShape3D" parent="." index="0" unique_id=920124014]
+shape = SubResource("SphereShape3D_q662k")
+
+[node name="Sprite3D" type="Sprite3D" parent="." index="1" unique_id=360663068]
+billboard = 1
+texture = ExtResource("2_q662k")

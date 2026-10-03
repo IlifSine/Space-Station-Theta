@@ -50,7 +50,7 @@ public partial class GhostManager : Node
 	{
 		if (Multiplayer.IsServer())
 		{
-			RoleNodes[RoleId].Rpc(TestGhostRoleCharacter.MethodName.ChangeOwner, PlayerId);
+			RoleNodes[RoleId].Rpc(BasicCharacter.MethodName.ChangeOwner, PlayerId);
 			DespawnGhost(PlayerId);
 			Rpc(MethodName.RemoveGhostRole, RoleId);
 		}
@@ -153,6 +153,11 @@ public partial class GhostManager : Node
 			{
 				if (ghost.GetMultiplayerAuthority() == GhostPlayerId)
 				{
+					if (Multiplayer.GetUniqueId() == GhostPlayerId)
+					{
+						ghost.Camera.ClearCurrent();
+						Input.MouseMode = Input.MouseModeEnum.Captured;
+					}
 					ghost.QueueFree();
 					break;
 				}
