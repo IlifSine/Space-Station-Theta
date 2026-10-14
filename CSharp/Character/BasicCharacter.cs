@@ -1,9 +1,11 @@
 //Licensed under AGPL 3.0. Glory to communism!
 using Godot;
 
-public partial class BasicCharacter : CharacterBody3D
+public partial class BasicCharacter : CharacterBody3D, IWorldObject
 {
 	//Export variables
+	[Export] public string ExamineName { get; set; }
+	[Export] public string ExamineDesc { get; set; }
 	[Export] private Camera3D Camera;
 	private string GhostManagerPath = "/root/GameWorld/GhostManager";
 	[Export] private bool IsGhostRole = false;
@@ -40,7 +42,7 @@ public partial class BasicCharacter : CharacterBody3D
 	private Vector3 InitialExaminePosition;
 	//private const float ExamineRotationHideThreshold = 0.5f;
 	private const float ExaminePositionHideThreshold = 1f;
-	
+
 	public override void _Ready()
 	{
 		RefreshAuthority();
@@ -104,12 +106,12 @@ public partial class BasicCharacter : CharacterBody3D
 				Input.MouseMode = Input.MouseModeEnum.Captured;
 			}*/
 
-			if (Event.IsActionPressed("Examine"))
+			if (Event.IsActionPressed("Examine") && ExamineRay.IsColliding())
 			{
-				if (ExamineRay.IsColliding() && ExamineRay.GetCollider() is ExamineStaticBody ExamineCollider)
+				if (ExamineRay.GetCollider() is IWorldObject IWorldObjectCollider)
 				{
-					examinePanel.TitleLabel.Text = ExamineCollider.ExamineName;
-					examinePanel.DescLabel.Text = ExamineCollider.ExamineDesc;
+					examinePanel.TitleLabel.Text = IWorldObjectCollider.ExamineName;
+					examinePanel.DescLabel.Text = IWorldObjectCollider.ExamineDesc;
 					//InitialExamineRotation = Camera.Rotation;
 					InitialExaminePosition = Position;
 					examinePanel.Visible = true;
@@ -179,4 +181,6 @@ public partial class BasicCharacter : CharacterBody3D
 			ghostManager.AddGhostRole("Test Role", "Coder is testing", GetPath());
 		}
 	}
+
+    public void Interact(){}
 }

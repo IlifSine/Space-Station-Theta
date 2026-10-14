@@ -3,9 +3,10 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using Godot;
 
-public partial class Ghost : CharacterBody3D
+public partial class Ghost : CharacterBody3D, IWorldObject
 {	
 	//Export variables
+	
 	[Export] public Camera3D Camera;
 	[Export] public ExaminePanel examinePanel;
 	[Export] public RayCast3D ExamineRay;
@@ -36,12 +37,14 @@ public partial class Ghost : CharacterBody3D
 	private float Pitch = 0;
 
 	//Examine
+	[Export] public string ExamineName { get; set; }
+    [Export] public string ExamineDesc { get; set; }
 	private Vector3 InitialExamineRotation;
 	private Vector3 InitialExaminePosition;
 	//private const float ExamineRotationHideThreshold = 0.5f;
 	private const float ExaminePositionHideThreshold = 1f;
 
-	public override void _Ready()
+    public override void _Ready()
 	{
 		if (IsMultiplayerAuthority())
 		{
@@ -109,18 +112,10 @@ public partial class Ghost : CharacterBody3D
 			}*/
 			if (Event.IsActionPressed("Examine") && ExamineRay.IsColliding())
 			{
-				if (ExamineRay.GetCollider() is ExamineStaticBody StaticExamineCollider)
+				if (ExamineRay.GetCollider() is IWorldObject IWorldObjectCollider)
 				{
-					examinePanel.TitleLabel.Text = StaticExamineCollider.ExamineName;
-					examinePanel.DescLabel.Text = StaticExamineCollider.ExamineDesc;
-					//InitialExamineRotation = Camera.Rotation;
-					InitialExaminePosition = Position;
-					examinePanel.Visible = true;
-				}
-				else if (ExamineRay.GetCollider() is ExamineRigidBody RigidExamineCollider)
-				{
-					examinePanel.TitleLabel.Text = RigidExamineCollider.ExamineName;
-					examinePanel.DescLabel.Text = RigidExamineCollider.ExamineDesc;
+					examinePanel.TitleLabel.Text = IWorldObjectCollider.ExamineName;
+					examinePanel.DescLabel.Text = IWorldObjectCollider.ExamineDesc;
 					//InitialExamineRotation = Camera.Rotation;
 					InitialExaminePosition = Position;
 					examinePanel.Visible = true;
@@ -205,4 +200,6 @@ public partial class Ghost : CharacterBody3D
 			PopupInstance.StartTimer(Text.Length * ExternalPopupWaitTimeMultiplier);
 		}
 	}
+
+	public void Interact(){}
 }
