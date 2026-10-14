@@ -112,18 +112,10 @@ public partial class Ghost : CharacterBody3D, IWorldObject
 			}*/
 			if (Event.IsActionPressed("Examine") && ExamineRay.IsColliding())
 			{
-				if (ExamineRay.GetCollider() is ExamineStaticBody StaticExamineCollider)
+				if (ExamineRay.GetCollider() is IWorldObject IWorldObjectCollider)
 				{
-					examinePanel.TitleLabel.Text = StaticExamineCollider.ExamineName;
-					examinePanel.DescLabel.Text = StaticExamineCollider.ExamineDesc;
-					//InitialExamineRotation = Camera.Rotation;
-					InitialExaminePosition = Position;
-					examinePanel.Visible = true;
-				}
-				else if (ExamineRay.GetCollider() is ExamineRigidBody RigidExamineCollider)
-				{
-					examinePanel.TitleLabel.Text = RigidExamineCollider.ExamineName;
-					examinePanel.DescLabel.Text = RigidExamineCollider.ExamineDesc;
+					examinePanel.TitleLabel.Text = IWorldObjectCollider.ExamineName;
+					examinePanel.DescLabel.Text = IWorldObjectCollider.ExamineDesc;
 					//InitialExamineRotation = Camera.Rotation;
 					InitialExaminePosition = Position;
 					examinePanel.Visible = true;
@@ -208,4 +200,6 @@ public partial class Ghost : CharacterBody3D, IWorldObject
 			PopupInstance.StartTimer(Text.Length * ExternalPopupWaitTimeMultiplier);
 		}
 	}
+
+	public void Interact(){}
 }
