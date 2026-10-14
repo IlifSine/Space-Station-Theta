@@ -201,6 +201,8 @@ bind/52/bone = -1
 bind/52/pose = Transform3D(-0.068720266, -0.0012790547, -0.24036624, 0.2403693, -5.493539e-08, -0.0687212, 0.00035153964, -0.24999681, 0.001229663, -0.009981244, -0.004873867, 0.0017986697)
 
 [node name="Monkey" unique_id=4975453 instance=ExtResource("1_x3eel")]
+ExamineName = "Monkey"
+ExamineDesc = "Ook! Ook!"
 
 [node name="Camera3D" parent="." index="0" unique_id=1388462725]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.38328356, -0.113655314)

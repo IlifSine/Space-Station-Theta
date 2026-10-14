@@ -2,6 +2,10 @@
 using Godot;
 using System;
 
-public partial class Item : ExamineRigidBody
+public partial class Item : RigidBody3D, IWorldObject
 {
+	[Export] public string ExamineName { get; set; }
+	[Export] public string ExamineDesc { get; set; }
+
+	public void Interact(){}
 }

@@ -2,7 +2,10 @@
 using Godot;
 using System;
 
-public partial class BuildingStaticBody : ExamineStaticBody
+public partial class BuildingStaticBody : StaticBody3D, IWorldObject
 {
-	
+	[Export] public string ExamineName { get; set; }
+	[Export] public string ExamineDesc { get; set; }
+
+	public void Interact(){}
 }

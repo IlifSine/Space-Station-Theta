@@ -7,8 +7,8 @@
 radius = 0.75060767
 
 [node name="DebugItem" unique_id=1825441485 instance=ExtResource("1_iufup")]
-ExamineName = "the item of developers"
-ExamineDesc = "WHY ARE YOU HOLDING THAT! YOU RE NOT DEVELOPER!"
+ExamineName = "ugh"
+ExamineDesc = "what is this?"
 
 [node name="CollisionShape3D" parent="." index="0" unique_id=920124014]
 shape = SubResource("SphereShape3D_q662k")
